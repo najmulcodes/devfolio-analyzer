@@ -109,3 +109,51 @@ a {
     --sidebar-width: 0px;
   }
 }
+
+/* ── Micro-interactions & Landing extras ── */
+
+/* Button hover scale */
+button:hover:not(:disabled) {
+  filter: brightness(1.04);
+}
+
+/* Feature card hover lift — add via JS onMouseEnter/Leave */
+.card-hover:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 16px 48px rgba(139,69,19,0.16) !important;
+}
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #f0e8e0 25%, #fdf6ef 50%, #f0e8e0 75%);
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: 8px;
+}
+
+/* Mobile responsive navbar */
+@media (max-width: 768px) {
+  .nav-desktop { display: none !important; }
+  .nav-hamburger { display: flex !important; }
+
+  .main-content {
+    padding: 16px !important;
+  }
+
+  .app-layout {
+    flex-direction: column;
+  }
+}
+
+/* Landing page responsive */
+@media (max-width: 900px) {
+  /* hero stacks vertically — handled by flexWrap in component */
+}
+
+@media (max-width: 600px) {
+  /* footer grid becomes single col */
+}

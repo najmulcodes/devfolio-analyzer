@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Sidebar from './components/Sidebar';
+import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Analyze from './pages/Analyze';
 import History from './pages/History';
@@ -23,7 +24,10 @@ function AppLayout() {
 
   return (
     <Routes>
-      {/* Auth page — no sidebar */}
+      {/* Public landing page — no sidebar */}
+      <Route path="/" element={<Home />} />
+
+      {/* Auth pages — no sidebar */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Login />} />
 
@@ -47,7 +51,6 @@ function AppLayout() {
               </div>
 
               <Routes>
-                <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/analyze" element={<Analyze />} />
                 <Route
@@ -79,10 +82,9 @@ export default function App() {
 }
 
 const mobileHeader = {
-  display: 'none',
+  display: 'flex',
   alignItems: 'center', gap: 12,
   marginBottom: 20,
-  '@media(maxWidth:768px)': { display: 'flex' },
 };
 const hamburger = {
   background: 'none', border: 'none', cursor: 'pointer',

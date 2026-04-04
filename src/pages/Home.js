@@ -1,30 +1,30 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-/* ─── tiny hook: fade-in on scroll ─── */
+/* ── Fade-in on scroll ── */
 function useFadeIn() {
   useEffect(() => {
     const els = document.querySelectorAll('[data-fade]');
     const io = new IntersectionObserver(
-      (entries) => entries.forEach((e) => {
+      entries => entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.style.opacity = '1';
           e.target.style.transform = 'translateY(0)';
         }
       }),
-      { threshold: 0.12 }
+      { threshold: 0.10 }
     );
-    els.forEach((el) => io.observe(el));
+    els.forEach(el => io.observe(el));
     return () => io.disconnect();
   }, []);
 }
 
-const fadeStyle = {
+const fade = {
   opacity: 0,
-  transform: 'translateY(28px)',
-  transition: 'opacity 0.65s ease, transform 0.65s ease',
+  transform: 'translateY(24px)',
+  transition: 'opacity 0.6s ease, transform 0.6s ease',
 };
 
 export default function Home() {
@@ -35,32 +35,31 @@ export default function Home() {
     <div style={styles.page}>
       <Navbar />
 
-      {/* ══════════════ HERO ══════════════ */}
-      <section id="home" style={styles.hero}>
-        {/* decorative blobs */}
-        <div style={styles.blob1} />
-        <div style={styles.blob2} />
+      {/* ══ HERO ══ */}
+      <section id="home" className="home-hero" style={styles.hero}>
+        <div style={styles.heroBlob1} />
+        <div style={styles.heroBlob2} />
 
         <div style={styles.heroInner}>
-          <div style={{ ...fadeStyle, ...styles.heroBadge }} data-fade>
+          <div style={{ ...fade, ...styles.heroBadge }} data-fade>
             <span style={styles.badgeDot} />
             AI-Powered Portfolio Analysis
           </div>
 
-          <h1 style={{ ...fadeStyle, ...styles.heroTitle, transitionDelay: '0.1s' }} data-fade>
+          <h1 style={{ ...fade, ...styles.heroTitle, transitionDelay: '0.1s' }} data-fade>
             Analyze Your Developer Portfolio
-            <span style={styles.heroAccent}> Like a Recruiter</span>
+            <span style={{ color: '#f59e0b' }}> Like a Recruiter</span>
           </h1>
 
-          <p style={{ ...fadeStyle, ...styles.heroSub, transitionDelay: '0.2s' }} data-fade>
+          <p style={{ ...fade, ...styles.heroSub, transitionDelay: '0.2s' }} data-fade>
             Get instant insights, scores, and improvement suggestions for your GitHub profile.
             Know exactly what recruiters see — and how to stand out.
           </p>
 
-          <div style={{ ...fadeStyle, ...styles.heroBtns, transitionDelay: '0.3s' }} data-fade>
+          <div className="home-hero-btns" style={{ ...fade, ...styles.heroBtns, transitionDelay: '0.3s' }} data-fade>
             <button onClick={() => navigate('/analyze')} style={styles.primaryBtn}>
               Analyze Now
-              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
             </button>
@@ -69,146 +68,139 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Stats row */}
-          <div style={{ ...fadeStyle, ...styles.statsRow, transitionDelay: '0.4s' }} data-fade>
+          <div className="home-hero-stats" style={{ ...fade, ...styles.statsRow, transitionDelay: '0.4s' }} data-fade>
             {[
-              { val: '100', label: 'Max Score' },
-              { val: '6', label: 'Score Factors' },
-              { val: 'AI', label: 'Powered' },
-              { val: 'Free', label: 'To Use' },
-            ].map((s) => (
-              <div key={s.label} style={styles.statItem}>
-                <div style={styles.statVal}>{s.val}</div>
-                <div style={styles.statLabel}>{s.label}</div>
+              { val: '100', label: 'Max Score'   },
+              { val: '6',   label: 'Score Factors' },
+              { val: 'AI',  label: 'Powered'     },
+              { val: 'Free',label: 'To Use'      },
+            ].map(st => (
+              <div key={st.label} style={styles.statItem}>
+                <div style={styles.statVal}>{st.val}</div>
+                <div style={styles.statLabel}>{st.label}</div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Dashboard preview card */}
-        <div style={{ ...fadeStyle, transitionDelay: '0.5s' }} data-fade>
-          <div style={styles.previewCard}>
+        {/* Dashboard preview */}
+        <div className="home-preview-outer" style={{ ...fade, transitionDelay: "0.5s" }} data-fade>
+          <div className="home-preview-card" style={styles.previewCard}>
             <div style={styles.previewBar}>
-              <div style={styles.previewDot} /><div style={styles.previewDot} /><div style={styles.previewDot} />
-              <span style={styles.previewBarText}>devfolio-analyzer.vercel.app</span>
+              <div style={styles.previewDot} />
+              <div style={styles.previewDot} />
+              <div style={styles.previewDot} />
+              <span style={styles.previewUrl}>devfolio-analyzer.app</span>
             </div>
             <div style={styles.previewBody}>
-              {/* Mock dashboard */}
               <div style={styles.mockKpiRow}>
-                {[
-                  { label: 'Total', val: '12' },
-                  { label: 'Avg Score', val: '74' },
-                  { label: 'Best', val: '91' },
-                ].map((k) => (
-                  <div key={k.label} style={styles.mockKpi}>
-                    <div style={styles.mockKpiVal}>{k.val}</div>
-                    <div style={styles.mockKpiLabel}>{k.label}</div>
+                {[{ l: 'Total', v: '12' }, { l: 'Avg Score', v: '74' }, { l: 'Best', v: '91' }].map(k => (
+                  <div key={k.l} style={styles.mockKpi}>
+                    <div style={styles.mockKpiVal}>{k.v}</div>
+                    <div style={styles.mockKpiLabel}>{k.l}</div>
                   </div>
                 ))}
               </div>
               <div style={styles.mockChart}>
-                <svg width="100%" height="80" viewBox="0 0 300 80" preserveAspectRatio="none">
+                <svg width="100%" height="72" viewBox="0 0 300 72" preserveAspectRatio="none">
                   <defs>
-                    <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.3"/>
+                    <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.28"/>
                       <stop offset="100%" stopColor="#f59e0b" stopOpacity="0"/>
                     </linearGradient>
                   </defs>
-                  <path d="M0,60 C40,55 80,30 120,35 C160,40 200,15 240,20 C260,22 280,18 300,10" stroke="#f59e0b" strokeWidth="2.5" fill="none"/>
-                  <path d="M0,60 C40,55 80,30 120,35 C160,40 200,15 240,20 C260,22 280,18 300,10 L300,80 L0,80Z" fill="url(#chartGrad)"/>
+                  <path d="M0,55 C40,50 80,26 120,30 C160,34 200,10 240,14 C265,16 282,12 300,6" stroke="#f59e0b" strokeWidth="2.2" fill="none"/>
+                  <path d="M0,55 C40,50 80,26 120,30 C160,34 200,10 240,14 C265,16 282,12 300,6 L300,72 L0,72Z" fill="url(#hg)"/>
                 </svg>
               </div>
-              <div style={styles.mockRow}>
-                <div style={styles.mockAvatar}>TL</div>
-                <div style={styles.mockInfo}>
-                  <div style={styles.mockName}>@torvalds</div>
-                  <div style={styles.mockBar}><div style={{ ...styles.mockBarFill, width: '91%' }} /></div>
+              {[
+                { initials: 'TL', name: '@torvalds',    score: 91, pct: '91%', bg: '#f59e0b' },
+                { initials: 'DA', name: '@dan_abramov', score: 78, pct: '78%', bg: '#6366f1' },
+              ].map(r => (
+                <div key={r.name} style={styles.mockRow}>
+                  <div style={{ ...styles.mockAva, background: r.bg }}>{r.initials}</div>
+                  <div style={styles.mockInfo}>
+                    <div style={styles.mockName}>{r.name}</div>
+                    <div style={styles.mockBar}>
+                      <div style={{ ...styles.mockBarFill, width: r.pct }} />
+                    </div>
+                  </div>
+                  <div style={styles.mockScore}>{r.score}</div>
                 </div>
-                <div style={styles.mockScore}>91</div>
-              </div>
-              <div style={styles.mockRow}>
-                <div style={{ ...styles.mockAvatar, background: '#6366f1' }}>DK</div>
-                <div style={styles.mockInfo}>
-                  <div style={styles.mockName}>@dan_abramov</div>
-                  <div style={styles.mockBar}><div style={{ ...styles.mockBarFill, width: '78%' }} /></div>
-                </div>
-                <div style={styles.mockScore}>78</div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════════ FEATURES ══════════════ */}
-      <section id="features" style={styles.featuresSection}>
-        <div style={styles.sectionInner}>
-          <div style={{ ...fadeStyle, ...styles.sectionLabel }} data-fade>Features</div>
-          <h2 style={{ ...fadeStyle, ...styles.sectionTitle, transitionDelay: '0.1s' }} data-fade>
+      {/* ══ FEATURES ══ */}
+      <section id="features" className="home-features-section" style={styles.featuresSection}>
+        <div style={styles.inner}>
+          <div style={{ ...fade, ...styles.sectionTag }} data-fade>Features</div>
+          <h2 style={{ ...fade, ...styles.sectionTitle, transitionDelay: '0.1s' }} data-fade>
             Everything you need to level up
           </h2>
-          <p style={{ ...fadeStyle, ...styles.sectionSub, transitionDelay: '0.15s' }} data-fade>
+          <p style={{ ...fade, ...styles.sectionSub, transitionDelay: '0.15s' }} data-fade>
             A complete toolkit for developers who want to present themselves professionally.
           </p>
 
-          <div style={styles.featuresGrid}>
+          <div className="home-features-grid" style={styles.featGrid}>
             {features.map((f, i) => (
               <div
                 key={f.title}
-                style={{ ...fadeStyle, ...styles.featureCard, transitionDelay: `${0.1 + i * 0.08}s` }}
+                style={{ ...fade, ...styles.featCard, transitionDelay: `${0.1 + i * 0.07}s` }}
                 data-fade
               >
-                <div style={{ ...styles.featureIcon, background: f.iconBg }}>
-                  {f.icon}
-                </div>
-                <h3 style={styles.featureTitle}>{f.title}</h3>
-                <p style={styles.featureDesc}>{f.desc}</p>
+                <div style={{ ...styles.featIcon, background: f.iconBg }}>{f.icon}</div>
+                <h3 style={styles.featTitle}>{f.title}</h3>
+                <p style={styles.featDesc}>{f.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══════════════ HOW IT WORKS ══════════════ */}
-      <section id="how-it-works" style={styles.howSection}>
-        <div style={styles.sectionInner}>
-          <div style={{ ...fadeStyle, ...styles.sectionLabel }} data-fade>Process</div>
-          <h2 style={{ ...fadeStyle, ...styles.sectionTitle, transitionDelay: '0.1s' }} data-fade>
+      {/* ══ HOW IT WORKS ══ */}
+      <section id="how-it-works" className="home-how-section" style={styles.howSection}>
+        <div style={styles.inner}>
+          <div style={{ ...fade, ...styles.sectionTag }} data-fade>Process</div>
+          <h2 style={{ ...fade, ...styles.sectionTitle, transitionDelay: '0.1s' }} data-fade>
             Three steps to a better profile
           </h2>
 
-          <div style={styles.stepsGrid}>
-            {steps.map((s, i) => (
+          <div className="home-steps-grid" style={styles.stepsGrid}>
+            {steps.map((st, i) => (
               <div
-                key={s.step}
-                style={{ ...fadeStyle, ...styles.stepCard, transitionDelay: `${0.1 + i * 0.1}s` }}
+                key={st.step}
+                style={{ ...fade, ...styles.stepCard, transitionDelay: `${0.1 + i * 0.1}s` }}
                 data-fade
               >
-                <div style={styles.stepNum}>{s.step}</div>
-                <div style={styles.stepIcon}>{s.icon}</div>
-                <h3 style={styles.stepTitle}>{s.title}</h3>
-                <p style={styles.stepDesc}>{s.desc}</p>
-                {i < steps.length - 1 && <div style={styles.stepArrow}>→</div>}
+                <div style={styles.stepNum}>{st.step}</div>
+                <div style={styles.stepIcon}>{st.icon}</div>
+                <h3 style={styles.stepTitle}>{st.title}</h3>
+                <p style={styles.stepDesc}>{st.desc}</p>
+                {i < steps.length - 1 && <div className="step-arrow" style={styles.stepArrow}>→</div>}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ══════════════ CTA ══════════════ */}
-      <section style={styles.ctaSection}>
-        <div style={{ ...fadeStyle, ...styles.ctaInner }} data-fade>
+      {/* ══ CTA ══ */}
+      <section className="home-cta-section" style={styles.ctaSection}>
+        <div style={{ ...fade, ...styles.ctaInner }} data-fade>
           <div style={styles.ctaGlow} />
           <h2 style={styles.ctaTitle}>Start improving your portfolio today</h2>
           <p style={styles.ctaSub}>
             It only takes 10 seconds. Enter your GitHub username and get your score instantly.
           </p>
           <button onClick={() => navigate('/analyze')} style={styles.ctaBtn}>
-            Analyze Now — It's Free
-            <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+            Analyze My Profile
+            <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
             </svg>
           </button>
-          <p style={styles.ctaNote}>No account needed for instant analysis</p>
+          <p style={styles.ctaNote}>No account required · Free forever</p>
         </div>
       </section>
 
@@ -217,24 +209,34 @@ export default function Home() {
   );
 }
 
-/* ─── Data ─── */
+/* ── Data ── */
 const features = [
   {
-    title: 'GitHub Analysis',
-    desc: 'Deep analysis of your repos, stars, followers, activity, and profile completeness across 6 scored dimensions.',
-    iconBg: '#fff7ed',
+    title: 'GitHub Score',
+    desc: 'Get a comprehensive score based on repos, stars, commits, contribution activity, and more.',
+    iconBg: 'rgba(245,158,11,0.10)',
     icon: (
-      <svg width="24" height="24" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+      <svg width="22" height="22" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
     ),
   },
   {
-    title: 'Portfolio Review',
-    desc: 'Link your portfolio website for a bonus score. We check if it\'s live and factor it into your overall evaluation.',
-    iconBg: '#f0fdf4',
+    title: 'AI Feedback',
+    desc: 'Receive personalized, actionable suggestions powered by AI to improve your developer presence.',
+    iconBg: 'rgba(99,102,241,0.10)',
     icon: (
-      <svg width="24" height="24" fill="none" stroke="#22c55e" strokeWidth="2" viewBox="0 0 24 24">
+      <svg width="22" height="22" fill="none" stroke="#6366f1" strokeWidth="2" viewBox="0 0 24 24">
+        <path d="M12 2a10 10 0 1 0 10 10H12V2z"/><path d="M12 2a10 10 0 0 1 10 10"/>
+      </svg>
+    ),
+  },
+  {
+    title: 'Portfolio Analysis',
+    desc: 'Add your portfolio URL for bonus points and detailed feedback on your personal site.',
+    iconBg: 'rgba(34,197,94,0.10)',
+    icon: (
+      <svg width="22" height="22" fill="none" stroke="#22c55e" strokeWidth="2" viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="10"/>
         <line x1="2" y1="12" x2="22" y2="12"/>
         <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
@@ -242,22 +244,11 @@ const features = [
     ),
   },
   {
-    title: 'AI Suggestions',
-    desc: 'Claude AI generates professional, human-like feedback with actionable suggestions specific to your profile.',
-    iconBg: '#fdf4ff',
+    title: 'Progress Tracking',
+    desc: 'Save analyses over time and watch your score improve as you enhance your developer profile.',
+    iconBg: 'rgba(239,68,68,0.10)',
     icon: (
-      <svg width="24" height="24" fill="none" stroke="#a855f7" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 8v4l3 3"/>
-        <path d="M22 2 12 12"/><path d="m17 2 5 5-5 5"/>
-      </svg>
-    ),
-  },
-  {
-    title: 'Score Tracking',
-    desc: 'Sign in to save every analysis and visualize your improvement over time with charts and trend indicators.',
-    iconBg: '#eff6ff',
-    icon: (
-      <svg width="24" height="24" fill="none" stroke="#3b82f6" strokeWidth="2" viewBox="0 0 24 24">
+      <svg width="22" height="22" fill="none" stroke="#ef4444" strokeWidth="2" viewBox="0 0 24 24">
         <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
       </svg>
     ),
@@ -267,272 +258,235 @@ const features = [
 const steps = [
   {
     step: '01',
-    title: 'Enter GitHub Username',
-    desc: 'Paste your GitHub username and optionally add your portfolio URL for a complete evaluation.',
+    title: 'Enter Username',
+    desc: 'Type in any GitHub username — yours or someone else\'s — to get started instantly.',
     icon: (
-      <svg width="28" height="28" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+      <svg width="26" height="26" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
       </svg>
     ),
   },
   {
     step: '02',
-    title: 'Get Your Analysis',
-    desc: 'Receive a score from 0–100 with detailed breakdown, strengths, weaknesses, and AI-powered suggestions.',
+    title: 'AI Analysis',
+    desc: 'Our AI fetches your GitHub data and scores it across 6 key dimensions in seconds.',
     icon: (
-      <svg width="28" height="28" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24">
+      <svg width="26" height="26" fill="none" stroke="#6366f1" strokeWidth="2" viewBox="0 0 24 24">
         <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
       </svg>
     ),
   },
   {
     step: '03',
-    title: 'Improve & Track',
-    desc: 'Act on the suggestions, re-run the analysis, and watch your score improve over time on your dashboard.',
+    title: 'Get Your Score',
+    desc: 'Receive a detailed score, strengths, weaknesses, and actionable tips to improve.',
     icon: (
-      <svg width="28" height="28" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24">
-        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+      <svg width="26" height="26" fill="none" stroke="#22c55e" strokeWidth="2" viewBox="0 0 24 24">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="16" y1="13" x2="8" y2="13"/>
+        <line x1="16" y1="17" x2="8" y2="17"/>
       </svg>
     ),
   },
 ];
 
-/* ─── Styles ─── */
+/* ── Styles ── */
 const styles = {
-  page: { minHeight: '100vh', display: 'flex', flexDirection: 'column' },
-
-  /* Hero */
-  hero: {
+  page: {
+    background: 'linear-gradient(145deg, #ede8df 0%, #e8ddd0 40%, #dfd3c0 100%)',
     minHeight: '100vh',
-    background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 50%, #fef9f0 100%)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    flexWrap: 'wrap', gap: 48,
-    padding: '120px 40px 80px',
-    position: 'relative', overflow: 'hidden',
-  },
-  blob1: {
-    position: 'absolute', width: 500, height: 500, borderRadius: '50%',
-    background: 'radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 70%)',
-    top: -100, right: -100, pointerEvents: 'none',
-  },
-  blob2: {
-    position: 'absolute', width: 400, height: 400, borderRadius: '50%',
-    background: 'radial-gradient(circle, rgba(255,107,53,0.12) 0%, transparent 70%)',
-    bottom: -80, left: -80, pointerEvents: 'none',
-  },
-  heroInner: { maxWidth: 560, flex: '1 1 400px', position: 'relative' },
-  heroBadge: {
-    display: 'inline-flex', alignItems: 'center', gap: 8,
-    background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.25)',
-    color: '#92400e', fontSize: 13, fontWeight: 600,
-    padding: '6px 14px', borderRadius: 20, marginBottom: 20,
     fontFamily: 'Poppins, sans-serif',
+  },
+  inner: { maxWidth: 1080, margin: '0 auto' },
+
+  /* hero */
+  hero: {
+    maxWidth: 1200, margin: '0 auto',
+    padding: '80px 48px 100px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: 60,
+    position: 'relative',
+    overflow: 'hidden',
+  },
+  heroBlob1: {
+    position: 'absolute', width: 500, height: 500, borderRadius: '50%',
+    background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 68%)',
+    top: -120, right: -80, pointerEvents: 'none',
+  },
+  heroBlob2: {
+    position: 'absolute', width: 350, height: 350, borderRadius: '50%',
+    background: 'radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%)',
+    bottom: -60, left: 40, pointerEvents: 'none',
+  },
+  heroInner: { flex: 1, position: 'relative', zIndex: 1 },
+
+  heroBadge: {
+    display: 'inline-flex', alignItems: 'center', gap: 7,
+    background: 'rgba(245,158,11,0.12)',
+    color: '#92400e', fontSize: 12, fontWeight: 600,
+    padding: '5px 14px', borderRadius: 99,
+    marginBottom: 20, letterSpacing: '0.02em',
+    border: '1px solid rgba(245,158,11,0.22)',
   },
   badgeDot: {
     width: 7, height: 7, borderRadius: '50%',
-    background: '#f59e0b', boxShadow: '0 0 6px #f59e0b',
-    animation: 'pulse 2s infinite',
+    background: '#f59e0b', flexShrink: 0,
+    boxShadow: '0 0 0 3px rgba(245,158,11,0.22)',
   },
   heroTitle: {
-    fontFamily: 'Syne, sans-serif',
-    fontSize: 'clamp(36px, 5vw, 56px)',
-    fontWeight: 800, color: '#1f2937', lineHeight: 1.15,
-    marginBottom: 20,
+    fontSize: 'clamp(32px, 4.5vw, 52px)',
+    fontWeight: 700, color: '#1a1a1a', lineHeight: 1.18,
+    marginBottom: 20, letterSpacing: '-0.5px',
   },
-  heroAccent: { color: '#f59e0b' },
   heroSub: {
-    fontSize: 17, color: '#6b7280', lineHeight: 1.7,
-    marginBottom: 32, fontFamily: 'Poppins, sans-serif',
-    fontWeight: 400,
+    fontSize: 16, color: '#6b7280', lineHeight: 1.72, marginBottom: 32,
   },
-  heroBtns: { display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 40 },
+  heroBtns: { display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 42 },
+
   primaryBtn: {
     display: 'inline-flex', alignItems: 'center', gap: 8,
-    padding: '14px 28px', borderRadius: 12, border: 'none',
-    background: 'linear-gradient(135deg, #f59e0b, #ff6b35)',
-    color: 'white', fontSize: 15, fontWeight: 700, cursor: 'pointer',
-    boxShadow: '0 8px 24px rgba(245,158,11,0.4)',
+    padding: '13px 26px', borderRadius: 12, border: 'none',
+    background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+    color: 'white', fontSize: 14.5, fontWeight: 600, cursor: 'pointer',
+    boxShadow: '0 6px 20px rgba(245,158,11,0.38)',
     transition: 'transform 0.18s, box-shadow 0.18s',
     fontFamily: 'Poppins, sans-serif',
   },
   secondaryBtn: {
-    padding: '14px 28px', borderRadius: 12,
-    border: '2px solid rgba(245,158,11,0.35)',
-    background: 'rgba(255,255,255,0.7)',
-    color: '#92400e', fontSize: 15, fontWeight: 600, cursor: 'pointer',
-    transition: 'all 0.18s',
-    fontFamily: 'Poppins, sans-serif',
+    padding: '13px 26px', borderRadius: 12,
+    border: '1.5px solid rgba(0,0,0,0.14)',
+    background: 'rgba(255,255,255,0.65)',
+    color: '#374151', fontSize: 14.5, fontWeight: 600, cursor: 'pointer',
+    transition: 'all 0.18s', fontFamily: 'Poppins, sans-serif',
   },
-  statsRow: {
-    display: 'flex', gap: 24, flexWrap: 'wrap',
-  },
-  statItem: { textAlign: 'center' },
-  statVal: {
-    fontFamily: 'Syne, sans-serif', fontSize: 28, fontWeight: 800, color: '#f59e0b',
-  },
-  statLabel: { fontSize: 12, color: '#9ca3af', fontFamily: 'Poppins, sans-serif' },
+  statsRow: { display: 'flex', gap: 28, flexWrap: 'wrap' },
+  statItem: {},
+  statVal:  { fontSize: 26, fontWeight: 700, color: '#f59e0b', letterSpacing: '-0.5px' },
+  statLabel:{ fontSize: 11.5, color: '#9ca3af', fontWeight: 500, marginTop: 1 },
 
-  /* Preview card */
+  /* preview card */
   previewCard: {
-    background: 'white', borderRadius: 20,
-    boxShadow: '0 24px 64px rgba(139,69,19,0.16)',
+    background: '#fff', borderRadius: 20,
+    boxShadow: '0 20px 60px rgba(100,60,10,0.16)',
     overflow: 'hidden', width: 340, flexShrink: 0,
-    border: '1px solid rgba(245,158,11,0.15)',
+    border: '1px solid rgba(0,0,0,0.07)',
   },
   previewBar: {
     background: '#f9fafb', padding: '10px 16px',
     display: 'flex', alignItems: 'center', gap: 6,
-    borderBottom: '1px solid #f3f4f6',
+    borderBottom: '1px solid #f0f0f0',
   },
-  previewDot: { width: 10, height: 10, borderRadius: '50%', background: '#e5e7eb' },
-  previewBarText: { fontSize: 11, color: '#9ca3af', marginLeft: 6, fontFamily: 'monospace' },
-  previewBody: { padding: 20, display: 'flex', flexDirection: 'column', gap: 14 },
-  mockKpiRow: { display: 'flex', gap: 10 },
+  previewDot: { width: 9, height: 9, borderRadius: '50%', background: '#e5e7eb' },
+  previewUrl: { fontSize: 10.5, color: '#9ca3af', marginLeft: 4, fontFamily: 'monospace' },
+  previewBody:{ padding: 18, display: 'flex', flexDirection: 'column', gap: 13 },
+  mockKpiRow: { display: 'flex', gap: 8 },
   mockKpi: {
-    flex: 1, background: '#fef9f0', borderRadius: 10, padding: '10px 12px',
-    textAlign: 'center',
+    flex: 1, background: '#fef9f0', borderRadius: 10, padding: '9px 10px', textAlign: 'center',
   },
-  mockKpiVal: { fontFamily: 'Syne, sans-serif', fontSize: 20, fontWeight: 800, color: '#f59e0b' },
-  mockKpiLabel: { fontSize: 10, color: '#9ca3af', marginTop: 2 },
-  mockChart: {
-    background: '#fef9f0', borderRadius: 10, padding: '8px 4px', overflow: 'hidden',
-  },
-  mockRow: { display: 'flex', alignItems: 'center', gap: 10 },
-  mockAvatar: {
-    width: 32, height: 32, borderRadius: '50%',
-    background: '#f59e0b', color: 'white',
+  mockKpiVal:  { fontSize: 18, fontWeight: 700, color: '#f59e0b', letterSpacing: '-0.5px' },
+  mockKpiLabel:{ fontSize: 9.5, color: '#9ca3af', marginTop: 1 },
+  mockChart:   { background: '#fef9f0', borderRadius: 10, padding: '6px 4px 0', overflow: 'hidden' },
+  mockRow:     { display: 'flex', alignItems: 'center', gap: 9 },
+  mockAva: {
+    width: 30, height: 30, borderRadius: '50%', color: '#fff',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontSize: 11, fontWeight: 700, flexShrink: 0,
+    fontSize: 10.5, fontWeight: 700, flexShrink: 0,
   },
-  mockInfo: { flex: 1 },
-  mockName: { fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 4 },
-  mockBar: { height: 6, background: '#f3f4f6', borderRadius: 3, overflow: 'hidden' },
-  mockBarFill: { height: '100%', background: 'linear-gradient(90deg, #f59e0b, #ff6b35)', borderRadius: 3 },
-  mockScore: { fontSize: 13, fontWeight: 700, color: '#f59e0b', width: 28, textAlign: 'right' },
+  mockInfo:    { flex: 1 },
+  mockName:    { fontSize: 11.5, fontWeight: 600, color: '#374151', marginBottom: 3 },
+  mockBar:     { height: 5, background: '#f0f0f0', borderRadius: 3, overflow: 'hidden' },
+  mockBarFill: { height: '100%', background: 'linear-gradient(90deg, #f59e0b, #d97706)', borderRadius: 3 },
+  mockScore:   { fontSize: 12.5, fontWeight: 700, color: '#f59e0b', width: 24, textAlign: 'right' },
 
-  /* Features */
-  featuresSection: {
-    padding: '100px 40px', background: 'white',
-  },
-  sectionInner: { maxWidth: 1080, margin: '0 auto' },
-  sectionLabel: {
+  /* features */
+  featuresSection: { padding: '96px 48px', background: '#fff' },
+  sectionTag: {
     display: 'inline-block',
-    background: 'linear-gradient(135deg, #fef3c7, #fde68a)',
-    color: '#92400e', fontSize: 12, fontWeight: 700,
-    padding: '4px 14px', borderRadius: 20, marginBottom: 16,
+    background: 'rgba(245,158,11,0.10)',
+    color: '#92400e', fontSize: 11, fontWeight: 700,
+    padding: '4px 13px', borderRadius: 99, marginBottom: 16,
     textTransform: 'uppercase', letterSpacing: '0.1em',
-    fontFamily: 'Poppins, sans-serif',
   },
   sectionTitle: {
-    fontFamily: 'Syne, sans-serif',
-    fontSize: 'clamp(28px, 4vw, 40px)',
-    fontWeight: 800, color: '#1f2937', marginBottom: 12,
+    fontSize: 'clamp(26px, 3.5vw, 38px)',
+    fontWeight: 700, color: '#1a1a1a', marginBottom: 12, letterSpacing: '-0.4px',
   },
   sectionSub: {
-    fontSize: 16, color: '#6b7280', lineHeight: 1.7,
-    marginBottom: 52, fontFamily: 'Poppins, sans-serif', maxWidth: 560,
+    fontSize: 15.5, color: '#6b7280', lineHeight: 1.7, marginBottom: 50, maxWidth: 540,
   },
-  featuresGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-    gap: 24,
+  featGrid: {
+    display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: 22,
   },
-  featureCard: {
-    background: 'white', borderRadius: 20, padding: '28px 24px',
-    border: '1.5px solid #f3f4f6',
+  featCard: {
+    background: '#fff', borderRadius: 18, padding: '26px 22px',
+    border: '1.5px solid #f0f0f0',
     boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
     transition: 'transform 0.2s, box-shadow 0.2s',
     cursor: 'default',
   },
-  featureIcon: {
-    width: 52, height: 52, borderRadius: 14,
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    marginBottom: 18,
+  featIcon: {
+    width: 48, height: 48, borderRadius: 13,
+    display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16,
   },
-  featureTitle: {
-    fontFamily: 'Syne, sans-serif', fontSize: 18, fontWeight: 700,
-    color: '#1f2937', marginBottom: 10,
-  },
-  featureDesc: {
-    fontSize: 14, color: '#6b7280', lineHeight: 1.7,
-    fontFamily: 'Poppins, sans-serif',
-  },
+  featTitle: { fontSize: 16, fontWeight: 700, color: '#1a1a1a', marginBottom: 9, letterSpacing: '-0.2px' },
+  featDesc:  { fontSize: 13.5, color: '#6b7280', lineHeight: 1.68 },
 
-  /* How it works */
-  howSection: {
-    padding: '100px 40px',
-    background: 'linear-gradient(135deg, #fef9f0, #fff)',
-  },
+  /* how it works */
+  howSection: { padding: '96px 48px', background: 'linear-gradient(180deg, #fef9f2 0%, #fff 100%)' },
   stepsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-    gap: 24, position: 'relative',
+    display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    gap: 22, position: 'relative',
   },
   stepCard: {
-    background: 'white', borderRadius: 20, padding: '32px 28px',
-    boxShadow: '0 4px 20px rgba(139,69,19,0.08)',
+    background: '#fff', borderRadius: 18, padding: '30px 26px',
+    boxShadow: '0 4px 20px rgba(100,60,10,0.07)',
     position: 'relative', textAlign: 'center',
-    border: '1.5px solid rgba(245,158,11,0.1)',
+    border: '1.5px solid rgba(245,158,11,0.10)',
   },
   stepNum: {
-    fontFamily: 'Syne, sans-serif', fontSize: 48, fontWeight: 800,
-    color: 'rgba(245,158,11,0.15)', lineHeight: 1, marginBottom: 12,
+    fontSize: 44, fontWeight: 700, color: 'rgba(245,158,11,0.13)',
+    lineHeight: 1, marginBottom: 12, letterSpacing: '-2px',
   },
   stepIcon: {
-    width: 60, height: 60, borderRadius: '50%',
+    width: 56, height: 56, borderRadius: '50%',
     background: 'linear-gradient(135deg, #fef3c7, #fde68a)',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    margin: '0 auto 20px',
+    margin: '0 auto 18px',
   },
-  stepTitle: {
-    fontFamily: 'Syne, sans-serif', fontSize: 18, fontWeight: 700,
-    color: '#1f2937', marginBottom: 10,
-  },
-  stepDesc: {
-    fontSize: 14, color: '#6b7280', lineHeight: 1.7,
-    fontFamily: 'Poppins, sans-serif',
-  },
+  stepTitle: { fontSize: 17, fontWeight: 700, color: '#1a1a1a', marginBottom: 9, letterSpacing: '-0.2px' },
+  stepDesc:  { fontSize: 13.5, color: '#6b7280', lineHeight: 1.68 },
   stepArrow: {
-    position: 'absolute', right: -14, top: '50%', transform: 'translateY(-50%)',
-    fontSize: 24, color: '#f59e0b', fontWeight: 700, zIndex: 1,
+    position: 'absolute', right: -13, top: '50%', transform: 'translateY(-50%)',
+    fontSize: 22, color: '#f59e0b', fontWeight: 700, zIndex: 1,
   },
 
-  /* CTA */
-  ctaSection: {
-    padding: '100px 40px',
-    background: '#1f2937',
-  },
-  ctaInner: {
-    maxWidth: 640, margin: '0 auto', textAlign: 'center', position: 'relative',
-  },
+  /* cta */
+  ctaSection: { padding: '96px 48px', background: '#1a1a1a' },
+  ctaInner:   { maxWidth: 620, margin: '0 auto', textAlign: 'center', position: 'relative' },
   ctaGlow: {
-    position: 'absolute', width: 400, height: 400, borderRadius: '50%',
-    background: 'radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%)',
-    top: '50%', left: '50%', transform: 'translate(-50%,-50%)',
-    pointerEvents: 'none',
+    position: 'absolute', width: 440, height: 440, borderRadius: '50%',
+    background: 'radial-gradient(circle, rgba(245,158,11,0.14) 0%, transparent 70%)',
+    top: '50%', left: '50%', transform: 'translate(-50%,-50%)', pointerEvents: 'none',
   },
   ctaTitle: {
-    fontFamily: 'Syne, sans-serif',
-    fontSize: 'clamp(28px, 4vw, 44px)',
-    fontWeight: 800, color: 'white', marginBottom: 16,
-    position: 'relative',
+    fontSize: 'clamp(26px, 3.8vw, 42px)',
+    fontWeight: 700, color: '#fff', marginBottom: 16,
+    position: 'relative', letterSpacing: '-0.4px',
   },
-  ctaSub: {
-    fontSize: 16, color: 'rgba(255,255,255,0.6)', lineHeight: 1.7,
-    marginBottom: 36, fontFamily: 'Poppins, sans-serif',
-  },
-  ctaBtn: {
+  ctaSub:  { fontSize: 15.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.7, marginBottom: 34, position: 'relative' },
+  ctaBtn:  {
     display: 'inline-flex', alignItems: 'center', gap: 10,
-    padding: '16px 36px', borderRadius: 14, border: 'none',
-    background: 'linear-gradient(135deg, #f59e0b, #ff6b35)',
-    color: 'white', fontSize: 16, fontWeight: 700, cursor: 'pointer',
-    boxShadow: '0 8px 28px rgba(245,158,11,0.4)',
+    padding: '14px 32px', borderRadius: 13, border: 'none',
+    background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+    color: 'white', fontSize: 15, fontWeight: 600, cursor: 'pointer',
+    boxShadow: '0 8px 28px rgba(245,158,11,0.38)',
     transition: 'transform 0.18s, box-shadow 0.18s',
-    fontFamily: 'Poppins, sans-serif',
-    position: 'relative',
+    fontFamily: 'Poppins, sans-serif', position: 'relative',
   },
   ctaNote: {
-    marginTop: 16, fontSize: 13, color: 'rgba(255,255,255,0.35)',
-    fontFamily: 'Poppins, sans-serif',
+    marginTop: 16, fontSize: 12.5, color: 'rgba(255,255,255,0.30)', position: 'relative',
   },
 };

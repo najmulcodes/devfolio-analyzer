@@ -36,7 +36,6 @@ const kpiIcons = {
   ),
 };
 
-/* ── Custom chart tooltip ── */
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
@@ -64,7 +63,6 @@ export default function Dashboard() {
 
   if (loading) return <PageLoader message="Loading dashboard…" />;
 
-  /* ── Guest / empty state ── */
   if (!user || (stats && stats.totalAnalyses === 0)) {
     return (
       <div style={s.emptyWrap}>
@@ -79,14 +77,8 @@ export default function Dashboard() {
               : 'Your dashboard will populate after your first analysis.'}
           </p>
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button onClick={() => navigate('/analyze')} className="btn-primary">
-              Analyze a Profile
-            </button>
-            {!user && (
-              <button onClick={() => navigate('/login')} className="btn-outline">
-                Sign In
-              </button>
-            )}
+            <button onClick={() => navigate('/analyze')} className="btn-primary">Analyze a Profile</button>
+            {!user && <button onClick={() => navigate('/login')} className="btn-outline">Sign In</button>}
           </div>
         </div>
       </div>
@@ -95,28 +87,22 @@ export default function Dashboard() {
 
   return (
     <div style={s.page}>
-
-      {/* ── Page header ── */}
       <div className="page-header fade-up">
         <div>
           <h1 className="page-title">Dashboard</h1>
           <p className="page-sub">
             Welcome back, <strong style={{ color: 'var(--text-900)', fontWeight: 600 }}>
-              {user.email.split('@')[0]}
+              {user.email?.split('@')[0] || 'User'}
             </strong>
           </p>
         </div>
         <button onClick={() => navigate('/analyze')} className="btn-primary">
-          <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-          </svg>
           New Analysis
         </button>
       </div>
 
       {error && <div className="error-box fade-up">{error}</div>}
 
-      {/* ── KPI row ── */}
       <div className="kpi-grid fade-up" style={{ animationDelay: '40ms' }}>
         <KpiCard label="Total Analyses" value={stats.totalAnalyses} icon={kpiIcons.total} color="#6366f1" delay={0} />
         <KpiCard label="Average Score"  value={stats.averageScore}  sub="out of 100" icon={kpiIcons.avg}  color="#f59e0b" delay={50} />
@@ -124,18 +110,12 @@ export default function Dashboard() {
         <KpiCard label="Latest Score"   value={stats.latestScore}   icon={kpiIcons.last} color="#ef4444" delay={150} />
       </div>
 
-      {/* ── Middle row: chart + top performers ── */}
       <div className="dash-mid-row" style={s.midRow}>
-
-        {/* Chart card */}
         <div className="card fade-up dash-chart-card" style={{ ...s.chartCard, animationDelay: '80ms' }}>
           <div style={s.chartTop}>
             <div>
               <div style={s.chartLabel}>Average KPI Score</div>
-              <div style={s.chartBig}>
-                {stats.averageScore}
-                <span style={s.chartPct}>%</span>
-              </div>
+              <div style={s.chartBig}>{stats.averageScore}<span style={s.chartPct}>%</span></div>
             </div>
             <span className="badge-amber">Score trend</span>
           </div>
@@ -144,70 +124,57 @@ export default function Dashboard() {
             {stats.chartData?.length > 1 ? (
               <BarChart data={stats.chartData} margin={{ top: 4, right: 8, left: -22, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" vertical={false} />
-                <XAxis dataKey="date" tick={{ fontSize: 10.5, fill: 'var(--text-300)', fontFamily: 'Poppins' }} axisLine={false} tickLine={false} />
-                <YAxis domain={[0, 100]} tick={{ fontSize: 10.5, fill: 'var(--text-300)', fontFamily: 'Poppins' }} axisLine={false} tickLine={false} />
+                <XAxis dataKey="date" tick={{ fontSize: 10.5, fill: 'var(--text-300)' }} axisLine={false} tickLine={false} />
+                <YAxis domain={[0, 100]} tick={{ fontSize: 10.5, fill: 'var(--text-300)' }} axisLine={false} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(245,158,11,0.06)', radius: 6 }} />
-                <Bar dataKey="score" fill="url(#barGradDash)" radius={[6, 6, 0, 0]} />
-                <defs>
-                  <linearGradient id="barGradDash" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.85"/>
-                    <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.25"/>
-                  </linearGradient>
-                </defs>
+                <Bar dataKey="score" fill="#f59e0b" radius={[6, 6, 0, 0]} />
               </BarChart>
             ) : (
               <LineChart data={stats.chartData} margin={{ top: 4, right: 8, left: -22, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" vertical={false} />
-                <XAxis dataKey="date" tick={{ fontSize: 10.5, fill: 'var(--text-300)', fontFamily: 'Poppins' }} axisLine={false} tickLine={false} />
-                <YAxis domain={[0, 100]} tick={{ fontSize: 10.5, fill: 'var(--text-300)', fontFamily: 'Poppins' }} axisLine={false} tickLine={false} />
+                <XAxis dataKey="date" tick={{ fontSize: 10.5, fill: 'var(--text-300)' }} axisLine={false} tickLine={false} />
+                <YAxis domain={[0, 100]} tick={{ fontSize: 10.5, fill: 'var(--text-300)' }} axisLine={false} tickLine={false} />
                 <Tooltip content={<CustomTooltip />} />
-                <Line type="monotone" dataKey="score" stroke="#f59e0b" strokeWidth={2.5} dot={{ r: 4, fill: '#f59e0b', strokeWidth: 0 }} />
+                <Line type="monotone" dataKey="score" stroke="#f59e0b" strokeWidth={2.5} dot={{ r: 4, fill: '#f59e0b' }} />
               </LineChart>
             )}
           </ResponsiveContainer>
         </div>
 
-        {/* Top performers – dark card */}
         <div className="dark-card fade-up" style={{ ...s.darkPanel, animationDelay: '110ms' }}>
           <div style={s.darkTitle}>Top Analyses</div>
           <div style={s.perfList}>
             {stats.recentActivity?.slice(0, 4).map((row, i) => (
-              <div key={row.id} style={s.perfRow}>
+              <div key={row.id || i} style={s.perfRow}>
                 <div style={{
                   ...s.perfRank,
                   background: i === 0 ? 'linear-gradient(135deg,#f59e0b,#d97706)' : 'rgba(255,255,255,0.08)',
-                  color: i === 0 ? '#fff' : 'var(--dark-muted)',
-                }}>
-                  {i + 1}
-                </div>
-                <div style={s.perfAva}>{row.username[0].toUpperCase()}</div>
+                  color: i === 0 ? '#fff' : '#999',
+                }}>{i + 1}</div>
+                {/* FIX: Use fallback for initials if username is missing */}
+                <div style={s.perfAva}>{row.username ? row.username[0].toUpperCase() : 'P'}</div>
                 <div style={s.perfInfo}>
-                  <div style={s.perfName}>@{row.username}</div>
+                  <div style={s.perfName}>{row.username ? `@${row.username}` : 'Portfolio Analysis'}</div>
                   <div style={s.perfDate}>{formatDate(row.date)}</div>
                 </div>
-                <div style={{ ...s.perfScore, color: getScoreColor(row.score) }}>
-                  {row.score}
-                </div>
+                <div style={{ ...s.perfScore, color: getScoreColor(row.score) }}>{row.score}</div>
               </div>
             ))}
           </div>
         </div>
       </div>
 
-      {/* ── Recent analyses table ── */}
       {stats.recentActivity?.length > 0 && (
         <div className="card fade-up" style={{ ...s.tableCard, animationDelay: '150ms' }}>
           <div style={s.tableHead}>
             <div style={s.tableTitle}>Recent Analyses</div>
-            <button onClick={() => navigate('/history')} className="btn-ghost">
-              View all →
-            </button>
+            <button onClick={() => navigate('/history')} className="btn-ghost">View all →</button>
           </div>
           <div style={{ overflowX: 'auto' }}>
             <table className="premium-table">
               <thead>
                 <tr>
-                  <th>Username</th>
+                  <th>Identity</th>
                   <th>Score</th>
                   <th>Performance</th>
                   <th>Date</th>
@@ -215,33 +182,25 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {stats.recentActivity.map(row => (
-                  <tr key={row.id}>
+                {stats.recentActivity.map((row, idx) => (
+                  <tr key={row.id || idx}>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                         <div style={{
-                          width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
+                          width: 30, height: 30, borderRadius: '50%',
                           background: getScoreColor(row.score) + '18',
                           color: getScoreColor(row.score),
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                           fontSize: 11.5, fontWeight: 700,
                         }}>
-                          {row.username[0].toUpperCase()}
+                          {row.username ? row.username[0].toUpperCase() : 'P'}
                         </div>
-                        <a
-                          href={`https://github.com/${row.username}`}
-                          target="_blank" rel="noreferrer"
-                          style={{ fontWeight: 600, color: 'var(--text-900)', textDecoration: 'none' }}
-                        >
-                          @{row.username}
-                        </a>
+                        <span style={{ fontWeight: 600, color: 'var(--text-900)' }}>
+                          {row.username ? `@${row.username}` : 'Portfolio Only'}
+                        </span>
                       </div>
                     </td>
-                    <td>
-                      <span style={{ fontSize: 15, fontWeight: 700, color: getScoreColor(row.score) }}>
-                        {row.score}
-                      </span>
-                    </td>
+                    <td><span style={{ fontSize: 15, fontWeight: 700, color: getScoreColor(row.score) }}>{row.score}</span></td>
                     <td>
                       <div className="perf-bar">
                         <div className="perf-fill" style={{ width: `${row.score}%`, background: getScoreColor(row.score) }} />
@@ -249,8 +208,8 @@ export default function Dashboard() {
                     </td>
                     <td style={{ color: 'var(--text-300)', fontSize: 12 }}>{formatDate(row.date)}</td>
                     <td>
-                      <button
-                        onClick={() => navigate(`/analyze?user=${row.username}`)}
+                      <button 
+                        onClick={() => navigate(`/analyze?${row.username ? `user=${row.username}` : `url=${row.portfolioUrl}`}`)} 
                         style={s.rerunBtn}
                       >
                         Re-run
@@ -269,51 +228,29 @@ export default function Dashboard() {
 
 const s = {
   page: { display: 'flex', flexDirection: 'column', gap: 18 },
-
-  /* empty */
   emptyWrap: { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '65vh' },
   emptyCard: { padding: '52px 44px', textAlign: 'center', maxWidth: 460 },
   emptyEmoji: { fontSize: 50, marginBottom: 18 },
   emptyTitle: { fontSize: 24, fontWeight: 700, color: 'var(--text-900)', marginBottom: 12 },
-  emptySub:   { fontSize: 14, color: 'var(--text-500)', lineHeight: 1.7, marginBottom: 28 },
-
-  /* chart area */
+  emptySub:   { fontSize: 14, color: 'var(--text-500)', marginBottom: 28 },
   midRow: { display: 'grid', gridTemplateColumns: '1fr 310px', gap: 16 },
   chartCard: { padding: '22px 24px 14px' },
   chartTop:  { display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 },
-  chartLabel:{ fontSize: 12, fontWeight: 500, color: 'var(--text-500)', marginBottom: 4 },
-  chartBig:  { fontSize: 36, fontWeight: 700, color: 'var(--text-900)', lineHeight: 1, letterSpacing: '-1px' },
-  chartPct:  { fontSize: 18, fontWeight: 500, color: 'var(--text-500)' },
-
-  /* dark panel */
-  darkPanel: { padding: '22px 20px' },
-  darkTitle: { fontSize: 15, fontWeight: 700, color: 'var(--dark-text)', marginBottom: 18, letterSpacing: '-0.2px' },
+  chartLabel:{ fontSize: 12, color: 'var(--text-500)', marginBottom: 4 },
+  chartBig:  { fontSize: 36, fontWeight: 700, color: 'var(--text-900)', lineHeight: 1 },
+  chartPct:  { fontSize: 18, color: 'var(--text-500)' },
+  darkPanel: { padding: '22px 20px', background: '#111', borderRadius: 16 },
+  darkTitle: { fontSize: 15, fontWeight: 700, color: '#fff', marginBottom: 18 },
   perfList:  { display: 'flex', flexDirection: 'column', gap: 14 },
   perfRow:   { display: 'flex', alignItems: 'center', gap: 9 },
-  perfRank: {
-    width: 20, height: 20, borderRadius: '50%',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontSize: 9.5, fontWeight: 700, flexShrink: 0,
-  },
-  perfAva: {
-    width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-    background: 'rgba(245,158,11,0.18)', color: '#f59e0b',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontSize: 12, fontWeight: 700,
-  },
+  perfRank: { width: 20, height: 20, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9.5, fontWeight: 700 },
+  perfAva: { width: 32, height: 32, borderRadius: '50%', background: 'rgba(245,158,11,0.18)', color: '#f59e0b', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700 },
   perfInfo:  { flex: 1, minWidth: 0 },
-  perfName:  { fontSize: 12.5, fontWeight: 600, color: 'var(--dark-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
-  perfDate:  { fontSize: 10.5, color: 'var(--dark-muted)', marginTop: 1 },
-  perfScore: { fontSize: 17, fontWeight: 700, flexShrink: 0 },
-
-  /* table */
+  perfName:  { fontSize: 12.5, fontWeight: 600, color: '#fff', overflow: 'hidden', textOverflow: 'ellipsis' },
+  perfDate:  { fontSize: 10.5, color: '#666' },
+  perfScore: { fontSize: 17, fontWeight: 700 },
   tableCard:  { padding: '20px 24px' },
   tableHead:  { display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 },
-  tableTitle: { fontSize: 15, fontWeight: 700, color: 'var(--text-900)', letterSpacing: '-0.2px' },
-  rerunBtn: {
-    padding: '5px 12px', borderRadius: 8, border: 'none',
-    background: 'rgba(245,158,11,0.09)', color: '#92400e',
-    fontSize: 11.5, fontWeight: 600, cursor: 'pointer',
-    transition: 'background 0.15s',
-  },
+  tableTitle: { fontSize: 15, fontWeight: 700, color: 'var(--text-900)' },
+  rerunBtn: { padding: '5px 12px', borderRadius: 8, background: 'rgba(245,158,11,0.09)', color: '#92400e', fontSize: 11.5, fontWeight: 600, cursor: 'pointer', border: 'none' },
 };

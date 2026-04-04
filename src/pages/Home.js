@@ -48,7 +48,7 @@ export default function Home() {
 
           <h1 style={{ ...fade, ...styles.heroTitle, transitionDelay: '0.1s' }} data-fade>
             Analyze Your Developer Portfolio & Github
-            <span style={{ color: '#f59e0b' }}> Like a Recruiter</span>
+            <p style={{ color: '#f59e0b' }}> Like a Recruiter</p>
           </h1>
 
           <p style={{ ...fade, ...styles.heroSub, transitionDelay: '0.2s' }} data-fade>

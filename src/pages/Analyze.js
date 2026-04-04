@@ -5,6 +5,11 @@ import AnalysisResult from '../components/AnalysisResult';
 import Spinner from '../components/Spinner';
 import { useAuth } from '../context/AuthContext';
 
+// Icons (Ensure these components exist or replace with your SVG/Icon library)
+const GitHubIcon = () => <span>📁</span>; 
+const GlobeIcon = () => <span>🌐</span>;
+const SearchIcon = () => <span>🔍</span>;
+
 export default function Analyze() {
   const [searchParams] = useSearchParams();
   const { user } = useAuth();
@@ -24,7 +29,7 @@ export default function Analyze() {
     const trimmedUsername = githubUsername.trim();
     const trimmedPortfolio = portfolioUrl.trim();
 
-    // Fix: Allow submission if at least one field is present
+    // Logic: At least one must be present
     if (!trimmedUsername && !trimmedPortfolio) {
       setError('Please provide at least a GitHub username or a Portfolio URL');
       return;
@@ -66,92 +71,93 @@ export default function Analyze() {
         </p>
       </div>
 
-      <div className="card fade-up" style={{ ...s.formCard, animationDelay: '40ms' }}>
+      <div className="card fade-up" style={s.formCard}>
         <div style={s.cardHeader}>
-          <div style={s.cardHeaderIcon}>
-            <svg width="18" height="18" fill="none" stroke="#f59e0b" strokeWidth="2" viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
-            </svg>
-          </div>
           <div>
             <div style={s.cardHeaderTitle}>Profile Analyzer</div>
-            <div style={s.cardHeaderSub}>Powered by AI · Provide at least one field to begin</div>
+            <div style={s.cardHeaderSub}>Provide at least one field to begin</div>
           </div>
         </div>
 
-        <div style={s.divider} />
-
         <form onSubmit={handleSubmit} style={s.form}>
-          <div className="analyze-field-row" style={s.fieldRow}>
+          <div style={s.fieldRow}>
+            {/* GitHub field */}
             <div style={s.field}>
               <label style={s.label}>
                 GitHub Username
                 <span style={s.optionalBadge}>optional</span>
               </label>
               <div style={s.inputWrap}>
-                <span style={s.inputIcon}><GitHubIcon /></span>
                 <input
                   className="premium-input"
                   type="text"
                   value={githubUsername}
                   onChange={e => setGithubUsername(e.target.value)}
                   placeholder="e.g. torvalds"
-                  style={{ paddingLeft: 42 }}
-                  autoFocus
                 />
               </div>
             </div>
 
+            {/* Portfolio field */}
             <div style={s.field}>
               <label style={s.label}>
                 Portfolio URL
                 <span style={s.optionalBadge}>optional</span>
               </label>
               <div style={s.inputWrap}>
-                <span style={s.inputIcon}><GlobeIcon /></span>
                 <input
                   className="premium-input"
                   type="url"
                   value={portfolioUrl}
                   onChange={e => setPortfolioUrl(e.target.value)}
                   placeholder="https://yourportfolio.dev"
-                  style={{ paddingLeft: 42 }}
                 />
               </div>
             </div>
           </div>
 
-          {error && (
-            <div className="error-box" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span>⚠️</span>
-              <span>{error}</span>
-            </div>
-          )}
+          {error && <div style={s.errorBox}>⚠️ {error}</div>}
 
-          <div className="analyze-footer" style={s.formFooter}>
+          <div style={s.formFooter}>
             <button
               type="submit"
               disabled={isSubmitDisabled}
               className="btn-primary"
               style={{
-                padding: '11px 26px',
-                fontSize: 13.5,
-                opacity: isSubmitDisabled ? 0.65 : 1,
-                cursor: isSubmitDisabled ? 'not-allowed' : 'pointer',
+                opacity: isSubmitDisabled ? 0.6 : 1,
+                cursor: isSubmitDisabled ? 'not-allowed' : 'pointer'
               }}
             >
-              {loading ? <><Spinner size={16} color="white" /> Analyzing…</> : <><SearchIcon /> Analyze Profile</>}
+              {loading ? <Spinner size={16} color="white" /> : 'Analyze Profile'}
             </button>
 
             {result && !loading && (
-              <button type="button" onClick={handleClear} className="btn-ghost" style={{ padding: '11px 18px' }}>
+              <button type="button" onClick={handleClear} className="btn-ghost">
                 ✕ Clear Results
               </button>
             )}
           </div>
         </form>
       </div>
-      {/* ... rest of original icons and styles remain the same ... */}
+
+      {result && <AnalysisResult result={result} />}
     </div>
   );
 }
+
+// THE MISSING PIECE: Define the "s" object
+const s = {
+  page: { maxWidth: 900, margin: '0 auto', padding: '40px 20px' },
+  formCard: { padding: 32, background: '#fff', borderRadius: 16, boxShadow: '0 4px 20px rgba(0,0,0,0.08)', marginBottom: 32 },
+  cardHeader: { marginBottom: 24 },
+  cardHeaderTitle: { fontSize: 20, fontWeight: 700, color: '#111' },
+  cardHeaderSub: { fontSize: 14, color: '#666' },
+  form: { display: 'flex', flexDirection: 'column', gap: 20 },
+  fieldRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 },
+  field: { display: 'flex', flexDirection: 'column', gap: 8 },
+  label: { fontSize: 13, fontWeight: 600, color: '#444', display: 'flex', justifyContent: 'space-between' },
+  optionalBadge: { fontWeight: 400, color: '#999', fontSize: 11, textTransform: 'uppercase' },
+  inputWrap: { position: 'relative' },
+  errorBox: { padding: '12px', background: '#fff5f5', color: '#e53e3e', borderRadius: 8, fontSize: 14 },
+  formFooter: { display: 'flex', gap: 12, marginTop: 10 }
+};

@@ -29,14 +29,19 @@ export default function Login() {
       {/* Left decorative panel */}
       <div style={s.left}>
         <div style={s.leftInner}>
+
+          {/* ── Brand — logo-full.svg ── */}
           <div style={s.brand}>
-            <div style={s.brandIcon}>
-              <svg width="22" height="22" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-            </div>
-            <span style={s.brandName}>DevFolio Analyzer</span>
+            <img
+              src="/logo-full.svg"
+              alt="DevFolio Analyzer"
+              height={38}
+              width={190}
+              style={{ objectFit: 'contain' }}
+              draggable={false}
+            />
           </div>
+
           <h2 style={s.leftTitle}>Your GitHub profile,<br/>scored like a recruiter.</h2>
           <p style={s.leftSub}>Track your improvement over time, get AI feedback, and stand out from other developers.</p>
           <div style={s.statsRow}>
@@ -141,14 +146,7 @@ const s = {
     padding: '60px 48px', position: 'relative', overflow: 'hidden',
   },
   leftInner: { position: 'relative', zIndex: 1, maxWidth: 420 },
-  brand: { display: 'flex', alignItems: 'center', gap: 10, marginBottom: 40 },
-  brandIcon: {
-    width: 42, height: 42, borderRadius: 12,
-    background: 'linear-gradient(135deg, #f59e0b, #e07800)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    boxShadow: '0 6px 18px rgba(245,158,11,0.3)',
-  },
-  brandName: { fontFamily: 'Syne, sans-serif', fontSize: 18, fontWeight: 800, color: '#1a1207' },
+  brand: { marginBottom: 40 },
   leftTitle: { fontFamily: 'Syne, sans-serif', fontSize: 38, fontWeight: 800, color: '#1a1207', lineHeight: 1.2, marginBottom: 16 },
   leftSub: { fontSize: 15, color: '#7c6a55', lineHeight: 1.7, marginBottom: 36 },
   statsRow: { display: 'flex', gap: 28 },
@@ -175,5 +173,5 @@ const s = {
   dividerText: { position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)', background: 'white', padding: '0 12px', fontSize: 12, color: 'var(--text-300)' },
   guestBtn: { width: '100%', padding: '12px', borderRadius: 12, border: '1.5px solid rgba(180,140,90,0.2)', background: 'rgba(255,255,255,0.5)', color: 'var(--text-700)', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', backdropFilter: 'blur(8px)', marginBottom: 18 },
   switchText: { textAlign: 'center', fontSize: 13, color: 'var(--text-500)' },
-  switchLink: { background: 'none', border: 'none', color: 'var(--amber)', fontWeight: 700, fontSize: 13, cursor: 'pointer' },
+  switchLink: { background: 'none', border: 'none', color: '#f59e0b', fontWeight: 700, fontSize: 13, cursor: 'pointer' },
 };

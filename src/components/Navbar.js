@@ -23,17 +23,30 @@ export default function Navbar() {
   return (
     <nav style={{ ...styles.nav, ...(scrolled ? styles.navScrolled : {}) }}>
       <div style={styles.inner}>
-        {/* Logo */}
-        <Link to="/" style={styles.logo}>
-          <div style={styles.logoIcon}>
-            <svg width="18" height="18" fill="white" viewBox="0 0 24 24">
-              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="1.5" fill="none"/>
-            </svg>
-          </div>
-          <span style={styles.logoText}>DevFolio</span>
+
+        {/* ── Logo ── */}
+        <Link to="/" style={styles.logo} aria-label="DevFolio Analyzer home">
+          {/* Full wordmark — hidden on very small screens via CSS class */}
+          <img
+            src="/logo-full.svg"
+            alt="DevFolio Analyzer"
+            height="36"
+            width="180"
+            style={styles.logoFull}
+            draggable={false}
+          />
+          {/* Icon-only fallback at ≤ 360px — handled by CSS */}
+          <img
+            src="/logo-icon.svg"
+            alt="DevFolio"
+            height="36"
+            width="36"
+            style={styles.logoIcon}
+            draggable={false}
+          />
         </Link>
 
-        {/* Desktop Nav */}
+        {/* ── Desktop Nav ── */}
         <div style={styles.desktopLinks}>
           <button onClick={() => scrollTo('home')} style={styles.navLink}>Home</button>
           <button onClick={() => scrollTo('features')} style={styles.navLink}>Features</button>
@@ -50,11 +63,12 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Mobile Hamburger */}
+        {/* ── Mobile Hamburger ── */}
         <button
           style={styles.hamburger}
           onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
+          aria-label="Toggle navigation menu"
+          aria-expanded={menuOpen}
         >
           <span style={{ ...styles.bar, transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }} />
           <span style={{ ...styles.bar, opacity: menuOpen ? 0 : 1 }} />
@@ -62,7 +76,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* ── Mobile Menu ── */}
       {menuOpen && (
         <div style={styles.mobileMenu}>
           <button onClick={() => scrollTo('home')} style={styles.mobileLink}>Home</button>
@@ -100,21 +114,22 @@ const styles = {
     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
     height: 68,
   },
+
+  /* Logo: show full by default, icon-only hidden */
   logo: {
-    display: 'flex', alignItems: 'center', gap: 10,
-    textDecoration: 'none',
+    display: 'flex', alignItems: 'center',
+    textDecoration: 'none', flexShrink: 0,
+  },
+  logoFull: {
+    display: 'block',
+    objectFit: 'contain',
   },
   logoIcon: {
-    width: 36, height: 36, borderRadius: 10,
-    background: 'linear-gradient(135deg, #f59e0b, #ff6b35)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    boxShadow: '0 4px 12px rgba(245,158,11,0.35)',
+    display: 'none',       /* shown via media query in index.css if needed */
+    objectFit: 'contain',
+    borderRadius: 8,
   },
-  logoText: {
-    fontFamily: 'Syne, sans-serif',
-    fontSize: 20, fontWeight: 800,
-    color: '#1f2937',
-  },
+
   desktopLinks: {
     display: 'flex', alignItems: 'center', gap: 6,
   },

@@ -14,14 +14,19 @@ export default function Footer() {
   return (
     <footer style={styles.footer}>
       <div style={styles.inner}>
+
         {/* Left: Brand */}
         <div style={styles.brand}>
           <div style={styles.logoRow}>
-            <div style={styles.logoIcon}>
-              <svg width="16" height="16" fill="none" stroke="white" strokeWidth="1.8" viewBox="0 0 24 24">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-              </svg>
-            </div>
+            {/* Icon version inverted for dark footer */}
+            <img
+              src="/logo-icon.svg"
+              alt="DevFolio"
+              width={34}
+              height={34}
+              style={styles.logoImg}
+              draggable={false}
+            />
             <span style={styles.logoText}>DevFolio Analyzer</span>
           </div>
           <p style={styles.brandDesc}>
@@ -101,10 +106,13 @@ const styles = {
   },
   brand: { display: 'flex', flexDirection: 'column', gap: 14 },
   logoRow: { display: 'flex', alignItems: 'center', gap: 10 },
-  logoIcon: {
-    width: 34, height: 34, borderRadius: 9,
-    background: 'linear-gradient(135deg, #f59e0b, #ff6b35)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
+  /* The icon SVG has a dark (#0F172A) background — it reads well on the dark footer */
+  logoImg: {
+    objectFit: 'contain',
+    borderRadius: 8,
+    /* Slight brightness boost so it reads clearly against #1f2937 */
+    filter: 'brightness(1.15)',
+    flexShrink: 0,
   },
   logoText: {
     fontFamily: 'Syne, sans-serif', fontSize: 16, fontWeight: 800, color: 'white',

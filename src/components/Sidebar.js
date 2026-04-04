@@ -2,7 +2,16 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-export default function Sidebar({ onClose }) {
+/**
+ * Sidebar — branding updated to use SVG logo files.
+ * Expanded  → /logo-full.svg  (icon + wordmark)
+ * Collapsed → /logo-icon.svg  (icon only, 36×36)
+ *
+ * The sidebar doesn't have a built-in collapsed state in the current app,
+ * so we always show the full logo. The collapsed variant is wired up via
+ * the `collapsed` prop so it's ready when you add collapsing.
+ */
+export default function Sidebar({ onClose, collapsed = false }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const handleLogout = () => { logout(); navigate('/login'); };
@@ -15,21 +24,34 @@ export default function Sidebar({ onClose }) {
 
   return (
     <aside style={s.sidebar}>
-      {/* Logo */}
+
+      {/* ── Logo ── */}
       <div style={s.logoWrap}>
-        <div style={s.logoMark}>
-          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round">
-            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-          </svg>
-        </div>
-        <div>
-          <div style={s.logoName}>DevFolio</div>
-          <div style={s.logoSub}>Analyzer</div>
-        </div>
+        {collapsed ? (
+          /* Icon-only when sidebar is collapsed */
+          <img
+            src="/logo-icon.svg"
+            alt="DevFolio"
+            width={36}
+            height={36}
+            style={s.logoImgIcon}
+            draggable={false}
+          />
+        ) : (
+          /* Full wordmark when expanded */
+          <img
+            src="/logo-full.svg"
+            alt="DevFolio Analyzer"
+            height={34}
+            width={160}
+            style={s.logoImgFull}
+            draggable={false}
+          />
+        )}
       </div>
 
-      {/* Main nav */}
-      <div style={s.sectionLabel}>Main Menu</div>
+      {/* ── Main nav ── */}
+      {!collapsed && <div style={s.sectionLabel}>Main Menu</div>}
       <nav style={s.nav}>
         {mainItems.map((item) => (
           <NavLink key={item.to} to={item.to} onClick={onClose}
@@ -39,8 +61,8 @@ export default function Sidebar({ onClose }) {
                 <span style={{ ...s.iconBox, ...(isActive ? s.iconBoxActive : {}) }}>
                   {item.icon(isActive)}
                 </span>
-                <span style={s.linkLabel}>{item.label}</span>
-                {isActive && <span style={s.dot} />}
+                {!collapsed && <span style={s.linkLabel}>{item.label}</span>}
+                {isActive && !collapsed && <span style={s.dot} />}
               </>
             )}
           </NavLink>
@@ -49,28 +71,33 @@ export default function Sidebar({ onClose }) {
 
       <div style={{ flex: 1 }} />
 
-      {/* User */}
+      {/* ── User section ── */}
       <div style={s.userSection}>
         {user ? (
           <>
-            <div style={s.userCard}>
-              <div style={s.avatar}>{user.email[0].toUpperCase()}</div>
-              <div style={{ minWidth: 0 }}>
-                <div style={s.userName}>{user.email.split('@')[0]}</div>
-                <div style={s.userMeta}>{user.email}</div>
+            {!collapsed && (
+              <div style={s.userCard}>
+                <div style={s.avatar}>{user.email[0].toUpperCase()}</div>
+                <div style={{ minWidth: 0 }}>
+                  <div style={s.userName}>{user.email.split('@')[0]}</div>
+                  <div style={s.userMeta}>{user.email}</div>
+                </div>
               </div>
-            </div>
-            <button onClick={handleLogout} style={s.logoutBtn}>
-              {logoutIcon} Sign out
+            )}
+            <button onClick={handleLogout} style={{ ...s.logoutBtn, justifyContent: collapsed ? 'center' : 'flex-start' }}>
+              {logoutIcon}
+              {!collapsed && ' Sign out'}
             </button>
           </>
         ) : (
-          <div>
-            <div style={s.guestNote}>Guest — results not saved</div>
-            <button onClick={() => navigate('/login')} style={s.signInBtn}>
-              Sign in to save history
-            </button>
-          </div>
+          !collapsed && (
+            <div>
+              <div style={s.guestNote}>Guest — results not saved</div>
+              <button onClick={() => navigate('/login')} style={s.signInBtn}>
+                Sign in to save history
+              </button>
+            </div>
+          )
         )}
       </div>
     </aside>
@@ -78,8 +105,8 @@ export default function Sidebar({ onClose }) {
 }
 
 /* ── SVG icon factories ── */
-const mkIcon = (path, fill = false) => (active) => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill={fill ? 'currentColor' : 'none'}
+const mkIcon = (path) => (active) => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d={path} />
   </svg>
@@ -88,6 +115,7 @@ const mkIcon = (path, fill = false) => (active) => (
 const dashIcon   = mkIcon('M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z');
 const searchIcon = mkIcon('M21 21l-4.35-4.35M11 19A8 8 0 1 0 11 3a8 8 0 0 0 0 16z');
 const clockIcon  = mkIcon('M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z');
+
 const logoutIcon = (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
@@ -103,19 +131,23 @@ const s = {
     display: 'flex', flexDirection: 'column',
     padding: '22px 12px 20px', flexShrink: 0,
   },
+
+  /* Logo */
   logoWrap: {
-    display: 'flex', alignItems: 'center', gap: 10,
+    display: 'flex', alignItems: 'center',
     padding: '2px 8px 20px',
     borderBottom: '1px solid rgba(180,140,90,0.1)', marginBottom: 20,
+    minHeight: 52,
   },
-  logoMark: {
-    width: 36, height: 36, borderRadius: 11,
-    background: 'linear-gradient(135deg, #f59e0b, #e07800)',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    boxShadow: '0 4px 12px rgba(245,158,11,0.3)', flexShrink: 0,
+  logoImgFull: {
+    objectFit: 'contain',
+    /* SVG has dark text — always readable on the sidebar's light bg */
   },
-  logoName: { fontFamily: 'Syne, sans-serif', fontSize: 15, fontWeight: 800, color: '#1a1207' },
-  logoSub: { fontSize: 9.5, color: '#c0a880', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 600 },
+  logoImgIcon: {
+    objectFit: 'contain',
+    borderRadius: 8,
+  },
+
   sectionLabel: {
     fontSize: 10, fontWeight: 700, color: '#c0a880',
     textTransform: 'uppercase', letterSpacing: '0.1em', padding: '0 10px 8px',
@@ -141,6 +173,8 @@ const s = {
     width: 6, height: 6, borderRadius: '50%',
     background: '#f59e0b', boxShadow: '0 0 6px rgba(245,158,11,0.5)',
   },
+
+  /* User */
   userSection: { borderTop: '1px solid rgba(180,140,90,0.1)', paddingTop: 14 },
   userCard: {
     display: 'flex', alignItems: 'center', gap: 9,
@@ -160,6 +194,7 @@ const s = {
     width: '100%', padding: '8px 10px', borderRadius: 10,
     background: 'none', border: '1px solid rgba(180,140,90,0.14)',
     color: '#a09080', fontSize: 12.5, fontWeight: 500, transition: 'all 0.15s',
+    cursor: 'pointer',
   },
   guestNote: { fontSize: 11.5, color: '#b0a090', marginBottom: 10, padding: '0 2px' },
   signInBtn: {
@@ -167,5 +202,6 @@ const s = {
     background: 'linear-gradient(135deg, #f59e0b, #e07800)',
     color: 'white', fontSize: 13, fontWeight: 600,
     boxShadow: '0 4px 14px rgba(245,158,11,0.28)',
+    cursor: 'pointer',
   },
 };

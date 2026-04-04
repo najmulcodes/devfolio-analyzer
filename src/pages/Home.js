@@ -43,11 +43,11 @@ export default function Home() {
         <div style={styles.heroInner}>
           <div style={{ ...fade, ...styles.heroBadge }} data-fade>
             <span style={styles.badgeDot} />
-            AI-Powered Portfolio Analysis
+            AI-Powered Portfolio & Github Analysis
           </div>
 
           <h1 style={{ ...fade, ...styles.heroTitle, transitionDelay: '0.1s' }} data-fade>
-            Analyze Your Developer Portfolio
+            Analyze Your Developer Portfolio & Github
             <span style={{ color: '#f59e0b' }}> Like a Recruiter</span>
           </h1>
 

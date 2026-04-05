@@ -47,9 +47,11 @@ export default function Home() {
           </div>
 
           <h1 style={{ ...fade, ...styles.heroTitle, transitionDelay: '0.1s' }} data-fade>
-            Analyze Your Developer Portfolio & Github
-            <p style={{ color: '#f59e0b' }}> Like a Recruiter</p>
-          </h1>
+           Analyze Your Developer Portfolio & Github
+             <span style={{ display: 'block', color: '#f59e0b', marginTop: 4 }}>
+            Like a Recruiter
+           </span>
+            </h1>
 
           <p style={{ ...fade, ...styles.heroSub, transitionDelay: '0.2s' }} data-fade>
             Get instant insights, scores, and improvement suggestions for your GitHub profile.
@@ -304,7 +306,7 @@ const styles = {
   /* hero */
   hero: {
     maxWidth: 1200, margin: '0 auto',
-    padding: '80px 48px 100px',
+    padding: '80px 48px 60px',
     display: 'flex',
     alignItems: 'center',
     gap: 60,
@@ -324,27 +326,58 @@ const styles = {
   heroInner: { flex: 1, position: 'relative', zIndex: 1 },
 
   heroBadge: {
-    display: 'inline-flex', alignItems: 'center', gap: 7,
-    background: 'rgba(245,158,11,0.12)',
-    color: '#92400e', fontSize: 12, fontWeight: 600,
-    padding: '5px 14px', borderRadius: 99,
-    marginBottom: 20, letterSpacing: '0.02em',
-    border: '1px solid rgba(245,158,11,0.22)',
-  },
-  badgeDot: {
-    width: 7, height: 7, borderRadius: '50%',
-    background: '#f59e0b', flexShrink: 0,
-    boxShadow: '0 0 0 3px rgba(245,158,11,0.22)',
-  },
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 8,
+
+  padding: '6px 16px',
+  borderRadius: 999,
+
+  fontSize: 12,
+  fontWeight: 600,
+  letterSpacing: '0.02em',
+
+  color: '#b45309',
+
+  background: 'linear-gradient(135deg, rgba(245,158,11,0.18), rgba(251,191,36,0.10))',
+  border: '1px solid rgba(245,158,11,0.35)',
+
+  boxShadow: `
+    inset 0 0 0 1px rgba(255,255,255,0.15),
+    0 4px 12px rgba(245,158,11,0.20),
+    0 0 24px rgba(245,158,11,0.12)
+  `,
+
+  backdropFilter: 'blur(6px)',
+  WebkitBackdropFilter: 'blur(6px)',
+
+  marginBottom: 30, // kept same spacing as your original
+},
+
+badgeDot: {
+  width: 8,
+  height: 8,
+  borderRadius: '50%',
+  background: '#f59e0b',
+  flexShrink: 0,
+
+  boxShadow: `
+    0 0 6px #f59e0b,
+    0 0 12px rgba(245,158,11,0.7),
+    0 0 20px rgba(245,158,11,0.5)
+  `,
+
+  animation: 'pulseGlow 2s ease-in-out infinite',
+},
   heroTitle: {
     fontSize: 'clamp(32px, 4.5vw, 52px)',
     fontWeight: 700, color: '#1a1a1a', lineHeight: 1.18,
-    marginBottom: 20, letterSpacing: '-0.5px',
+    marginBottom: 25, letterSpacing: '-0.5px',
   },
   heroSub: {
-    fontSize: 16, color: '#6b7280', lineHeight: 1.72, marginBottom: 32,
+    fontSize: 16, color: '#6b7280', lineHeight: 1.72, marginBottom: 25,
   },
-  heroBtns: { display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 42 },
+  heroBtns: { display: 'flex', gap: 12, flexWrap: 'wrap', marginBottom: 25 },
 
   primaryBtn: {
     display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -402,7 +435,7 @@ const styles = {
   mockScore:   { fontSize: 12.5, fontWeight: 700, color: '#f59e0b', width: 24, textAlign: 'right' },
 
   /* features */
-  featuresSection: { padding: '96px 48px', background: '#fff' },
+  featuresSection: { padding: '30px 48px', background: '#fff' },
   sectionTag: {
     display: 'inline-block',
     background: 'rgba(245,158,11,0.10)',

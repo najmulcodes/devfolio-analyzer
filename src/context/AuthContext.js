@@ -1,62 +1,61 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import api from '../utils/api';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext(null);
+// ── Named export: AuthContext ────────────────────────────────────────────────
+// Exported directly so both `import { AuthContext }` and `useAuth()` work.
+// Navbar and Sidebar import { AuthContext }; pages use useAuth() — both valid.
+export const AuthContext = createContext(null);
 
+// ── Provider ─────────────────────────────────────────────────────────────────
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(() => localStorage.getItem('token'));
+  const [user,    setUser]    = useState(null);
+  const [token,   setToken]   = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchMe = useCallback(async (t) => {
-    if (!t) { setLoading(false); return; }
+  // Rehydrate from localStorage on mount
+  useEffect(() => {
     try {
-      const res = await api.get('/auth/me', {
-        headers: { Authorization: `Bearer ${t}` },
-      });
-      setUser(res.data.user);
+      const storedToken = localStorage.getItem('devfolio_token');
+      const storedUser  = localStorage.getItem('devfolio_user');
+      if (storedToken && storedUser) {
+        setToken(storedToken);
+        setUser(JSON.parse(storedUser));
+      }
     } catch {
-      localStorage.removeItem('token');
-      setToken(null);
-      setUser(null);
+      // Corrupted storage — clear it
+      localStorage.removeItem('devfolio_token');
+      localStorage.removeItem('devfolio_user');
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => {
-    fetchMe(token);
-  }, [token, fetchMe]);
-
-  const login = async (email, password) => {
-    const res = await api.post('/auth/login', { email, password });
-    const { token: t, user: u } = res.data;
-    localStorage.setItem('token', t);
-    setToken(t);
-    setUser(u);
-    return u;
-  };
-
-  const register = async (email, password) => {
-    const res = await api.post('/auth/register', { email, password });
-    const { token: t, user: u } = res.data;
-    localStorage.setItem('token', t);
-    setToken(t);
-    setUser(u);
-    return u;
+  const login = (userData, authToken) => {
+    setUser(userData);
+    setToken(authToken);
+    localStorage.setItem('devfolio_token', authToken);
+    localStorage.setItem('devfolio_user', JSON.stringify(userData));
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    setToken(null);
     setUser(null);
+    setToken(null);
+    localStorage.removeItem('devfolio_token');
+    localStorage.removeItem('devfolio_user');
   };
 
+  const value = { user, token, loading, login, logout };
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+// ── Convenience hook ──────────────────────────────────────────────────────────
+// Pages: const { user, login, logout } = useAuth();
+export const useAuth = () => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) throw new Error('useAuth must be used inside <AuthProvider>');
+  return ctx;
+};

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Background pill -->
+  <rect width="32" height="32" rx="8" fill="#f59e0b"/>
+  <!-- Code brackets < > -->
+  <path d="M10 11L5 16L10 21" stroke="#1f2937" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M22 11L27 16L22 21" stroke="#1f2937" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Score tick / checkmark overlay -->
+  <path d="M13.5 16.5L15.5 18.5L19 14" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,207 +1,155 @@
-import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React, { useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+// ✅ FIX: AuthContext is now a named export from AuthContext.js
+import { AuthContext } from '../context/AuthContext';
 
-/**
- * Sidebar — branding updated to use SVG logo files.
- * Expanded  → /logo-full.svg  (icon + wordmark)
- * Collapsed → /logo-icon.svg  (icon only, 36×36)
- *
- * The sidebar doesn't have a built-in collapsed state in the current app,
- * so we always show the full logo. The collapsed variant is wired up via
- * the `collapsed` prop so it's ready when you add collapsing.
- */
-export default function Sidebar({ onClose, collapsed = false }) {
-  const { user, logout } = useAuth();
-  const navigate = useNavigate();
-  const handleLogout = () => { logout(); navigate('/login'); };
+const LogoMark = () => (
+  <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="32" height="32" rx="8" fill="#f59e0b"/>
+    <path d="M10 11L5 16L10 21" stroke="#1f2937" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M22 11L27 16L22 21" stroke="#1f2937" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M13.5 16.5L15.5 18.5L19 14" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 
-  const mainItems = [
-    { to: '/dashboard', label: 'Dashboard', icon: dashIcon },
-    { to: '/analyze',   label: 'Analyze',   icon: searchIcon },
-    ...(user ? [{ to: '/history', label: 'History', icon: clockIcon }] : []),
-  ];
+const NAV_ITEMS = [
+  { to: '/analyze',   label: 'Analyze',   icon: '🔍' },
+  { to: '/dashboard', label: 'Dashboard', icon: '📊' },
+  { to: '/history',   label: 'History',   icon: '📋' },
+];
+
+export default function Sidebar() {
+  const location             = useLocation();
+  const navigate             = useNavigate();
+  const { user, logout }     = useContext(AuthContext);
+
+  const isActive     = (path) => location.pathname.startsWith(path);
+  const handleLogout = () => { logout(); navigate('/'); };
 
   return (
-    <aside style={s.sidebar}>
-
-      {/* ── Logo ── */}
-      <div style={s.logoWrap}>
-        {collapsed ? (
-          /* Icon-only when sidebar is collapsed */
-          <img
-            src="/logo-icon.svg"
-            alt="DevFolio"
-            width={36}
-            height={36}
-            style={s.logoImgIcon}
-            draggable={false}
-          />
-        ) : (
-          /* Full wordmark when expanded */
-          <img
-            src="/logo-full.svg"
-            alt="DevFolio Analyzer"
-            height={34}
-            width={160}
-            style={s.logoImgFull}
-            draggable={false}
-          />
-        )}
+    <aside style={{
+      width: 240,
+      minHeight: '100vh',
+      background: 'var(--sidebar-bg)',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '24px 0',
+      flexShrink: 0,
+    }}>
+      {/* Logo */}
+      <div style={{ padding: '0 20px 24px' }}>
+        <Link
+          to="/"
+          style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
+        >
+          <LogoMark />
+          <span style={{
+            fontFamily: 'var(--font-display)',
+            fontWeight: 800,
+            fontSize: '1.125rem',
+            color: 'white',
+            letterSpacing: '-0.03em',
+          }}>
+            Dev<span style={{ color: 'var(--orange)' }}>Folio</span>
+          </span>
+        </Link>
       </div>
 
-      {/* ── Main nav ── */}
-      {!collapsed && <div style={s.sectionLabel}>Main Menu</div>}
-      <nav style={s.nav}>
-        {mainItems.map((item) => (
-          <NavLink key={item.to} to={item.to} onClick={onClose}
-            style={({ isActive }) => ({ ...s.link, ...(isActive ? s.linkActive : {}) })}>
-            {({ isActive }) => (
-              <>
-                <span style={{ ...s.iconBox, ...(isActive ? s.iconBoxActive : {}) }}>
-                  {item.icon(isActive)}
-                </span>
-                {!collapsed && <span style={s.linkLabel}>{item.label}</span>}
-                {isActive && !collapsed && <span style={s.dot} />}
-              </>
+      {/* Nav */}
+      <nav style={{ flex: 1, padding: '0 12px' }}>
+        {NAV_ITEMS.map(({ to, label, icon }) => (
+          <Link
+            key={to}
+            to={to}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: '10px 12px',
+              borderRadius: 'var(--radius-md)',
+              textDecoration: 'none',
+              marginBottom: 4,
+              background: isActive(to) ? 'rgba(245,158,11,0.15)' : 'transparent',
+              color: isActive(to) ? 'var(--orange)' : 'var(--sidebar-text)',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={e => {
+              if (!isActive(to)) e.currentTarget.style.background = 'rgba(255,255,255,0.06)';
+            }}
+            onMouseLeave={e => {
+              if (!isActive(to)) e.currentTarget.style.background = 'transparent';
+            }}
+          >
+            <span style={{ fontSize: '1rem', width: 20, textAlign: 'center' }}>{icon}</span>
+            <span style={{
+              fontFamily: 'var(--font-ui)',
+              fontWeight: 500,
+              fontSize: '0.9rem',
+            }}>
+              {label}
+            </span>
+            {isActive(to) && (
+              <span style={{
+                marginLeft: 'auto',
+                width: 4,
+                height: 4,
+                borderRadius: '50%',
+                background: 'var(--orange)',
+              }} />
             )}
-          </NavLink>
+          </Link>
         ))}
       </nav>
 
-      <div style={{ flex: 1 }} />
-
-      {/* ── User section ── */}
-      <div style={s.userSection}>
-        {user ? (
-          <>
-            {!collapsed && (
-              <div style={s.userCard}>
-                <div style={s.avatar}>{user.email[0].toUpperCase()}</div>
-                <div style={{ minWidth: 0 }}>
-                  <div style={s.userName}>{user.email.split('@')[0]}</div>
-                  <div style={s.userMeta}>{user.email}</div>
-                </div>
-              </div>
-            )}
-            <button onClick={handleLogout} style={{ ...s.logoutBtn, justifyContent: collapsed ? 'center' : 'flex-start' }}>
-              {logoutIcon}
-              {!collapsed && ' Sign out'}
-            </button>
-          </>
-        ) : (
-          !collapsed && (
-            <div>
-              <div style={s.guestNote}>Guest — results not saved</div>
-              <button onClick={() => navigate('/login')} style={s.signInBtn}>
-                Sign in to save history
-              </button>
-            </div>
-          )
-        )}
-      </div>
+      {/* User footer */}
+      {user && (
+        <div style={{
+          padding: '16px 20px',
+          borderTop: '1px solid rgba(255,255,255,0.08)',
+          marginTop: 'auto',
+        }}>
+          <div style={{
+            fontFamily: 'var(--font-ui)',
+            fontSize: '0.75rem',
+            color: 'rgba(255,255,255,0.4)',
+            marginBottom: 6,
+            textTransform: 'uppercase',
+            letterSpacing: '0.06em',
+          }}>
+            Signed in as
+          </div>
+          <div style={{
+            fontFamily: 'var(--font-ui)',
+            fontSize: '0.875rem',
+            color: 'var(--sidebar-text)',
+            marginBottom: 12,
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}>
+            {user.email}
+          </div>
+          <button
+            onClick={handleLogout}
+            style={{
+              width: '100%',
+              padding: '8px',
+              borderRadius: 'var(--radius-md)',
+              background: 'rgba(255,255,255,0.08)',
+              border: '1px solid rgba(255,255,255,0.12)',
+              color: 'var(--sidebar-text)',
+              fontFamily: 'var(--font-ui)',
+              fontSize: '0.8125rem',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={e => e.currentTarget.style.background = 'rgba(245,158,11,0.2)'}
+            onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.08)'}
+          >
+            Sign out
+          </button>
+        </div>
+      )}
     </aside>
   );
 }
-
-/* ── SVG icon factories ── */
-const mkIcon = (path) => (active) => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d={path} />
-  </svg>
-);
-
-const dashIcon   = mkIcon('M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z');
-const searchIcon = mkIcon('M21 21l-4.35-4.35M11 19A8 8 0 1 0 11 3a8 8 0 0 0 0 16z');
-const clockIcon  = mkIcon('M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z');
-
-const logoutIcon = (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
-  </svg>
-);
-
-const s = {
-  sidebar: {
-    width: 240, minWidth: 240, height: '100vh',
-    background: 'rgba(255,255,255,0.62)',
-    backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
-    borderRight: '1px solid rgba(255,255,255,0.88)',
-    display: 'flex', flexDirection: 'column',
-    padding: '22px 12px 20px', flexShrink: 0,
-  },
-
-  /* Logo */
-  logoWrap: {
-    display: 'flex', alignItems: 'center',
-    padding: '2px 8px 20px',
-    borderBottom: '1px solid rgba(180,140,90,0.1)', marginBottom: 20,
-    minHeight: 52,
-  },
-  logoImgFull: {
-    objectFit: 'contain',
-    /* SVG has dark text — always readable on the sidebar's light bg */
-  },
-  logoImgIcon: {
-    objectFit: 'contain',
-    borderRadius: 8,
-  },
-
-  sectionLabel: {
-    fontSize: 10, fontWeight: 700, color: '#c0a880',
-    textTransform: 'uppercase', letterSpacing: '0.1em', padding: '0 10px 8px',
-  },
-  nav: { display: 'flex', flexDirection: 'column', gap: 2 },
-  link: {
-    display: 'flex', alignItems: 'center', gap: 10,
-    padding: '9px 10px', borderRadius: 12,
-    color: '#7c6a55', fontSize: 13.5, fontWeight: 500,
-    textDecoration: 'none', transition: 'all 0.15s',
-    position: 'relative',
-  },
-  linkActive: { background: 'rgba(245,158,11,0.11)', color: '#92400e', fontWeight: 600 },
-  iconBox: {
-    width: 32, height: 32, borderRadius: 9, flexShrink: 0,
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    background: 'rgba(180,140,90,0.08)', color: '#9ca3af',
-    transition: 'all 0.15s',
-  },
-  iconBoxActive: { background: 'rgba(245,158,11,0.16)', color: '#f59e0b' },
-  linkLabel: { flex: 1 },
-  dot: {
-    width: 6, height: 6, borderRadius: '50%',
-    background: '#f59e0b', boxShadow: '0 0 6px rgba(245,158,11,0.5)',
-  },
-
-  /* User */
-  userSection: { borderTop: '1px solid rgba(180,140,90,0.1)', paddingTop: 14 },
-  userCard: {
-    display: 'flex', alignItems: 'center', gap: 9,
-    padding: '9px 10px', borderRadius: 12,
-    background: 'rgba(245,158,11,0.06)', marginBottom: 8,
-  },
-  avatar: {
-    width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-    background: 'linear-gradient(135deg, #f59e0b, #e07800)',
-    color: 'white', display: 'flex', alignItems: 'center',
-    justifyContent: 'center', fontSize: 13, fontWeight: 700,
-  },
-  userName: { fontSize: 13, fontWeight: 600, color: '#1a1207', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
-  userMeta: { fontSize: 11, color: '#b0a090', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' },
-  logoutBtn: {
-    display: 'flex', alignItems: 'center', gap: 7,
-    width: '100%', padding: '8px 10px', borderRadius: 10,
-    background: 'none', border: '1px solid rgba(180,140,90,0.14)',
-    color: '#a09080', fontSize: 12.5, fontWeight: 500, transition: 'all 0.15s',
-    cursor: 'pointer',
-  },
-  guestNote: { fontSize: 11.5, color: '#b0a090', marginBottom: 10, padding: '0 2px' },
-  signInBtn: {
-    width: '100%', padding: '10px', borderRadius: 11, border: 'none',
-    background: 'linear-gradient(135deg, #f59e0b, #e07800)',
-    color: 'white', fontSize: 13, fontWeight: 600,
-    boxShadow: '0 4px 14px rgba(245,158,11,0.28)',
-    cursor: 'pointer',
-  },
-};

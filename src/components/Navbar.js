@@ -1,184 +1,315 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+// ✅ FIX: AuthContext is now a named export from AuthContext.js
+import { AuthContext } from '../context/AuthContext';
+
+/* ── Inline logo SVG — matches favicon, scalable ───────────────────── */
+const LogoMark = () => (
+  <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="32" height="32" rx="8" fill="#f59e0b"/>
+    <path d="M10 11L5 16L10 21" stroke="#1f2937" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M22 11L27 16L22 21" stroke="#1f2937" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M13.5 16.5L15.5 18.5L19 14" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const NAV_LINKS = [
+  { to: '/',          label: 'Home'      },
+  { to: '/analyze',   label: 'Analyze'   },
+  { to: '/dashboard', label: 'Dashboard' },
+  { to: '/history',   label: 'History'   },
+];
 
 export default function Navbar() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
+  // Consume via context — AuthContext is exported so useContext works here
+  const { user, logout } = useContext(AuthContext);
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
+    window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const scrollTo = (id) => {
-    setMenuOpen(false);
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  };
+  // Close mobile menu on route change
+  useEffect(() => { setMenuOpen(false); }, [location.pathname]);
+
+  const handleLogout = () => { logout(); navigate('/'); };
+
+  const isActive = (path) =>
+    path === '/' ? location.pathname === '/' : location.pathname.startsWith(path);
 
   return (
-    <nav style={{ ...styles.nav, ...(scrolled ? styles.navScrolled : {}) }}>
-      <div style={styles.inner}>
+    <>
+      <nav style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        padding: scrolled ? '10px 0' : '14px 0',
+        background: scrolled
+          ? 'rgba(253, 246, 239, 0.92)'
+          : 'rgba(253, 246, 239, 0.75)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+        borderBottom: scrolled ? '1px solid #f0e4d4' : '1px solid transparent',
+        boxShadow: scrolled ? '0 2px 12px rgba(0,0,0,0.06)' : 'none',
+        transition: 'all 0.25s ease',
+      }}>
+        <div style={{
+          maxWidth: 1200,
+          margin: '0 auto',
+          padding: '0 24px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+          {/* Logo */}
+          <Link
+            to="/"
+            style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
+          >
+            <LogoMark />
+            <span style={{
+              fontFamily: 'var(--font-display)',
+              fontWeight: 800,
+              fontSize: '1.125rem',
+              color: 'var(--text-dark)',
+              letterSpacing: '-0.03em',
+            }}>
+              Dev<span style={{ color: 'var(--orange)' }}>Folio</span>
+            </span>
+          </Link>
 
-        {/* ── Logo ── */}
-        <Link to="/" style={styles.logo} aria-label="DevFolio Analyzer home">
-          {/* Full wordmark — hidden on very small screens via CSS class */}
-          <img
-            src="/logo-full.svg"
-            alt="DevFolio Analyzer"
-            height="36"
-            width="180"
-            style={styles.logoFull}
-            draggable={false}
-          />
-          {/* Icon-only fallback at ≤ 360px — handled by CSS */}
-          <img
-            src="/logo-icon.svg"
-            alt="DevFolio"
-            height="36"
-            width="36"
-            style={styles.logoIcon}
-            draggable={false}
-          />
-        </Link>
+          {/* Desktop nav links */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }} className="desktop-nav">
+            {NAV_LINKS.map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                style={{
+                  fontFamily: 'var(--font-ui)',
+                  fontWeight: 500,
+                  fontSize: '0.9rem',
+                  color: isActive(to) ? 'var(--orange)' : 'var(--text-mid)',
+                  textDecoration: 'none',
+                  padding: '6px 14px',
+                  borderRadius: 'var(--radius-md)',
+                  background: isActive(to) ? 'var(--orange-pale)' : 'transparent',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={e => {
+                  if (!isActive(to)) {
+                    e.currentTarget.style.background = 'var(--cream-dark)';
+                    e.currentTarget.style.color = 'var(--text-dark)';
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!isActive(to)) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = 'var(--text-mid)';
+                  }
+                }}
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
 
-        {/* ── Desktop Nav ── */}
-        <div style={styles.desktopLinks}>
-          <button onClick={() => scrollTo('home')} style={styles.navLink}>Home</button>
-          <button onClick={() => scrollTo('features')} style={styles.navLink}>Features</button>
-          <button onClick={() => scrollTo('how-it-works')} style={styles.navLink}>How It Works</button>
+          {/* Auth section — desktop */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }} className="desktop-nav">
+            {user ? (
+              <>
+                <span style={{
+                  fontFamily: 'var(--font-ui)',
+                  fontSize: '0.875rem',
+                  color: 'var(--text-light)',
+                }}>
+                  {user.email?.split('@')[0]}
+                </span>
+                <button
+                  onClick={handleLogout}
+                  style={{
+                    fontFamily: 'var(--font-ui)',
+                    fontWeight: 500,
+                    fontSize: '0.875rem',
+                    padding: '7px 16px',
+                    borderRadius: 'var(--radius-md)',
+                    background: 'transparent',
+                    border: '1.5px solid var(--card-border)',
+                    color: 'var(--text-mid)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.borderColor = 'var(--orange)';
+                    e.currentTarget.style.color = 'var(--orange)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.borderColor = 'var(--card-border)';
+                    e.currentTarget.style.color = 'var(--text-mid)';
+                  }}
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <Link
+                to="/login"
+                style={{
+                  fontFamily: 'var(--font-ui)',
+                  fontWeight: 500,
+                  fontSize: '0.9rem',
+                  padding: '8px 20px',
+                  borderRadius: 'var(--radius-md)',
+                  background: 'linear-gradient(135deg, var(--orange), var(--orange-light))',
+                  color: 'white',
+                  textDecoration: 'none',
+                  boxShadow: '0 2px 8px rgba(245,158,11,0.3)',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(245,158,11,0.45)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(245,158,11,0.3)';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                Sign in
+              </Link>
+            )}
+          </div>
 
-          {user ? (
-            <button onClick={() => navigate('/dashboard')} style={styles.navLink}>Dashboard</button>
-          ) : (
-            <button onClick={() => navigate('/login')} style={styles.navLink}>Login</button>
-          )}
-
-          <button onClick={() => navigate('/analyze')} style={styles.analyzeBtn}>
-            Analyze Now
+          {/* Hamburger — mobile only */}
+          <button
+            className="hamburger"
+            onClick={() => setMenuOpen(v => !v)}
+            style={{
+              display: 'none',
+              flexDirection: 'column',
+              gap: 5,
+              padding: 8,
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              borderRadius: 'var(--radius-sm)',
+            }}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+          >
+            {[0, 1, 2].map(i => (
+              <span key={i} style={{
+                display: 'block',
+                width: 22,
+                height: 2,
+                background: 'var(--text-dark)',
+                borderRadius: 2,
+                transition: 'all 0.2s ease',
+              }} />
+            ))}
           </button>
         </div>
+      </nav>
 
-        {/* ── Mobile Hamburger ── */}
-        <button
-          style={styles.hamburger}
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle navigation menu"
-          aria-expanded={menuOpen}
-        >
-          <span style={{ ...styles.bar, transform: menuOpen ? 'rotate(45deg) translate(5px, 5px)' : 'none' }} />
-          <span style={{ ...styles.bar, opacity: menuOpen ? 0 : 1 }} />
-          <span style={{ ...styles.bar, transform: menuOpen ? 'rotate(-45deg) translate(5px, -5px)' : 'none' }} />
-        </button>
-      </div>
-
-      {/* ── Mobile Menu ── */}
+      {/* Mobile overlay menu */}
       {menuOpen && (
-        <div style={styles.mobileMenu}>
-          <button onClick={() => scrollTo('home')} style={styles.mobileLink}>Home</button>
-          <button onClick={() => scrollTo('features')} style={styles.mobileLink}>Features</button>
-          <button onClick={() => scrollTo('how-it-works')} style={styles.mobileLink}>How It Works</button>
+        <div style={{
+          position: 'fixed',
+          top: 40,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 999,
+          background: 'rgba(253, 246, 239, 0.98)',
+          backdropFilter: 'blur(12px)',
+          padding: '24px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 8,
+          animation: 'fadeIn 0.2s ease',
+        }}>
+          {NAV_LINKS.map(({ to, label }) => (
+            <Link
+              key={to}
+              to={to}
+              style={{
+                fontFamily: 'var(--font-ui)',
+                fontWeight: 500,
+                fontSize: '1.125rem',
+                color: isActive(to) ? 'var(--orange)' : 'var(--text-dark)',
+                textDecoration: 'none',
+                padding: '14px 16px',
+                borderRadius: 'var(--radius-md)',
+                background: isActive(to) ? 'var(--orange-pale)' : 'transparent',
+              }}
+            >
+              {label}
+            </Link>
+          ))}
+          <div style={{ height: 1, background: 'var(--card-border)', margin: '8px 0' }} />
           {user ? (
-            <button onClick={() => { navigate('/dashboard'); setMenuOpen(false); }} style={styles.mobileLink}>Dashboard</button>
+            <button
+              onClick={handleLogout}
+              style={{
+                fontFamily: 'var(--font-ui)',
+                fontWeight: 500,
+                fontSize: '1rem',
+                padding: '14px 16px',
+                borderRadius: 'var(--radius-md)',
+                background: 'var(--orange-pale)',
+                border: 'none',
+                color: 'var(--orange)',
+                cursor: 'pointer',
+                textAlign: 'left',
+              }}
+            >
+              Sign out
+            </button>
           ) : (
-            <button onClick={() => { navigate('/login'); setMenuOpen(false); }} style={styles.mobileLink}>Login / Register</button>
+            <Link
+              to="/login"
+              style={{
+                fontFamily: 'var(--font-ui)',
+                fontWeight: 500,
+                fontSize: '1rem',
+                padding: '14px 16px',
+                borderRadius: 'var(--radius-md)',
+                background: 'linear-gradient(135deg, var(--orange), var(--orange-light))',
+                color: 'white',
+                textDecoration: 'none',
+                textAlign: 'center',
+              }}
+            >
+              Sign in
+            </Link>
           )}
-          <button onClick={() => { navigate('/analyze'); setMenuOpen(false); }} style={styles.mobileAnalyzeBtn}>
-            Analyze Now →
-          </button>
         </div>
       )}
-    </nav>
+
+      {/* Height offset for fixed nav */}
+      <div style={{ height: 30 }} />
+
+      <style>{`
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .hamburger   { display: flex !important; }
+        }
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to   { opacity: 1; }
+        }
+      `}</style>
+    </>
   );
 }
-
-const styles = {
-  nav: {
-    position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-    transition: 'all 0.3s ease',
-    padding: '0 24px',
-  },
-  navScrolled: {
-    background: 'rgba(253, 246, 239, 0.88)',
-    backdropFilter: 'blur(16px)',
-    WebkitBackdropFilter: 'blur(16px)',
-    boxShadow: '0 2px 24px rgba(139,69,19,0.08)',
-    borderBottom: '1px solid rgba(245, 158, 11, 0.12)',
-  },
-  inner: {
-    maxWidth: 1120, margin: '0 auto',
-    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-    height: 68,
-  },
-
-  /* Logo: show full by default, icon-only hidden */
-  logo: {
-    display: 'flex', alignItems: 'center',
-    textDecoration: 'none', flexShrink: 0,
-  },
-  logoFull: {
-    display: 'block',
-    objectFit: 'contain',
-  },
-  logoIcon: {
-    display: 'none',       /* shown via media query in index.css if needed */
-    objectFit: 'contain',
-    borderRadius: 8,
-  },
-
-  desktopLinks: {
-    display: 'flex', alignItems: 'center', gap: 6,
-  },
-  navLink: {
-    background: 'none', border: 'none', cursor: 'pointer',
-    padding: '8px 14px', borderRadius: 8,
-    fontSize: 14, fontWeight: 500, color: '#4b5563',
-    transition: 'color 0.15s, background 0.15s',
-    fontFamily: 'Poppins, sans-serif',
-  },
-  analyzeBtn: {
-    padding: '9px 20px', borderRadius: 10,
-    background: 'linear-gradient(135deg, #f59e0b, #ff6b35)',
-    border: 'none', color: 'white',
-    fontSize: 14, fontWeight: 600, cursor: 'pointer',
-    boxShadow: '0 4px 14px rgba(245,158,11,0.35)',
-    transition: 'transform 0.15s, box-shadow 0.15s',
-    fontFamily: 'Poppins, sans-serif',
-    marginLeft: 8,
-  },
-  hamburger: {
-    display: 'none',
-    flexDirection: 'column', gap: 4,
-    background: 'none', border: 'none', cursor: 'pointer', padding: 8,
-  },
-  bar: {
-    display: 'block', width: 22, height: 2,
-    background: '#1f2937', borderRadius: 2,
-    transition: 'all 0.25s ease',
-  },
-  mobileMenu: {
-    background: 'rgba(253,246,239,0.97)',
-    backdropFilter: 'blur(16px)',
-    padding: '16px 24px 24px',
-    display: 'flex', flexDirection: 'column', gap: 4,
-    borderTop: '1px solid rgba(245,158,11,0.12)',
-  },
-  mobileLink: {
-    background: 'none', border: 'none', cursor: 'pointer',
-    padding: '12px 8px', textAlign: 'left',
-    fontSize: 15, fontWeight: 500, color: '#374151',
-    borderBottom: '1px solid rgba(0,0,0,0.05)',
-    fontFamily: 'Poppins, sans-serif',
-  },
-  mobileAnalyzeBtn: {
-    marginTop: 12, padding: '13px 20px', borderRadius: 10,
-    background: 'linear-gradient(135deg, #f59e0b, #ff6b35)',
-    border: 'none', color: 'white',
-    fontSize: 15, fontWeight: 600, cursor: 'pointer',
-    fontFamily: 'Poppins, sans-serif',
-  },
-};

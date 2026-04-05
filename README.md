@@ -1,95 +1,75 @@
-# DevFolio Analyzer — Frontend
-
 <div align="center">
 
-![DevFolio Analyzer](https://img.shields.io/badge/DevFolio-Analyzer-f59e0b?style=for-the-badge&logo=react&logoColor=white)
+# DevFolio Analyzer
+
+![DevFolio](https://img.shields.io/badge/DevFolio-Analyzer-f59e0b?style=for-the-badge&logo=react&logoColor=white)
 ![React](https://img.shields.io/badge/React-18.2-61dafb?style=for-the-badge&logo=react&logoColor=black)
 ![React Router](https://img.shields.io/badge/React_Router-6-ca4245?style=for-the-badge&logo=reactrouter&logoColor=white)
 ![Recharts](https://img.shields.io/badge/Recharts-2.10-22b5bf?style=for-the-badge)
 ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-black?style=for-the-badge&logo=vercel)
 
-**A modern analytics dashboard for analyzing developer GitHub profiles — with AI-powered insights, score tracking, and a premium landing experience.**
+**An analytics dashboard for developers. Paste your GitHub username and portfolio URL to get an instant score, AI-powered feedback, and actionable suggestions — all in a clean, fast UI.**
 
-[Live Demo](https://devfolio-analyzer.vercel.app) · [Backend Repo](https://github.com/najmulcodes/devfolio-analyzer-server) · [Report Bug](https://github.com/najmulcodes/devfolio-analyzer/issues)
+[Live Demo](https://devfolio-analyzer.vercel.app) · [Backend Repo](https://github.com/najmulcodes/devfolio-analyzer-server) · [Report Bug](https://github.com/najmulcodes/devfolio-analyzer/issues) · [Request Feature](https://github.com/najmulcodes/devfolio-analyzer/issues)
 
 </div>
 
 ---
 
-## 📸 Preview
+## Preview
 
 ```
-┌─────────────────────────────────────────────────────────┐
-│  🏠 Landing Page  →  🔍 Analyze  →  📊 Dashboard        │
-│                                                         │
-│  Hero + Features + How It Works + CTA                   │
-│  ↓                                                      │
-│  GitHub Username Input → Score Ring + Breakdown         │
-│  ↓                                                      │
-│  KPI Cards + Line Chart + Activity Table                │
-└─────────────────────────────────────────────────────────┘
-```
-
----
-
-## ✨ Features
-
-- **Landing Page** — Hero, Features, How It Works, and CTA sections with smooth scroll animations
-- **Sticky Navbar** — Blur-on-scroll effect with mobile hamburger menu
-- **Analyze Page** — Submit GitHub username and optional portfolio URL for instant analysis
-- **Score Ring** — Animated SVG ring visualizing 0–100 score with color-coded labels
-- **Score Breakdown** — Animated progress bars for all 6 scoring factors
-- **AI Badge** — Indicates when analysis is powered by Claude AI vs rule-based fallback
-- **Dashboard** — KPI cards, Recharts line chart for score history, recent activity table
-- **History Page** — Paginated list of past analyses with mini score rings and trends
-- **Auth Flow** — Login and Register with toggle, JWT stored in localStorage, guest mode supported
-- **Responsive Design** — Desktop, tablet, and mobile support across all pages
-- **Micro-interactions** — Button hover effects, card lift, skeleton shimmer, fade-in on scroll
-
----
-
-## 🗂 Project Structure
-
-```
-frontend/
-├── public/
-│   └── index.html              # Syne + DM Sans + Poppins fonts
-├── src/
-│   ├── components/
-│   │   ├── Navbar.js           # Sticky nav with blur + hamburger
-│   │   ├── Footer.js           # Dark footer with links + social
-│   │   ├── Sidebar.js          # App sidebar with nav + user info
-│   │   ├── KpiCard.js          # Metric display card
-│   │   ├── ScoreRing.js        # Animated SVG score ring
-│   │   ├── AnalysisResult.js   # Full result panel with breakdown
-│   │   └── Spinner.js          # Loading spinner + PageLoader
-│   ├── context/
-│   │   └── AuthContext.js      # JWT auth state (login/register/logout)
-│   ├── pages/
-│   │   ├── Home.js             # Landing page (public)
-│   │   ├── Dashboard.js        # KPIs + chart + activity table
-│   │   ├── Analyze.js          # Analysis form + result display
-│   │   ├── History.js          # Paginated analysis history
-│   │   └── Login.js            # Login + Register page
-│   ├── utils/
-│   │   ├── api.js              # Axios instance with auth interceptor
-│   │   └── helpers.js          # Score color, label, date formatters
-│   ├── App.js                  # Routing + layout logic
-│   ├── index.js                # React entry point
-│   └── index.css               # Global styles + CSS variables
-├── .env.example
-└── package.json
+┌────────────────────────────────────────────────────────────┐
+│  🏠 Landing  →  🔍 Analyze  →  📊 Dashboard  →  📋 History │
+│                                                            │
+│  Hero + Features + How It Works + CTA                      │
+│             ↓                                              │
+│  GitHub + Portfolio inputs → Score ring + Breakdown bars   │
+│             ↓                                              │
+│  KPI cards + Line chart + Recent activity table            │
+└────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🚀 Getting Started
+## Features
+
+- **Landing Page** — Hero, Features, How It Works, and CTA sections with scroll animations
+- **Sticky Navbar** — Blur-on-scroll, mobile hamburger menu, active state highlighting
+- **Analyze Page** — Submit GitHub username + optional portfolio URL for instant dual analysis
+- **Score Ring** — Animated SVG ring (0–100) color-coded by performance tier
+- **Score Breakdown** — Animated progress bars for all scoring factors
+- **Portfolio Signals** — 12-signal checklist: projects, bio, GitHub link, resume, SEO, social, demos, tech stack, viewport
+- **AI Badge** — Indicates Claude AI vs rule-based fallback analysis
+- **Combined Mode** — Side-by-side GitHub + Portfolio scores with a weighted combined score
+- **Dashboard** — KPI cards, Recharts score history chart, recent activity table
+- **History Page** — Paginated past analyses with mini score rings
+- **Auth Flow** — JWT login/register with guest mode support
+- **Responsive** — Desktop, tablet, and mobile across all pages
+
+---
+
+## Tech Stack
+
+| Category     | Technology              |
+|--------------|-------------------------|
+| Framework    | React 18 (CRA)          |
+| Routing      | React Router v6         |
+| Charts       | Recharts 2.10           |
+| HTTP         | Axios                   |
+| Fonts        | Syne · Poppins · DM Sans |
+| Deployment   | Vercel                  |
+
+---
+
+## Getting Started
 
 ### Prerequisites
 
 - Node.js v18+
 - npm v9+
-- Backend running (see [backend repo](https://github.com/najmulcodes/devfolio-analyzer-server))
+- Backend running locally or deployed — see [backend repo](https://github.com/najmulcodes/devfolio-analyzer-server)
 
 ### Installation
 
@@ -101,19 +81,18 @@ cd devfolio-analyzer
 # 2. Install dependencies
 npm install
 
-# 3. Set up environment variables
+# 3. Configure environment
 cp .env.example .env
 ```
 
 ### Environment Variables
 
-Create a `.env` file in the root:
-
 ```env
+# .env
 REACT_APP_API_URL=http://localhost:5000/api
 ```
 
-For production, replace with your deployed backend URL:
+For production:
 
 ```env
 REACT_APP_API_URL=https://devfolio-analyzer-server.onrender.com/api
@@ -125,7 +104,7 @@ REACT_APP_API_URL=https://devfolio-analyzer-server.onrender.com/api
 npm start
 ```
 
-App runs at → `http://localhost:3000`
+Opens at → `http://localhost:3000`
 
 ### Build for Production
 
@@ -133,115 +112,156 @@ App runs at → `http://localhost:3000`
 npm run build
 ```
 
-Output goes to `/build` — deploy this folder to Vercel or Netlify.
+Output in `/build` — deploy this folder to Vercel, Netlify, or any static host.
 
 ---
 
-## 🎨 Design System
+## Project Structure
 
-### Font Stack
-
-| Role    | Font    | Weights       |
-|---------|---------|---------------|
-| Display | Syne    | 700, 800      |
-| Body    | Poppins | 400, 500, 600 |
-| UI      | DM Sans | 400, 500      |
-
-### Color Palette
-
-| Token              | Value     | Usage                        |
-|--------------------|-----------|------------------------------|
-| `--cream`          | `#fdf6ef` | Page background              |
-| `--orange`         | `#f59e0b` | Primary accent               |
-| `--orange-light`   | `#ff6b35` | Gradient end                 |
-| `--orange-pale`    | `#fff0e8` | Card backgrounds, badges     |
-| `--text-dark`      | `#1f2937` | Headings                     |
-| `--text-mid`       | `#4a3728` | Body text                    |
-| `--text-light`     | `#9b8374` | Labels, captions             |
-
-### Score Colors
-
-| Score Range | Color   | Label      |
-|-------------|---------|------------|
-| 80–100      | `#22c55e` (green) | Excellent |
-| 60–79       | `#f59e0b` (amber) | Good      |
-| 40–59       | `#ff6b35` (orange) | Fair     |
-| 0–39        | `#ef4444` (red)   | Needs Work |
-
----
-
-## 📄 Pages & Routes
-
-| Route        | Component     | Auth Required | Description                          |
-|--------------|---------------|---------------|--------------------------------------|
-| `/`          | Home          | No            | Public landing page                  |
-| `/login`     | Login         | No            | Login + Register toggle              |
-| `/analyze`   | Analyze       | No (optional) | Run analysis, save if authenticated  |
-| `/dashboard` | Dashboard     | No (optional) | KPIs + chart (empty state for guests)|
-| `/history`   | History       | Yes           | Paginated saved analyses             |
-
----
-
-## 🔌 API Integration
-
-All requests go through `src/utils/api.js` — an Axios instance that:
-
-- Automatically attaches `Authorization: Bearer <token>` from localStorage
-- Normalizes error messages from the server
-- Has a 30-second timeout
-
-```js
-// Example usage
-import api from '../utils/api';
-
-const result = await api.post('/analysis/run', {
-  githubUsername: 'torvalds',
-  portfolioUrl: 'https://example.com',
-});
+```
+src/
+├── components/
+│   ├── Navbar.js           # Sticky nav with blur + hamburger
+│   ├── Sidebar.js          # App sidebar for dashboard pages
+│   ├── Footer.js           # Dark footer with links
+│   ├── AnalysisResult.js   # Full result panel (GitHub + Portfolio tabs)
+│   ├── ScoreRing.js        # Animated SVG score ring
+│   ├── KpiCard.js          # Metric display card
+│   └── Spinner.js          # Loading spinner + PageLoader overlay
+├── context/
+│   └── AuthContext.js      # JWT auth state — exports AuthContext, AuthProvider, useAuth
+├── pages/
+│   ├── Home.js             # Public landing page
+│   ├── Analyze.js          # Analysis form + result display
+│   ├── Dashboard.js        # KPIs + chart + activity table
+│   ├── History.js          # Paginated analysis history
+│   └── Login.js            # Login + Register toggle
+├── utils/
+│   ├── api.js              # Axios instance with auth interceptor
+│   └── helpers.js          # Score color, label, date formatters
+├── App.js                  # Routing + layout logic
+├── index.js                # React entry point
+└── index.css               # Global styles + CSS design tokens
 ```
 
 ---
 
-## 📦 Dependencies
+## Design System
 
-| Package          | Version  | Purpose                        |
-|------------------|----------|--------------------------------|
-| react            | ^18.2.0  | UI library                     |
-| react-dom        | ^18.2.0  | DOM rendering                  |
-| react-router-dom | ^6.20.0  | Client-side routing            |
-| recharts         | ^2.10.1  | Score history line chart       |
-| axios            | ^1.6.0   | HTTP client with interceptors  |
+### Font Stack
+
+| Role    | Font    | Weights  |
+|---------|---------|----------|
+| Display | Syne    | 700, 800 |
+| Body    | Poppins | 400, 500, 600 |
+| UI      | DM Sans | 400, 500 |
+
+### Color Palette
+
+| Token            | Value     | Usage                        |
+|------------------|-----------|------------------------------|
+| `--cream`        | `#fdf6ef` | Page background              |
+| `--orange`       | `#f59e0b` | Primary accent               |
+| `--orange-light` | `#ff6b35` | Gradient end                 |
+| `--orange-pale`  | `#fff0e8` | Card backgrounds, badges     |
+| `--text-dark`    | `#1f2937` | Headings                     |
+| `--text-mid`     | `#4a3728` | Body text                    |
+| `--text-light`   | `#9b8374` | Labels, captions             |
+
+### Score Colors
+
+| Range  | Color   | Label      |
+|--------|---------|------------|
+| 80–100 | `#22c55e` | Excellent  |
+| 60–79  | `#f59e0b` | Good       |
+| 40–59  | `#ff6b35` | Fair       |
+| 0–39   | `#ef4444` | Needs Work |
 
 ---
 
-## ☁️ Deployment — Vercel (Recommended)
+## Pages & Routes
 
-1. Push this repo to GitHub
+| Route        | Auth Required | Description                                    |
+|--------------|---------------|------------------------------------------------|
+| `/`          | No            | Public landing page                            |
+| `/login`     | No            | Login + Register with toggle                   |
+| `/analyze`   | No (optional) | Run analysis; results saved if authenticated   |
+| `/dashboard` | No (optional) | KPIs + chart (empty state for guests)          |
+| `/history`   | Yes           | Paginated saved analyses                       |
+
+---
+
+## Auth Context
+
+The `AuthContext` module exports three things:
+
+```js
+// Named context — for components using useContext directly
+export const AuthContext = createContext(null);
+
+// Provider — wrap your app with this
+export const AuthProvider = ({ children }) => { ... };
+
+// Hook — for pages and hooks (preferred)
+export const useAuth = () => useContext(AuthContext);
+```
+
+Usage in components:
+
+```js
+// Option A — hook (recommended for pages)
+import { useAuth } from '../context/AuthContext';
+const { user, login, logout } = useAuth();
+
+// Option B — context (for components that do useContext manually)
+import { AuthContext } from '../context/AuthContext';
+const { user, logout } = useContext(AuthContext);
+```
+
+---
+
+## Spinner Component
+
+`Spinner.js` exports both a default and named export for flexibility:
+
+```js
+// Default import — works in Analyze.js and Login.js
+import Spinner from '../components/Spinner';
+
+// Named imports — for advanced usage
+import { Spinner, PageLoader } from '../components/Spinner';
+```
+
+`<PageLoader message="Analyzing..." />` renders a full-screen overlay with blur.
+
+---
+
+## Deployment — Vercel
+
+1. Push repo to GitHub
 2. Go to [vercel.com](https://vercel.com) → **New Project** → Import repo
-3. Set environment variable:
+3. Add environment variable:
    ```
    REACT_APP_API_URL = https://your-backend.onrender.com/api
    ```
 4. Click **Deploy**
 
-> Vercel auto-detects Create React App and handles the build command (`npm run build`) and output directory (`build`) automatically.
+Vercel auto-detects CRA, sets build command to `npm run build`, output dir to `build`.
 
 ---
 
-## 🤝 Contributing
-
-Pull requests are welcome. For major changes, please open an issue first.
+## Contributing
 
 ```bash
-# Fork → Clone → Create branch → Commit → Push → PR
-git checkout -b feat/your-feature-name
-git commit -m "feat: describe your change"
-git push origin feat/your-feature-name
+git checkout -b feat/your-feature
+git commit -m "feat: your change"
+git push origin feat/your-feature
+# then open a PR
 ```
 
 ---
 
-## 📃 License
+## License
 
 MIT © 2026 [najmulcodes](https://github.com/najmulcodes)
 
@@ -249,6 +269,6 @@ MIT © 2026 [najmulcodes](https://github.com/najmulcodes)
 
 <div align="center">
 
-Built with ☕ and React · [Backend →](https://github.com/najmulcodes/devfolio-analyzer-server)
+Built with ☕ and React &nbsp;·&nbsp; [Backend →](https://github.com/najmulcodes/devfolio-analyzer-server)
 
 </div>

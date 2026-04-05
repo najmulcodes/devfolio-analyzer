@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import Spinner from '../components/Spinner';
+
+const LogoMark = () => (
+  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="32" height="32" rx="9" fill="#f59e0b"/>
+    <path d="M10 11L5 16L10 21" stroke="#1f2937" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M22 11L27 16L22 21" stroke="#1f2937" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M13.5 16.5L15.5 18.5L19 14" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
+const FEATURES = [
+  { icon: '📊', text: 'Track your score over time' },
+  { icon: '✨', text: 'AI-powered improvement tips' },
+  { icon: '🏆', text: 'See how you rank vs others' },
+  { icon: '📋', text: 'Save unlimited analyses' },
+];
 
 export default function Login() {
   const navigate = useNavigate();
   const { login, register } = useAuth();
-  const [mode, setMode] = useState('login');
-  const [email, setEmail] = useState('');
+  const [mode, setMode]         = useState('login');
+  const [email, setEmail]       = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,113 +43,207 @@ export default function Login() {
 
   return (
     <div style={s.page}>
-      {/* Left decorative panel */}
-      <div style={s.left}>
-        <div style={s.leftInner}>
 
-          {/* ── Brand — logo-full.svg ── */}
-          <div style={s.brand}>
-            <img
-              src="/logo-full.svg"
-              alt="DevFolio Analyzer"
-              height={38}
-              width={190}
-              style={{ objectFit: 'contain' }}
-              draggable={false}
-            />
+      {/* ── Left panel ── */}
+      <div style={s.left}>
+        <div style={s.leftBlob1} />
+        <div style={s.leftBlob2} />
+
+        <div style={s.leftContent}>
+          {/* Logo */}
+          <Link to="/" style={s.logoLink}>
+            <LogoMark />
+            <span style={s.logoText}>Dev<span style={{ color: '#f59e0b' }}>Folio</span></span>
+          </Link>
+
+          <div style={s.leftMain}>
+            <div style={s.leftBadge}>
+              <span style={s.leftBadgeDot} />
+              AI-Powered Analysis
+            </div>
+
+            <h2 style={s.leftTitle}>
+              Your GitHub, scored{' '}
+              <span style={s.leftTitleAccent}>like a recruiter.</span>
+            </h2>
+            <p style={s.leftSub}>
+              Get instant insights, improvement suggestions, and track your developer profile over time.
+            </p>
+
+            <div style={s.featureList}>
+              {FEATURES.map((f, i) => (
+                <div key={i} style={s.featureItem}>
+                  <span style={s.featureIcon}>{f.icon}</span>
+                  <span style={s.featureText}>{f.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <h2 style={s.leftTitle}>Your GitHub profile,<br/>scored like a recruiter.</h2>
-          <p style={s.leftSub}>Track your improvement over time, get AI feedback, and stand out from other developers.</p>
+          {/* Stats row */}
           <div style={s.statsRow}>
-            {[{ v: '100', l: 'Max Score' }, { v: 'AI', l: 'Powered' }, { v: 'Free', l: 'Forever' }].map(s2 => (
-              <div key={s2.l} style={s.statItem}>
-                <div style={s.statVal}>{s2.v}</div>
-                <div style={s.statLabel}>{s2.l}</div>
+            {[{ v: '100', l: 'Max Score' }, { v: 'AI', l: 'Powered' }, { v: 'Free', l: 'Forever' }].map(st => (
+              <div key={st.l} style={s.statItem}>
+                <div style={s.statVal}>{st.v}</div>
+                <div style={s.statLabel}>{st.l}</div>
               </div>
             ))}
           </div>
         </div>
-        {/* Decorative blobs */}
-        <div style={s.blob1} /><div style={s.blob2} />
       </div>
 
-      {/* Right form panel */}
+      {/* ── Right panel ── */}
       <div style={s.right}>
-        <div className="glass-card fade-up" style={s.card}>
+        <div style={s.formOuter}>
 
-          {/* Tab switcher */}
+          {/* Mode tabs */}
           <div style={s.tabs}>
-            {['login', 'register'].map(m => (
-              <button key={m} onClick={() => { setMode(m); setError(''); }}
-                style={{ ...s.tab, ...(mode === m ? s.tabActive : {}) }}>
-                {m === 'login' ? 'Sign In' : 'Register'}
+            {[
+              { key: 'login',    label: 'Sign In' },
+              { key: 'register', label: 'Register' },
+            ].map(({ key, label }) => (
+              <button
+                key={key}
+                onClick={() => { setMode(key); setError(''); }}
+                style={{ ...s.tab, ...(mode === key ? s.tabActive : {}) }}
+              >
+                {label}
               </button>
             ))}
           </div>
 
-          <div style={s.formHeader}>
-            <h1 style={s.formTitle}>{mode === 'login' ? 'Welcome back' : 'Create account'}</h1>
-            <p style={s.formSub}>{mode === 'login' ? 'Sign in to your account' : 'Start tracking your portfolio'}</p>
-          </div>
-
-          <form onSubmit={handleSubmit} style={s.form}>
-            <div style={s.field}>
-              <label style={s.label}>Email address</label>
-              <div style={s.inputWrap}>
-                <span style={s.inputIcon}>
-                  <svg width="15" height="15" fill="none" stroke="#b0a090" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
-                  </svg>
-                </span>
-                <input className="premium-input" type="email" value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  placeholder="you@example.com" autoComplete="email"
-                  style={{ paddingLeft: 42 }} />
-              </div>
+          {/* Form card */}
+          <div className="glass-card fade-up" style={s.card}>
+            <div style={s.formHeader}>
+              <h1 style={s.formTitle}>
+                {mode === 'login' ? 'Welcome back' : 'Create account'}
+              </h1>
+              <p style={s.formSub}>
+                {mode === 'login'
+                  ? 'Sign in to access your dashboard and history.'
+                  : 'Start tracking your developer portfolio today.'}
+              </p>
             </div>
 
-            <div style={s.field}>
-              <label style={s.label}>Password</label>
-              <div style={s.inputWrap}>
-                <span style={s.inputIcon}>
-                  <svg width="15" height="15" fill="none" stroke="#b0a090" strokeWidth="2" viewBox="0 0 24 24">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                  </svg>
-                </span>
-                <input className="premium-input" type="password" value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  placeholder={mode === 'register' ? 'Min. 6 characters' : '••••••••'}
-                  autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
-                  style={{ paddingLeft: 42 }} />
-              </div>
+            {/* Google button */}
+            <button
+              type="button"
+              style={s.googleBtn}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--orange-border)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.06)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--card-border)'; e.currentTarget.style.boxShadow = 'none'; }}
+            >
+              <svg width="18" height="18" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+              </svg>
+              Continue with Google
+            </button>
+
+            {/* Divider */}
+            <div style={s.dividerRow}>
+              <div style={s.dividerLine} />
+              <span style={s.dividerLabel}>or continue with email</span>
+              <div style={s.dividerLine} />
             </div>
 
-            {error && <div style={s.errorBox}>{error}</div>}
+            {/* Form */}
+            <div style={s.form}>
 
-            <button type="submit" disabled={loading} className="btn-primary"
-              style={{ padding: '13px', fontSize: 15, justifyContent: 'center', opacity: loading ? 0.75 : 1 }}>
-              {loading
-                ? <><Spinner size={17} color="white" />{mode === 'login' ? 'Signing in…' : 'Creating account…'}</>
-                : mode === 'login' ? 'Sign In' : 'Create Account'}
-            </button>
-          </form>
+              <div style={s.field}>
+                <label style={s.label}>Email address</label>
+                <div style={s.inputWrap}>
+                  <span style={s.inputIcon}>
+                    <svg width="15" height="15" fill="none" stroke="#b0a090" strokeWidth="2" viewBox="0 0 24 24">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                      <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                  </span>
+                  <input
+                    className="premium-input"
+                    type="email"
+                    value={email}
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    autoComplete="email"
+                    style={{ paddingLeft: 42 }}
+                  />
+                </div>
+              </div>
 
-          <div style={s.divider}><span style={s.dividerText}>or</span></div>
+              <div style={s.field}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <label style={s.label}>Password</label>
+                  {mode === 'login' && (
+                    <a href="/forgot-password" style={s.forgotLink}>Forgot password?</a>
+                  )}
+                </div>
+                <div style={s.inputWrap}>
+                  <span style={s.inputIcon}>
+                    <svg width="15" height="15" fill="none" stroke="#b0a090" strokeWidth="2" viewBox="0 0 24 24">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                  </span>
+                  <input
+                    className="premium-input"
+                    type={showPass ? 'text' : 'password'}
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    placeholder="••••••••"
+                    autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
+                    style={{ paddingLeft: 42, paddingRight: 42 }}
+                    onKeyDown={e => e.key === 'Enter' && handleSubmit(e)}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPass(v => !v)}
+                    style={s.eyeBtn}
+                    tabIndex={-1}
+                  >
+                    {showPass
+                      ? <svg width="14" height="14" fill="none" stroke="#b0a090" strokeWidth="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                      : <svg width="14" height="14" fill="none" stroke="#b0a090" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    }
+                  </button>
+                </div>
+              </div>
 
-          <button onClick={() => navigate('/analyze')} style={s.guestBtn}>
-            Continue as Guest
-          </button>
+              {error && (
+                <div style={s.errorBox}>
+                  <svg width="14" height="14" fill="none" stroke="#ef4444" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  {error}
+                </div>
+              )}
 
-          <div style={s.switchText}>
-            {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}{' '}
-            <button onClick={() => { setMode(mode === 'login' ? 'register' : 'login'); setError(''); }}
-              style={s.switchLink}>
-              {mode === 'login' ? 'Sign up free' : 'Sign in'}
-            </button>
+              <button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="btn-primary"
+                style={{ width: '100%', padding: '14px', fontSize: 15, marginTop: 4 }}
+              >
+                {loading
+                  ? <><Spinner size={16} color="white" /> {mode === 'login' ? 'Signing in…' : 'Creating account…'}</>
+                  : mode === 'login' ? 'Sign In' : 'Create Account'
+                }
+              </button>
+            </div>
+
+            {/* Footer link */}
+            <div style={s.footerText}>
+              {mode === 'login'
+                ? <>Don't have an account?{' '}<button onClick={() => { setMode('register'); setError(''); }} style={s.switchBtn}>Sign up</button></>
+                : <>Already have an account?{' '}<button onClick={() => { setMode('login'); setError(''); }} style={s.switchBtn}>Sign in</button></>
+              }
+            </div>
           </div>
+
+          {/* Back to home */}
+          <Link to="/" style={s.backLink}>
+            <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+            Back to home
+          </Link>
         </div>
       </div>
     </div>
@@ -140,38 +251,148 @@ export default function Login() {
 }
 
 const s = {
-  page: { minHeight: '100vh', display: 'flex', background: 'linear-gradient(135deg, #fef3e8, #fde9cc, #f5dfc0)' },
-  left: {
-    flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-    padding: '60px 48px', position: 'relative', overflow: 'hidden',
+  page: {
+    minHeight: '100vh', display: 'flex',
+    background: 'linear-gradient(145deg, #ede8df 0%, #e8ddd0 40%, #dfd3c0 100%)',
+    fontFamily: 'Poppins, sans-serif',
   },
-  leftInner: { position: 'relative', zIndex: 1, maxWidth: 420 },
-  brand: { marginBottom: 40 },
-  leftTitle: { fontFamily: 'Syne, sans-serif', fontSize: 38, fontWeight: 800, color: '#1a1207', lineHeight: 1.2, marginBottom: 16 },
-  leftSub: { fontSize: 15, color: '#7c6a55', lineHeight: 1.7, marginBottom: 36 },
-  statsRow: { display: 'flex', gap: 28 },
-  statItem: { textAlign: 'center' },
-  statVal: { fontFamily: 'Syne, sans-serif', fontSize: 30, fontWeight: 800, color: '#f59e0b' },
-  statLabel: { fontSize: 11.5, color: '#b0a090', marginTop: 2, fontWeight: 500 },
-  blob1: { position: 'absolute', width: 400, height: 400, borderRadius: '50%', background: 'radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%)', top: -80, right: -60, pointerEvents: 'none' },
-  blob2: { position: 'absolute', width: 300, height: 300, borderRadius: '50%', background: 'radial-gradient(circle, rgba(255,107,53,0.1) 0%, transparent 70%)', bottom: -40, left: 20, pointerEvents: 'none' },
-  right: { width: 480, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 32px' },
-  card: { width: '100%', padding: '36px 32px' },
-  tabs: { display: 'flex', background: 'rgba(180,140,90,0.08)', borderRadius: 12, padding: 4, marginBottom: 28 },
-  tab: { flex: 1, padding: '9px', borderRadius: 9, border: 'none', background: 'transparent', fontSize: 13.5, fontWeight: 600, color: 'var(--text-500)', cursor: 'pointer', transition: 'all 0.2s' },
-  tabActive: { background: 'white', color: 'var(--text-900)', boxShadow: '0 2px 8px rgba(180,140,90,0.1)' },
-  formHeader: { marginBottom: 22 },
-  formTitle: { fontFamily: 'Syne, sans-serif', fontSize: 24, fontWeight: 800, color: 'var(--text-900)', marginBottom: 5 },
-  formSub: { fontSize: 13.5, color: 'var(--text-500)' },
+
+  /* Left */
+  left: {
+    flex: '0 0 480px', position: 'relative', overflow: 'hidden',
+    background: 'linear-gradient(160deg, #1a1207 0%, #241a0e 55%, #1f1709 100%)',
+    display: 'flex', flexDirection: 'column',
+  },
+  leftBlob1: {
+    position: 'absolute', width: 500, height: 500, borderRadius: '50%',
+    background: 'radial-gradient(circle, rgba(245,158,11,0.18) 0%, transparent 65%)',
+    top: -100, right: -100, pointerEvents: 'none',
+  },
+  leftBlob2: {
+    position: 'absolute', width: 350, height: 350, borderRadius: '50%',
+    background: 'radial-gradient(circle, rgba(245,158,11,0.10) 0%, transparent 70%)',
+    bottom: -80, left: -60, pointerEvents: 'none',
+  },
+  leftContent: { position: 'relative', zIndex: 1, padding: '40px 44px', display: 'flex', flexDirection: 'column', height: '100%', gap: 40 },
+  logoLink: { display: 'inline-flex', alignItems: 'center', gap: 10, textDecoration: 'none' },
+  logoText: { fontFamily: 'Syne, sans-serif', fontSize: '1.2rem', fontWeight: 800, color: 'white', letterSpacing: '-0.03em' },
+  leftMain: { flex: 1, display: 'flex', flexDirection: 'column', gap: 28, justifyContent: 'center' },
+  leftBadge: {
+    display: 'inline-flex', alignItems: 'center', gap: 8,
+    padding: '6px 14px', borderRadius: 99,
+    background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.25)',
+    color: '#f59e0b', fontFamily: 'DM Sans, sans-serif', fontSize: 12, fontWeight: 600,
+    letterSpacing: '0.02em', width: 'fit-content',
+  },
+  leftBadgeDot: {
+    width: 6, height: 6, borderRadius: '50%', background: '#f59e0b', flexShrink: 0,
+    boxShadow: '0 0 6px #f59e0b, 0 0 12px rgba(245,158,11,0.6)',
+    animation: 'pulseGlow 2s ease-in-out infinite',
+  },
+  leftTitle: {
+    fontFamily: 'Syne, sans-serif', fontSize: 'clamp(28px, 3vw, 38px)', fontWeight: 800,
+    color: 'white', lineHeight: 1.2, letterSpacing: '-0.03em',
+  },
+  leftTitleAccent: { color: '#f59e0b' },
+  leftSub: {
+    fontFamily: 'Poppins, sans-serif', fontSize: 14.5,
+    color: 'rgba(255,255,255,0.5)', lineHeight: 1.72,
+  },
+  featureList: { display: 'flex', flexDirection: 'column', gap: 14 },
+  featureItem: { display: 'flex', alignItems: 'center', gap: 12 },
+  featureIcon: {
+    width: 36, height: 36, borderRadius: 10,
+    background: 'rgba(245,158,11,0.1)', display: 'flex', alignItems: 'center',
+    justifyContent: 'center', fontSize: 16, flexShrink: 0,
+  },
+  featureText: { fontFamily: 'DM Sans, sans-serif', fontSize: 14, color: 'rgba(255,255,255,0.75)', fontWeight: 500 },
+  statsRow: { display: 'flex', gap: 32, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.08)' },
+  statItem: {},
+  statVal: { fontFamily: 'Syne, sans-serif', fontSize: 24, fontWeight: 800, color: '#f59e0b', letterSpacing: '-0.03em' },
+  statLabel: { fontFamily: 'DM Sans, sans-serif', fontSize: 11, color: 'rgba(255,255,255,0.35)', fontWeight: 500, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.05em' },
+
+  /* Right */
+  right: {
+    flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+    padding: '40px 24px',
+  },
+  formOuter: { width: '100%', maxWidth: 420, display: 'flex', flexDirection: 'column', gap: 16 },
+
+  /* Tabs */
+  tabs: {
+    display: 'flex', gap: 4,
+    background: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(12px)',
+    border: '1px solid rgba(255,255,255,0.8)', borderRadius: 14, padding: 4,
+  },
+  tab: {
+    flex: 1, padding: '9px 16px', borderRadius: 10, border: 'none',
+    background: 'transparent', fontFamily: 'DM Sans, sans-serif',
+    fontSize: 14, fontWeight: 500, color: 'var(--text-500)', cursor: 'pointer',
+    transition: 'all 0.2s ease',
+  },
+  tabActive: {
+    background: 'white', color: 'var(--text-900)', fontWeight: 600,
+    boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+  },
+
+  /* Card */
+  card: { padding: '32px 30px', display: 'flex', flexDirection: 'column', gap: 20 },
+  formHeader: {},
+  formTitle: { fontFamily: 'Syne, sans-serif', fontSize: 24, fontWeight: 800, color: 'var(--text-900)', letterSpacing: '-0.03em', marginBottom: 6 },
+  formSub: { fontFamily: 'Poppins, sans-serif', fontSize: 13.5, color: 'var(--text-500)', lineHeight: 1.6 },
+
+  /* Google button */
+  googleBtn: {
+    width: '100%', padding: '12px 20px', borderRadius: 12,
+    border: '1.5px solid var(--card-border)', background: 'white',
+    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
+    fontFamily: 'DM Sans, sans-serif', fontSize: 14.5, fontWeight: 500,
+    color: 'var(--text-700)', cursor: 'pointer', transition: 'all 0.2s ease',
+    boxShadow: 'none',
+  },
+
+  /* Divider */
+  dividerRow: { display: 'flex', alignItems: 'center', gap: 12 },
+  dividerLine: { flex: 1, height: 1, background: 'var(--card-border)' },
+  dividerLabel: { fontFamily: 'DM Sans, sans-serif', fontSize: 12, color: 'var(--text-300)', whiteSpace: 'nowrap', fontWeight: 500 },
+
+  /* Form fields */
   form: { display: 'flex', flexDirection: 'column', gap: 16 },
   field: { display: 'flex', flexDirection: 'column', gap: 7 },
-  label: { fontSize: 12.5, fontWeight: 600, color: 'var(--text-700)' },
+  label: { fontFamily: 'DM Sans, sans-serif', fontSize: 13, fontWeight: 600, color: 'var(--text-700)' },
   inputWrap: { position: 'relative' },
-  inputIcon: { position: 'absolute', left: 13, top: '50%', transform: 'translateY(-50%)', display: 'flex', zIndex: 1 },
-  errorBox: { background: 'rgba(239,68,68,0.07)', color: '#ef4444', padding: '10px 13px', borderRadius: 10, fontSize: 13 },
-  divider: { position: 'relative', textAlign: 'center', margin: '18px 0 14px', borderTop: '1px solid rgba(180,140,90,0.15)' },
-  dividerText: { position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)', background: 'white', padding: '0 12px', fontSize: 12, color: 'var(--text-300)' },
-  guestBtn: { width: '100%', padding: '12px', borderRadius: 12, border: '1.5px solid rgba(180,140,90,0.2)', background: 'rgba(255,255,255,0.5)', color: 'var(--text-700)', fontSize: 13.5, fontWeight: 600, cursor: 'pointer', backdropFilter: 'blur(8px)', marginBottom: 18 },
-  switchText: { textAlign: 'center', fontSize: 13, color: 'var(--text-500)' },
-  switchLink: { background: 'none', border: 'none', color: '#f59e0b', fontWeight: 700, fontSize: 13, cursor: 'pointer' },
+  inputIcon: { position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', display: 'flex', zIndex: 1, pointerEvents: 'none' },
+  eyeBtn: {
+    position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
+    background: 'none', border: 'none', cursor: 'pointer', padding: 4, display: 'flex',
+  },
+  forgotLink: {
+    fontFamily: 'DM Sans, sans-serif', fontSize: 12.5, color: 'var(--orange)', fontWeight: 500,
+    textDecoration: 'none', transition: 'color 0.2s',
+  },
+
+  errorBox: {
+    display: 'flex', alignItems: 'center', gap: 8,
+    background: 'rgba(239,68,68,0.07)', color: '#ef4444',
+    padding: '10px 14px', borderRadius: 10, fontSize: 13,
+    fontFamily: 'DM Sans, sans-serif', border: '1px solid rgba(239,68,68,0.14)',
+  },
+
+  footerText: {
+    textAlign: 'center', fontFamily: 'DM Sans, sans-serif',
+    fontSize: 13.5, color: 'var(--text-500)',
+    paddingTop: 4,
+  },
+  switchBtn: {
+    background: 'none', border: 'none', cursor: 'pointer',
+    color: 'var(--orange)', fontFamily: 'DM Sans, sans-serif',
+    fontSize: 13.5, fontWeight: 600, padding: 0, display: 'inline',
+    transition: 'color 0.2s',
+  },
+
+  backLink: {
+    display: 'inline-flex', alignItems: 'center', gap: 6,
+    fontFamily: 'DM Sans, sans-serif', fontSize: 13, color: 'var(--text-500)',
+    textDecoration: 'none', transition: 'color 0.2s', justifyContent: 'center',
+  },
 };

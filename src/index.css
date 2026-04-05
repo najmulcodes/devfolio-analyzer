@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════════
    DEVFOLIO ANALYZER — GLOBAL STYLESHEET v2
-   Font: Syne (display) · Poppins (body) · DM Sans (UI)
+   Font: Poppins (display) · Poppins (body) · Monospace (UI)
 ═══════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -28,9 +28,9 @@
   --score-good:      #f59e0b;
   --score-fair:      #ff6b35;
   --score-poor:      #ef4444;
-  --font-display: 'Syne', sans-serif;
+  --font-display: 'Poppins,', sans-serif;
   --font-body:    'Poppins', sans-serif;
-  --font-ui:      'DM Sans', sans-serif;
+  --font-ui:      'monospace', sans-serif;
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
   --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-10: 40px;
   --space-12: 48px; --space-16: 64px;

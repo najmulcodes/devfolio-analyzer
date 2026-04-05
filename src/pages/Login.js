@@ -221,7 +221,7 @@ export default function Login() {
                 onClick={handleSubmit}
                 disabled={loading}
                 className="btn-primary"
-                style={{ width: '100%', padding: '14px', fontSize: 15, marginTop: 4 }}
+                style={{ width: '100%', padding: '14px', fontSize: 15, marginTop: 1 }}
               >
                 {loading
                   ? <><Spinner size={16} color="white" /> {mode === 'login' ? 'Signing in…' : 'Creating account…'}</>
@@ -273,15 +273,15 @@ const s = {
     background: 'radial-gradient(circle, rgba(245,158,11,0.10) 0%, transparent 70%)',
     bottom: -80, left: -60, pointerEvents: 'none',
   },
-  leftContent: { position: 'relative', zIndex: 1, padding: '40px 44px', display: 'flex', flexDirection: 'column', height: '100%', gap: 40 },
-  logoLink: { display: 'inline-flex', alignItems: 'center', gap: 10, textDecoration: 'none' },
-  logoText: { fontFamily: 'Syne, sans-serif', fontSize: '1.2rem', fontWeight: 800, color: 'white', letterSpacing: '-0.03em' },
-  leftMain: { flex: 1, display: 'flex', flexDirection: 'column', gap: 28, justifyContent: 'center' },
+  leftContent: { position: 'relative', zIndex: 1, padding: '40px 44px', display: 'flex', flexDirection: 'column', height: '100%', gap: 22 },
+  logoLink: { display: 'inline-flex', alignItems: 'center', gap: 12, textDecoration: 'none', marginBottom: 12, },
+  logoText: { fontFamily: 'Poppins, sans-serif', fontSize: '1.2rem', fontWeight: 800, color: 'white', letterSpacing: '-0.03em' },
+  leftMain: { display: 'flex', flexDirection: 'column', gap: 18, justifyContent: 'flex-start', marginTop: 8,},
   leftBadge: {
-    display: 'inline-flex', alignItems: 'center', gap: 8,
+    display: 'inline-flex', alignItems: 'center', gap: 7,
     padding: '6px 14px', borderRadius: 99,
     background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.25)',
-    color: '#f59e0b', fontFamily: 'DM Sans, sans-serif', fontSize: 12, fontWeight: 600,
+    color: '#f59e0b', fontFamily: 'monospace, sans-serif', fontSize: 12, fontWeight: 600,
     letterSpacing: '0.02em', width: 'fit-content',
   },
   leftBadgeDot: {
@@ -290,7 +290,7 @@ const s = {
     animation: 'pulseGlow 2s ease-in-out infinite',
   },
   leftTitle: {
-    fontFamily: 'Syne, sans-serif', fontSize: 'clamp(28px, 3vw, 38px)', fontWeight: 800,
+    fontFamily: 'monospace, sans-serif', fontSize: 'clamp(28px, 3vw, 28px)', fontWeight: 800,
     color: 'white', lineHeight: 1.2, letterSpacing: '-0.03em',
   },
   leftTitleAccent: { color: '#f59e0b' },
@@ -298,18 +298,18 @@ const s = {
     fontFamily: 'Poppins, sans-serif', fontSize: 14.5,
     color: 'rgba(255,255,255,0.5)', lineHeight: 1.72,
   },
-  featureList: { display: 'flex', flexDirection: 'column', gap: 14 },
-  featureItem: { display: 'flex', alignItems: 'center', gap: 12 },
+  featureList: { display: 'flex', flexDirection: 'column', gap: 12 },
+  featureItem: { display: 'flex', alignItems: 'center', gap: 10 },
   featureIcon: {
     width: 36, height: 36, borderRadius: 10,
     background: 'rgba(245,158,11,0.1)', display: 'flex', alignItems: 'center',
     justifyContent: 'center', fontSize: 16, flexShrink: 0,
   },
-  featureText: { fontFamily: 'DM Sans, sans-serif', fontSize: 14, color: 'rgba(255,255,255,0.75)', fontWeight: 500 },
-  statsRow: { display: 'flex', gap: 32, paddingTop: 32, borderTop: '1px solid rgba(255,255,255,0.08)' },
+  featureText: { fontFamily: 'monospace, sans-serif', fontSize: 14, color: 'rgba(255,255,255,0.75)', fontWeight: 500 },
+  statsRow: { display: 'flex', gap: 30, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.08)' },
   statItem: {},
-  statVal: { fontFamily: 'Syne, sans-serif', fontSize: 24, fontWeight: 800, color: '#f59e0b', letterSpacing: '-0.03em' },
-  statLabel: { fontFamily: 'DM Sans, sans-serif', fontSize: 11, color: 'rgba(255,255,255,0.35)', fontWeight: 500, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.05em' },
+  statVal: { fontFamily: 'monospace, sans-serif', fontSize: 24, fontWeight: 800, color: '#f59e0b', letterSpacing: '-0.03em' },
+  statLabel: { fontFamily: 'monospace, sans-serif', fontSize: 11, color: 'rgba(255,255,255,0.35)', fontWeight: 500, marginTop: 4, textTransform: 'uppercase', letterSpacing: '0.05em' },
 
   /* Right */
   right: {
@@ -320,13 +320,13 @@ const s = {
 
   /* Tabs */
   tabs: {
-    display: 'flex', gap: 4,
+    display: 'flex', gap: 3,
     background: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(12px)',
     border: '1px solid rgba(255,255,255,0.8)', borderRadius: 14, padding: 4,
   },
   tab: {
     flex: 1, padding: '9px 16px', borderRadius: 10, border: 'none',
-    background: 'transparent', fontFamily: 'DM Sans, sans-serif',
+    background: 'transparent', fontFamily: 'monospace, sans-serif',
     fontSize: 14, fontWeight: 500, color: 'var(--text-500)', cursor: 'pointer',
     transition: 'all 0.2s ease',
   },
@@ -336,30 +336,30 @@ const s = {
   },
 
   /* Card */
-  card: { padding: '32px 30px', display: 'flex', flexDirection: 'column', gap: 20 },
+  card: { padding: '32px 30px', display: 'flex', flexDirection: 'column', gap: 18 },
   formHeader: {},
-  formTitle: { fontFamily: 'Syne, sans-serif', fontSize: 24, fontWeight: 800, color: 'var(--text-900)', letterSpacing: '-0.03em', marginBottom: 6 },
+  formTitle: { fontFamily: 'monospace, sans-serif', fontSize: 24, fontWeight: 800, color: 'var(--text-900)', letterSpacing: '-0.03em', marginBottom: 1 },
   formSub: { fontFamily: 'Poppins, sans-serif', fontSize: 13.5, color: 'var(--text-500)', lineHeight: 1.6 },
 
   /* Google button */
   googleBtn: {
     width: '100%', padding: '12px 20px', borderRadius: 12,
     border: '1.5px solid var(--card-border)', background: 'white',
-    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12,
-    fontFamily: 'DM Sans, sans-serif', fontSize: 14.5, fontWeight: 500,
+    display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+    fontFamily: 'monospace, sans-serif', fontSize: 14.5, fontWeight: 500,
     color: 'var(--text-700)', cursor: 'pointer', transition: 'all 0.2s ease',
     boxShadow: 'none',
   },
 
   /* Divider */
-  dividerRow: { display: 'flex', alignItems: 'center', gap: 12 },
+  dividerRow: { display: 'flex', alignItems: 'center', gap: 10 },
   dividerLine: { flex: 1, height: 1, background: 'var(--card-border)' },
-  dividerLabel: { fontFamily: 'DM Sans, sans-serif', fontSize: 12, color: 'var(--text-300)', whiteSpace: 'nowrap', fontWeight: 500 },
+  dividerLabel: { fontFamily: 'monospace, sans-serif', fontSize: 12, color: 'var(--text-300)', whiteSpace: 'nowrap', fontWeight: 500 },
 
   /* Form fields */
   form: { display: 'flex', flexDirection: 'column', gap: 16 },
   field: { display: 'flex', flexDirection: 'column', gap: 7 },
-  label: { fontFamily: 'DM Sans, sans-serif', fontSize: 13, fontWeight: 600, color: 'var(--text-700)' },
+  label: { fontFamily: 'monospace, sans-serif', fontSize: 13, fontWeight: 600, color: 'var(--text-700)' },
   inputWrap: { position: 'relative' },
   inputIcon: { position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', display: 'flex', zIndex: 1, pointerEvents: 'none' },
   eyeBtn: {
@@ -367,7 +367,7 @@ const s = {
     background: 'none', border: 'none', cursor: 'pointer', padding: 4, display: 'flex',
   },
   forgotLink: {
-    fontFamily: 'DM Sans, sans-serif', fontSize: 12.5, color: 'var(--orange)', fontWeight: 500,
+    fontFamily: 'monospace, sans-serif', fontSize: 12.5, color: 'var(--orange)', fontWeight: 500,
     textDecoration: 'none', transition: 'color 0.2s',
   },
 
@@ -375,24 +375,24 @@ const s = {
     display: 'flex', alignItems: 'center', gap: 8,
     background: 'rgba(239,68,68,0.07)', color: '#ef4444',
     padding: '10px 14px', borderRadius: 10, fontSize: 13,
-    fontFamily: 'DM Sans, sans-serif', border: '1px solid rgba(239,68,68,0.14)',
+    fontFamily: 'monospace, sans-serif', border: '1px solid rgba(239,68,68,0.14)',
   },
 
   footerText: {
-    textAlign: 'center', fontFamily: 'DM Sans, sans-serif',
+    textAlign: 'center', fontFamily: 'monospace, sans-serif',
     fontSize: 13.5, color: 'var(--text-500)',
     paddingTop: 4,
   },
   switchBtn: {
     background: 'none', border: 'none', cursor: 'pointer',
-    color: 'var(--orange)', fontFamily: 'DM Sans, sans-serif',
+    color: 'var(--orange)', fontFamily: 'monospace, sans-serif',
     fontSize: 13.5, fontWeight: 600, padding: 0, display: 'inline',
     transition: 'color 0.2s',
   },
 
   backLink: {
     display: 'inline-flex', alignItems: 'center', gap: 6,
-    fontFamily: 'DM Sans, sans-serif', fontSize: 13, color: 'var(--text-500)',
+    fontFamily: 'monospace, sans-serif', fontSize: 13, color: 'var(--text-500)',
     textDecoration: 'none', transition: 'color 0.2s', justifyContent: 'center',
   },
 };

@@ -27,8 +27,8 @@ const CustomTooltip = ({ active, payload, label }) => {
       border: '1px solid rgba(245,158,11,0.2)', borderRadius: 12,
       padding: '10px 14px', fontSize: 13, boxShadow: '0 8px 24px rgba(160,110,50,0.14)',
     }}>
-      <div style={{ fontFamily: 'Syne, sans-serif', fontWeight: 700, color: '#1a1207', marginBottom: 3 }}>{label}</div>
-      <div style={{ color: '#f59e0b', fontWeight: 600, fontFamily: 'DM Sans, sans-serif' }}>Score: {payload[0].value}</div>
+      <div style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, color: '#1a1207', marginBottom: 3 }}>{label}</div>
+      <div style={{ color: '#f59e0b', fontWeight: 600, fontFamily: 'monospace, sans-serif' }}>Score: {payload[0].value}</div>
     </div>
   );
 };
@@ -149,8 +149,8 @@ export default function Dashboard() {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(180,140,90,0.1)" vertical={false} />
-              <XAxis dataKey="date" tick={{ fontSize: 10.5, fill: '#b0a090', fontFamily: 'DM Sans' }} axisLine={false} tickLine={false} />
-              <YAxis domain={[0, 100]} tick={{ fontSize: 10.5, fill: '#b0a090', fontFamily: 'DM Sans' }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="date" tick={{ fontSize: 10.5, fill: '#b0a090', fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
+              <YAxis domain={[0, 100]} tick={{ fontSize: 10.5, fill: '#b0a090', fontFamily: 'monospace' }} axisLine={false} tickLine={false} />
               <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'rgba(245,158,11,0.2)', strokeWidth: 1 }} />
               <Area type="monotone" dataKey="score" stroke="#f59e0b" strokeWidth={2.2}
                 fill="url(#areaGrad)" dot={{ r: 3.5, fill: '#f59e0b', strokeWidth: 0 }}
@@ -242,13 +242,13 @@ export default function Dashboard() {
                           {row.username[0].toUpperCase()}
                         </div>
                         <a href={`https://github.com/${row.username}`} target="_blank" rel="noreferrer"
-                          style={{ fontWeight: 600, color: 'var(--text-900)', fontFamily: 'DM Sans, sans-serif', fontSize: 14 }}>
+                          style={{ fontWeight: 600, color: 'var(--text-900)', fontFamily: 'monospace, sans-serif', fontSize: 14 }}>
                           @{row.username}
                         </a>
                       </div>
                     </td>
                     <td>
-                      <span style={{ fontFamily: 'Syne, sans-serif', fontSize: 17, fontWeight: 800, color: getScoreColor(row.score) }}>
+                      <span style={{ fontFamily: 'Poppins, sans-serif', fontSize: 17, fontWeight: 800, color: getScoreColor(row.score) }}>
                         {row.score}
                       </span>
                       <span style={{ fontSize: 11, color: 'var(--text-300)', marginLeft: 2 }}>/100</span>
@@ -284,9 +284,9 @@ const s = {
   page: { display: 'flex', flexDirection: 'column', gap: 20 },
 
   pageHeader: { display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' },
-  pageBreadcrumb: { fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, color: 'var(--text-300)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 },
-  pageTitle: { fontFamily: 'Syne, sans-serif', fontSize: 30, fontWeight: 800, color: 'var(--text-900)', letterSpacing: '-0.03em' },
-  pageSub: { fontSize: 13.5, color: 'var(--text-500)', marginTop: 3, fontFamily: 'DM Sans, sans-serif' },
+  pageBreadcrumb: { fontFamily: 'monospace, sans-serif', fontSize: 11, fontWeight: 600, color: 'var(--text-300)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 },
+  pageTitle: { fontFamily: 'Poppins, sans-serif', fontSize: 30, fontWeight: 800, color: 'var(--text-900)', letterSpacing: '-0.03em' },
+  pageSub: { fontSize: 13.5, color: 'var(--text-500)', marginTop: 3, fontFamily: 'monospace, sans-serif' },
 
   errorBox: { background: 'rgba(239,68,68,0.07)', color: '#ef4444', padding: '11px 16px', borderRadius: 12, fontSize: 13 },
   kpiGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px,1fr))', gap: 14 },
@@ -295,57 +295,57 @@ const s = {
 
   chartCard: { padding: '24px 24px 16px' },
   chartHeader: { display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18 },
-  chartLabel: { fontFamily: 'DM Sans, sans-serif', fontSize: 12, fontWeight: 500, color: 'var(--text-300)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 5 },
-  chartBigNum: { fontFamily: 'Syne, sans-serif', fontSize: 40, fontWeight: 800, color: 'var(--text-900)', lineHeight: 1, letterSpacing: '-0.04em' },
+  chartLabel: { fontFamily: 'monospace, sans-serif', fontSize: 12, fontWeight: 500, color: 'var(--text-300)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 5 },
+  chartBigNum: { fontFamily: 'Poppins, sans-serif', fontSize: 40, fontWeight: 800, color: 'var(--text-900)', lineHeight: 1, letterSpacing: '-0.04em' },
   chartUnit: { fontSize: 18, fontWeight: 600, color: 'var(--text-300)' },
   chartBadge: {
     background: 'rgba(245,158,11,0.1)', color: '#92400e',
-    fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600,
+    fontFamily: 'monospace, sans-serif', fontSize: 11, fontWeight: 600,
     padding: '5px 12px', borderRadius: 20, letterSpacing: '0.02em',
   },
 
   darkPanel: { padding: '24px 22px', display: 'flex', flexDirection: 'column', gap: 18 },
   darkPanelHeader: { display: 'flex', alignItems: 'center', justifyContent: 'space-between' },
-  darkTitle: { fontFamily: 'Syne, sans-serif', fontSize: 17, fontWeight: 700, color: 'white' },
-  darkBadge: { fontFamily: 'DM Sans, sans-serif', fontSize: 11, color: 'rgba(245,158,11,0.6)', textTransform: 'uppercase', letterSpacing: '0.07em' },
+  darkTitle: { fontFamily: 'Poppins, sans-serif', fontSize: 17, fontWeight: 700, color: 'white' },
+  darkBadge: { fontFamily: 'monospace, sans-serif', fontSize: 11, color: 'rgba(245,158,11,0.6)', textTransform: 'uppercase', letterSpacing: '0.07em' },
   performerList: { display: 'flex', flexDirection: 'column', gap: 14 },
   performer: { display: 'flex', alignItems: 'center', gap: 10 },
   performerRank: {
     width: 22, height: 22, borderRadius: '50%', display: 'flex',
     alignItems: 'center', justifyContent: 'center',
-    fontSize: 10, fontFamily: 'Syne, sans-serif', fontWeight: 800, flexShrink: 0,
+    fontSize: 10, fontFamily: 'Poppins, sans-serif', fontWeight: 800, flexShrink: 0,
   },
   performerAva: {
     width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
     background: 'rgba(245,158,11,0.2)', color: '#f59e0b',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontSize: 12, fontWeight: 700, fontFamily: 'Syne, sans-serif',
+    fontSize: 12, fontWeight: 700, fontFamily: 'Poppins, sans-serif',
   },
   performerInfo: { flex: 1, display: 'flex', flexDirection: 'column', gap: 5 },
-  performerName: { fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.85)', fontFamily: 'DM Sans, sans-serif' },
-  performerScore: { fontFamily: 'Syne, sans-serif', fontSize: 16, fontWeight: 800, flexShrink: 0 },
+  performerName: { fontSize: 12.5, fontWeight: 600, color: 'rgba(255,255,255,0.85)', fontFamily: 'monospace, sans-serif' },
+  performerScore: { fontFamily: 'Poppins, sans-serif', fontSize: 16, fontWeight: 800, flexShrink: 0 },
   darkCta: {
     width: '100%', padding: '10px', borderRadius: 12, border: 'none',
     background: 'rgba(245,158,11,0.1)', color: '#f59e0b',
-    fontFamily: 'DM Sans, sans-serif', fontSize: 13, fontWeight: 600,
+    fontFamily: 'monospace, sans-serif', fontSize: 13, fontWeight: 600,
     cursor: 'pointer', transition: 'background 0.2s ease', display: 'flex',
     alignItems: 'center', justifyContent: 'center', gap: 7, marginTop: 'auto',
   },
 
   tableCard: { padding: '22px 24px' },
   tableHeader: { display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18, gap: 12 },
-  tableTitle: { fontFamily: 'Syne, sans-serif', fontSize: 16, fontWeight: 700, color: 'var(--text-900)' },
-  tableSub: { fontSize: 12, color: 'var(--text-300)', marginTop: 2, fontFamily: 'DM Sans, sans-serif' },
+  tableTitle: { fontFamily: 'Poppins, sans-serif', fontSize: 16, fontWeight: 700, color: 'var(--text-900)' },
+  tableSub: { fontSize: 12, color: 'var(--text-300)', marginTop: 2, fontFamily: 'monospace, sans-serif' },
   tableAva: {
     width: 30, height: 30, borderRadius: '50%',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontSize: 12, fontWeight: 700, flexShrink: 0, fontFamily: 'Syne, sans-serif',
+    fontSize: 12, fontWeight: 700, flexShrink: 0, fontFamily: 'Poppins, sans-serif',
   },
   rerunBtn: {
     padding: '5px 14px', borderRadius: 8, border: 'none',
     background: 'rgba(245,158,11,0.08)', color: '#92400e',
     fontSize: 12, fontWeight: 600, cursor: 'pointer', transition: 'background 0.2s ease',
-    fontFamily: 'DM Sans, sans-serif',
+    fontFamily: 'monospace, sans-serif',
   },
 
   emptyWrap: { display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '65vh' },

@@ -20,7 +20,7 @@ function ScoreTrendPill({ score }) {
       display: 'inline-flex', alignItems: 'center', gap: 4,
       padding: '3px 10px', borderRadius: 999,
       background: color + '14', color,
-      fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600,
+      fontFamily: 'monospace, sans-serif', fontSize: 11, fontWeight: 600,
     }}>
       {label}
     </span>
@@ -241,7 +241,7 @@ const s = {
   page: { display: 'flex', flexDirection: 'column', gap: 20 },
 
   pageHeader: { display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' },
-  breadcrumb: { fontFamily: 'DM Sans, sans-serif', fontSize: 11, fontWeight: 600, color: 'var(--text-300)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 },
+  breadcrumb: { fontFamily: 'monospace, sans-serif', fontSize: 11, fontWeight: 600, color: 'var(--text-300)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 },
   title: { fontFamily: 'Syne, sans-serif', fontSize: 30, fontWeight: 800, color: 'var(--text-900)', letterSpacing: '-0.03em' },
   sub: { fontSize: 13.5, color: 'var(--text-500)', marginTop: 4, fontFamily: 'Poppins, sans-serif' },
 
@@ -253,7 +253,7 @@ const s = {
   },
   sortSelect: {
     border: 'none', background: 'transparent', outline: 'none',
-    fontFamily: 'DM Sans, sans-serif', fontSize: 13, color: 'var(--text-700)',
+    fontFamily: 'monospace, sans-serif', fontSize: 13, color: 'var(--text-700)',
     fontWeight: 500, cursor: 'pointer', padding: 0, appearance: 'none',
   },
 
@@ -261,7 +261,7 @@ const s = {
     display: 'flex', alignItems: 'center', gap: 8,
     background: 'rgba(239,68,68,0.07)', color: '#ef4444',
     padding: '11px 16px', borderRadius: 12, fontSize: 13,
-    fontFamily: 'DM Sans, sans-serif', border: '1px solid rgba(239,68,68,0.14)',
+    fontFamily: 'monospace, sans-serif', border: '1px solid rgba(239,68,68,0.14)',
   },
 
   /* empty */
@@ -290,17 +290,17 @@ const s = {
   },
   aiPill: {
     background: 'rgba(245,158,11,0.1)', color: '#92400e',
-    fontFamily: 'DM Sans, sans-serif', fontSize: 10.5, fontWeight: 700,
+    fontFamily: 'monospace, sans-serif', fontSize: 10.5, fontWeight: 700,
     padding: '2px 8px', borderRadius: 20,
   },
   cardMeta: { display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' },
   cardDate: {
     display: 'flex', alignItems: 'center', gap: 4,
-    fontFamily: 'DM Sans, sans-serif', fontSize: 11.5, color: 'var(--text-300)',
+    fontFamily: 'monospace, sans-serif', fontSize: 11.5, color: 'var(--text-300)',
   },
   portfolioPill: {
     display: 'inline-flex', alignItems: 'center', gap: 4,
-    fontFamily: 'DM Sans, sans-serif', fontSize: 11, color: '#22c55e',
+    fontFamily: 'monospace, sans-serif', fontSize: 11, color: '#22c55e',
     background: 'rgba(34,197,94,0.08)', padding: '2px 8px', borderRadius: 99,
   },
   insightRow: { display: 'flex', flexDirection: 'column', gap: 3 },
@@ -311,11 +311,11 @@ const s = {
   scoreBig: { fontFamily: 'Syne, sans-serif', fontSize: 24, fontWeight: 800, lineHeight: 1, letterSpacing: '-0.02em' },
   scoreUnit: { fontSize: 12, fontWeight: 400, color: 'var(--text-300)', marginLeft: 2 },
   ghLink: {
-    fontFamily: 'DM Sans, sans-serif', fontSize: 11.5, color: 'var(--text-300)',
+    fontFamily: 'monospace, sans-serif', fontSize: 11.5, color: 'var(--text-300)',
     fontWeight: 500, textDecoration: 'none', transition: 'color 0.2s',
   },
 
   /* pagination */
   pagination: { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 14, paddingTop: 8 },
-  pageInfo: { fontFamily: 'DM Sans, sans-serif', fontSize: 13.5 },
+  pageInfo: { fontFamily: 'monospace, sans-serif', fontSize: 13.5 },
 };

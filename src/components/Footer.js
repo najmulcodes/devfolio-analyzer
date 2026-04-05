@@ -115,7 +115,7 @@ const styles = {
     flexShrink: 0,
   },
   logoText: {
-    fontFamily: 'Syne, sans-serif', fontSize: 16, fontWeight: 800, color: 'white',
+    fontFamily: 'monospace, sans-serif', fontSize: 16, fontWeight: 800, color: 'white',
   },
   brandDesc: { fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, maxWidth: 300 },
   socialRow: { display: 'flex', gap: 10, marginTop: 4 },
@@ -128,7 +128,7 @@ const styles = {
   },
   linkGroup: { display: 'flex', flexDirection: 'column', gap: 10 },
   linkTitle: {
-    fontFamily: 'Syne, sans-serif', fontSize: 13, fontWeight: 700,
+    fontFamily: 'monospace, sans-serif', fontSize: 13, fontWeight: 700,
     color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase',
     letterSpacing: '0.08em', marginBottom: 4,
   },

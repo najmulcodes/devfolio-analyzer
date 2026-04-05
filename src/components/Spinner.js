@@ -57,7 +57,7 @@ export function PageLoader({ message = 'Loading...' }) {
     >
       <Spinner size={48} />
       <p style={{
-        fontFamily: 'var(--font-ui, "DM Sans", sans-serif)',
+        fontFamily: 'var(--font-ui, "monospace", sans-serif)',
         fontSize: '0.9375rem',
         color: 'var(--text-mid, #4a3728)',
         fontWeight: 500,

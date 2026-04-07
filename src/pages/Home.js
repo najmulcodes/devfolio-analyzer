@@ -7,15 +7,15 @@ import Footer from '../components/Footer';
 function useFadeIn() {
   useEffect(() => {
     const els = document.querySelectorAll('[data-fade]');
-    const io = new IntersectionObserver(
-      entries => entries.forEach(e => {
+    if (!('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
         if (e.isIntersecting) {
           e.target.style.opacity = '1';
           e.target.style.transform = 'translateY(0)';
         }
-      }),
-      { threshold: 0.10 }
-    );
+      });
+    }, { threshold: 0.10 });
     els.forEach(el => io.observe(el));
     return () => io.disconnect();
   }, []);
@@ -86,7 +86,7 @@ export default function Home() {
         </div>
 
         {/* Dashboard preview */}
-        <div className="home-preview-outer" style={{ ...fade, transitionDelay: "0.5s" }} data-fade>
+        <div className="home-preview-outer" style={{ ...fade, transitionDelay: "0.5s", width: '100%', maxWidth: 300, }} data-fade>
           <div className="home-preview-card" style={styles.previewCard}>
             <div style={styles.previewBar}>
               <div style={styles.previewDot} />
@@ -116,8 +116,8 @@ export default function Home() {
                 </svg>
               </div>
               {[
-                { initials: 'TL', name: '@torvalds',    score: 91, pct: '91%', bg: '#f59e0b' },
-                { initials: 'DA', name: '@dan_abramov', score: 78, pct: '78%', bg: '#6366f1' },
+                { initials: 'NJ', name: '@najmulcodes',    score: 91, pct: '91%', bg: '#f59e0b' },
+                { initials: 'PR', name: '@ProgrammingHero1', score: 78, pct: '78%', bg: '#6366f1' },
               ].map(r => (
                 <div key={r.name} style={styles.mockRow}>
                   <div style={{ ...styles.mockAva, background: r.bg }}>{r.initials}</div>
@@ -305,14 +305,14 @@ const styles = {
 
   /* hero */
   hero: {
-    maxWidth: 1200, margin: '0 auto',
-    padding: '80px 48px 60px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: 60,
-    position: 'relative',
-    overflow: 'hidden',
-  },
+  maxWidth: 1200,
+  margin: '0 auto',
+  padding: '80px 48px 60px',
+  display: 'flex',
+  alignItems: 'center',
+  gap: 60,
+  flexWrap: 'wrap', 
+},
   heroBlob1: {
     position: 'absolute', width: 500, height: 500, borderRadius: '50%',
     background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 68%)',
@@ -323,7 +323,7 @@ const styles = {
     background: 'radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%)',
     bottom: -60, left: 40, pointerEvents: 'none',
   },
-  heroInner: { flex: 1, position: 'relative', zIndex: 1 },
+  heroInner: { flex: 1, minWidth: 300, position: 'relative', zIndex: 1 },
 
   heroBadge: {
   display: 'inline-flex',

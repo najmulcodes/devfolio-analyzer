@@ -239,10 +239,10 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Back to home */}
-          <Link to="/" style={s.backLink}>
+          {/* Back to Analyze */}
+          <Link to="./Analyze" style={s.analyzelink}>
             <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-            Back to home
+           Continue without signing in
           </Link>
         </div>
       </div>
@@ -252,14 +252,14 @@ export default function Login() {
 
 const s = {
   page: {
-    minHeight: '100vh', display: 'flex',
+    Height: '100dvh', display: 'flex', overflow: 'hidden', flexWrap: 'wrap',
     background: 'linear-gradient(145deg, #ede8df 0%, #e8ddd0 40%, #dfd3c0 100%)',
     fontFamily: 'Poppins, sans-serif',
   },
 
   /* Left */
   left: {
-    flex: '0 0 480px', position: 'relative', overflow: 'hidden',
+    flex: '1 1 100px', maxWidth: 480, position: 'relative', overflow: 'hidden',
     background: 'linear-gradient(160deg, #1a1207 0%, #241a0e 55%, #1f1709 100%)',
     display: 'flex', flexDirection: 'column',
   },
@@ -273,21 +273,21 @@ const s = {
     background: 'radial-gradient(circle, rgba(245,158,11,0.10) 0%, transparent 70%)',
     bottom: -80, left: -60, pointerEvents: 'none',
   },
-  leftContent: { position: 'relative', zIndex: 1, padding: '40px 44px', display: 'flex', flexDirection: 'column', height: '100%', gap: 22 },
-  logoLink: { display: 'inline-flex', alignItems: 'center', gap: 12, textDecoration: 'none', marginBottom: 12, },
+  leftContent: { position: 'relative', zIndex: 1, padding: '36px 40px', display: 'flex', flexDirection: 'column', height: '100%', gap: 22, justifyContent: 'space-between', },
+  logoLink: { display: 'inline-flex', alignItems: 'center', gap: 12, textDecoration: 'none', marginBottom: 20, },
   logoText: { fontFamily: 'Poppins, sans-serif', fontSize: '1.2rem', fontWeight: 800, color: 'white', letterSpacing: '-0.03em' },
-  leftMain: { display: 'flex', flexDirection: 'column', gap: 18, justifyContent: 'flex-start', marginTop: 8,},
+  leftMain: { display: 'flex', flexDirection: 'column', gap: 16, justifyContent: 'flex-start', },
   leftBadge: {
-    display: 'inline-flex', alignItems: 'center', gap: 7,
+    display: 'inline-flex', alignItems: 'center', gap: 10,
     padding: '6px 14px', borderRadius: 99,
     background: 'rgba(245,158,11,0.12)', border: '1px solid rgba(245,158,11,0.25)',
     color: '#f59e0b', fontFamily: 'monospace, sans-serif', fontSize: 12, fontWeight: 600,
-    letterSpacing: '0.02em', width: 'fit-content',
+    letterSpacing: '0.02em', width: 'fit-content', marginTop: 2,
   },
   leftBadgeDot: {
     width: 6, height: 6, borderRadius: '50%', background: '#f59e0b', flexShrink: 0,
     boxShadow: '0 0 6px #f59e0b, 0 0 12px rgba(245,158,11,0.6)',
-    animation: 'pulseGlow 2s ease-in-out infinite',
+    animation: 'pulseGlow 2s ease-in-out infinite', marginTop: 2,
   },
   leftTitle: {
     fontFamily: 'monospace, sans-serif', fontSize: 'clamp(28px, 3vw, 28px)', fontWeight: 800,
@@ -314,7 +314,7 @@ const s = {
   /* Right */
   right: {
     flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-    padding: '40px 24px',
+    padding: '40px 24px', overflow: 'hidden',
   },
   formOuter: { width: '100%', maxWidth: 420, display: 'flex', flexDirection: 'column', gap: 16 },
 
@@ -390,7 +390,7 @@ const s = {
     transition: 'color 0.2s',
   },
 
-  backLink: {
+  analyzelink: {
     display: 'inline-flex', alignItems: 'center', gap: 6,
     fontFamily: 'monospace, sans-serif', fontSize: 13, color: 'var(--text-500)',
     textDecoration: 'none', transition: 'color 0.2s', justifyContent: 'center',

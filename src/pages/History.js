@@ -4,6 +4,7 @@ import api from '../utils/api';
 import ScoreRing from '../components/ScoreRing';
 import { PageLoader } from '../components/Spinner';
 import { formatDate, getScoreColor } from '../utils/helpers';
+import { useAuth } from '../context/AuthContext';
 
 const SORT_OPTIONS = [
   { value: 'date_desc',  label: 'Newest first' },
@@ -29,6 +30,7 @@ function ScoreTrendPill({ score }) {
 
 export default function History() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [analyses, setAnalyses]   = useState([]);
   const [total, setTotal]         = useState(0);
   const [page, setPage]           = useState(1);
@@ -53,6 +55,10 @@ export default function History() {
     } catch (e) { setError(e.message); }
     finally { setLoading(false); }
   };
+  
+  useEffect(() => {
+    if (!user) navigate('/login');
+  }, [user, navigate]);
 
   useEffect(() => { load(1, sort); }, []);
 

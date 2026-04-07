@@ -107,7 +107,7 @@ export default function Dashboard() {
         <div>
           <div style={s.pageBreadcrumb}>Overview</div>
           <h1 style={s.pageTitle}>Dashboard</h1>
-          <p style={s.pageSub}>Welcome back, <strong style={{ color: 'var(--text-900)' }}>{user.email.split('@')[0]}</strong></p>
+          <p style={s.pageSub}>Welcome back, <strong style={{ color: 'var(--text-900)' }}>{user?.email?.split('@')[0] || 'User'}</strong></p>
         </div>
         <button onClick={() => navigate('/analyze')} className="btn-primary" style={{ padding: '12px 24px', fontSize: 14.5 }}>
           {Icons.analyze} New Analysis

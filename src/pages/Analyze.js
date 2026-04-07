@@ -89,7 +89,6 @@ export default function Analyze() {
     if (u) setGithubUsername(u);
   }, [searchParams]);
 
-  // ✅ FIXED LOGIC HERE ONLY
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -125,7 +124,6 @@ export default function Analyze() {
 
       <div className="fade-up" style={s.headerWrap}>
         <div>
-          <div style={s.breadcrumb}>Analysis</div>
           <h1 style={s.title}>Analyze a Profile</h1>
           <p style={s.sub}>
             Enter a GitHub username, a Portfolio URL, or both.

@@ -20,7 +20,7 @@ export default function Footer() {
           <div style={styles.logoRow}>
             {/* Icon version inverted for dark footer */}
             <img
-              src="/logo-icon.svg"
+              src="/favicon.svg"
               alt="DevFolio"
               width={34}
               height={34}
@@ -30,7 +30,7 @@ export default function Footer() {
             <span style={styles.logoText}>DevFolio Analyzer</span>
           </div>
           <p style={styles.brandDesc}>
-            Instantly score and improve your developer portfolio with AI-powered insights.
+            Instantly score and improve your developer Portfolio and Github with AI-powered insights.
           </p>
           <div style={styles.socialRow}>
             <a
@@ -70,22 +70,19 @@ export default function Footer() {
         {/* Right: Contact */}
         <div style={styles.linkGroup}>
           <div style={styles.linkTitle}>Contact</div>
-          <a href="mailto:hello@najmulcodes.dev" style={styles.footerLinkA}>
-            hello@najmulcodes.dev
+          <a href="mailto:najmulhasanshahin@gmail.com" style={styles.footerLinkA}>
+            MAIL to DEV
           </a>
           <a href="https://github.com/najmulcodes/devfolio-analyzer" target="_blank" rel="noreferrer" style={styles.footerLinkA}>
             View on GitHub
-          </a>
-          <a href="https://github.com/najmulcodes/devfolio-analyzer-server" target="_blank" rel="noreferrer" style={styles.footerLinkA}>
-            Backend Repo
-          </a>
+            </a>
         </div>
       </div>
 
       {/* Bottom bar */}
       <div style={styles.bottomBar}>
-        <span>© {year} DevFolio Analyzer. Built for learning purposes.</span>
-        <span style={styles.bottomRight}>Made with ☕ by najmulcodes</span>
+        <span>© {year} DevFolio Analyzer.</span>
+        <span style={styles.bottomRight}>Made by najmulcodes</span>
       </div>
     </footer>
   );
@@ -100,16 +97,21 @@ const styles = {
   inner: {
     maxWidth: 1120, margin: '0 auto',
     display: 'grid',
-    gridTemplateColumns: '2fr 1fr 1fr',
+    gridTemplateColumns: '1.6fr 1fr 1fr',
     gap: 48, paddingBottom: 48,
     borderBottom: '1px solid rgba(255,255,255,0.08)',
+    alignItems: 'start',
   },
   brand: { display: 'flex', flexDirection: 'column', gap: 14 },
   logoRow: { display: 'flex', alignItems: 'center', gap: 10 },
+
+
   /* The icon SVG has a dark (#0F172A) background — it reads well on the dark footer */
   logoImg: {
     objectFit: 'contain',
     borderRadius: 8,
+
+
     /* Slight brightness boost so it reads clearly against #1f2937 */
     filter: 'brightness(1.15)',
     flexShrink: 0,
@@ -117,7 +119,7 @@ const styles = {
   logoText: {
     fontFamily: 'monospace, sans-serif', fontSize: 16, fontWeight: 800, color: 'white',
   },
-  brandDesc: { fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, maxWidth: 300 },
+  brandDesc: { fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.7, maxWidth: 340 },
   socialRow: { display: 'flex', gap: 10, marginTop: 4 },
   socialLink: {
     width: 36, height: 36, borderRadius: 8,
@@ -126,11 +128,11 @@ const styles = {
     color: 'rgba(255,255,255,0.6)',
     transition: 'background 0.15s, color 0.15s',
   },
-  linkGroup: { display: 'flex', flexDirection: 'column', gap: 10 },
+  linkGroup: { display: 'flex', flexDirection: 'column', gap: 10 , alignItems: 'flex-start'},
   linkTitle: {
     fontFamily: 'monospace, sans-serif', fontSize: 13, fontWeight: 700,
     color: 'rgba(255,255,255,0.35)', textTransform: 'uppercase',
-    letterSpacing: '0.08em', marginBottom: 4,
+    letterSpacing: '0.08em', marginBottom: 8,
   },
   footerLink: {
     background: 'none', border: 'none', cursor: 'pointer',

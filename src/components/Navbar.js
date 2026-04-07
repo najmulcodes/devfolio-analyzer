@@ -183,7 +183,7 @@ export default function Navbar() {
                   e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                Sign in
+                Try Free
               </Link>
             )}
           </div>
@@ -288,7 +288,7 @@ export default function Navbar() {
                 textAlign: 'center',
               }}
             >
-              Sign in
+              Try Free
             </Link>
           )}
         </div>

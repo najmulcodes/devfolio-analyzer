@@ -1,8 +1,6 @@
 <div align="center">
 
-#DEV FOLIO
-
-<br />
+**DEV FOLIO**
 
 **Analyze your GitHub profile and portfolio in seconds.**  
 AI-powered scoring, actionable feedback, and a clean developer-first dashboard.

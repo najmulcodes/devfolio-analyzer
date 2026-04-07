@@ -182,12 +182,6 @@ input:focus, textarea:focus, select:focus {
   background: var(--cream);
 }
 
-/* Mobile fix */
-@media (max-width: 768px) {
-  .app-layout {
-    flex-direction: column; /* ✅ STACK instead of side-by-side */
-  }
-}
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -205,7 +199,7 @@ input:focus, textarea:focus, select:focus {
 .main-content { flex: 1; padding: 32px 32px 48px; overflow-y: auto; min-width: 0; }
 @media (max-width: 768px) {
   .main-content {
-    padding: 20px 16px;
+    width: 100%;
   }
 }
 .fade-up { animation: fadeInUp 0.42s ease forwards; }

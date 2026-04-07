@@ -1,21 +1,22 @@
 <div align="center">
 
-**DEV FOLIO**
+<br />
 
-**Analyze your GitHub profile and portfolio in seconds.**  
-AI-powered scoring, actionable feedback, and a clean developer-first dashboard.
+# DevFolio Analyzer
+
+### GitHub profile + portfolio scoring engine — powered by Claude AI
 
 <br />
 
-![React](https://img.shields.io/badge/React_18-61dafb?style=flat-square&logo=react&logoColor=black)
-![React Router](https://img.shields.io/badge/React_Router_v6-ca4245?style=flat-square&logo=reactrouter&logoColor=white)
-![Recharts](https://img.shields.io/badge/Recharts_2.10-22b5bf?style=flat-square)
-![Vercel](https://img.shields.io/badge/Deployed_on_Vercel-000000?style=flat-square&logo=vercel)
-![License](https://img.shields.io/badge/License-MIT-f59e0b?style=flat-square)
+[![React](https://img.shields.io/badge/React_18-20232a?style=flat-square&logo=react&logoColor=61dafb)](https://reactjs.org)
+[![React Router](https://img.shields.io/badge/React_Router_v6-20232a?style=flat-square&logo=reactrouter&logoColor=ca4245)](https://reactrouter.com)
+[![Recharts](https://img.shields.io/badge/Recharts-20232a?style=flat-square&logoColor=22b5bf)](https://recharts.org)
+[![Vercel](https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
+[![MIT License](https://img.shields.io/badge/License-MIT-f59e0b?style=flat-square)](./LICENSE)
 
 <br />
 
-[**Live Demo →**](https://devfolio-analyzer.vercel.app) &nbsp;·&nbsp; [Report Bug](https://github.com/najmulcodes/devfolio-analyzer/issues) &nbsp;·&nbsp; [Request Feature](https://github.com/najmulcodes/devfolio-analyzer/issues)
+[**devfolio-analyzer.vercel.app →**](https://devfolio-analyzer.vercel.app)
 
 <br />
 
@@ -23,85 +24,53 @@ AI-powered scoring, actionable feedback, and a clean developer-first dashboard.
 
 ---
 
-## What It Does
+## Overview
 
-DevFolio Analyzer takes your **GitHub username** and **portfolio URL**, runs them through a scoring engine (Claude AI-powered or rule-based fallback), and returns an honest breakdown of your developer profile — what's strong, what's missing, and what to fix.
+DevFolio Analyzer is a full-stack developer profiling tool that evaluates a developer's GitHub activity and portfolio site against a structured scoring rubric. Users receive a weighted composite score, per-signal breakdowns, and AI-generated improvement recommendations — all persisted to a user account for tracking over time.
 
-No fluff. No fake metrics. Just real signal.
+The scoring engine runs two independent analysis pipelines:
+
+- **GitHub pipeline** — evaluates contribution frequency, repository quality, profile completeness, and activity patterns via the GitHub API
+- **Portfolio pipeline** — crawls the provided URL and checks 12 signals including presence of project demos, tech stack documentation, resume link, SEO metadata, social proof, and mobile viewport
+
+Results from both pipelines are merged into a single weighted composite score and stored against the authenticated user's history.
 
 ---
 
-## Features
+## Architecture
 
-| | Feature | Description |
-|---|---|---|
-| 🎯 | **Score Ring** | Animated SVG ring (0–100) color-coded by performance tier |
-| 📊 | **Score Breakdown** | Weighted progress bars for every scoring factor |
-| 🧠 | **AI Analysis** | Claude AI feedback with rule-based fallback |
-| 🔗 | **Portfolio Signals** | 12-point checklist — bio, demos, SEO, resume, stack, social, and more |
-| ⚡ | **Combined Mode** | Side-by-side GitHub + Portfolio scores with a weighted combined score |
-| 📈 | **Dashboard** | KPI cards, score history chart (Recharts), recent activity table |
-| 🕓 | **History** | Paginated saved analyses with mini score rings |
-| 🔐 | **Auth Flow** | JWT login/register with guest mode — results saved when authenticated |
-| 📱 | **Responsive** | Desktop, tablet, and mobile across all pages |
+```
+┌─────────────────────────────────────────────────────────┐
+│                        Client (React)                    │
+│                                                         │
+│   Landing → Analyze → [ GitHub Score | Portfolio Score ]│
+│                ↓               ↓                        │
+│           AuthContext      API Layer (Axios)             │
+│                ↓               ↓                        │
+│         JWT token cache    REST API (private)            │
+└─────────────────────────────────────────────────────────┘
+                              ↓
+              ┌───────────────────────────┐
+              │     Scoring Engine        │
+              │  GitHub API + Claude AI   │
+              │  + Rule-based fallback    │
+              └───────────────────────────┘
+```
+
+The frontend is a pure consumer — it holds no scoring logic. All analysis, AI calls, and persistence happen server-side. The React app is responsible for auth state, result rendering, and history display only.
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|---|---|
-| Framework | React 18 (CRA) |
-| Routing | React Router v6 |
-| Charts | Recharts 2.10 |
-| HTTP Client | Axios (with auth interceptor) |
-| Auth | JWT via AuthContext |
-| Fonts | Syne · Poppins · DM Sans |
-| Deployment | Vercel |
-
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js v18+
-- npm v9+
-
-### Installation
-
-```bash
-# Clone the repo
-git clone https://github.com/najmulcodes/devfolio-analyzer.git
-cd devfolio-analyzer
-
-# Install dependencies
-npm install
-
-# Set up environment
-cp .env.example .env
-```
-
-### Environment Variables
-
-```env
-# .env
-REACT_APP_API_URL=https://your-api-url.com/api
-```
-
-### Run Locally
-
-```bash
-npm start
-# → http://localhost:3000
-```
-
-### Production Build
-
-```bash
-npm run build
-# Output: /build — deploy to Vercel, Netlify, or any static host
-```
+| Concern | Choice | Reason |
+|---|---|---|
+| UI Framework | React 18 (CRA) | Stable, well-supported, sufficient for this scope |
+| Routing | React Router v6 | Nested layouts, protected routes via `<Outlet>` |
+| Data Fetching | Axios | Interceptor-based auth token injection |
+| Charts | Recharts | Composable, responsive, React-native |
+| Auth | JWT + Context API | Stateless auth, no external auth dependency |
+| Deployment | Vercel | Zero-config CI/CD from GitHub |
 
 ---
 
@@ -111,141 +80,135 @@ npm run build
 src/
 ├── components/
 │   ├── Navbar.js           # Sticky nav — blur-on-scroll, mobile hamburger
-│   ├── Sidebar.js          # Dashboard sidebar
-│   ├── Footer.js           # Dark footer with links
-│   ├── AnalysisResult.js   # Full result panel (GitHub + Portfolio tabs)
-│   ├── ScoreRing.js        # Animated SVG score ring
-│   ├── KpiCard.js          # KPI metric card
-│   └── Spinner.js          # Inline spinner + full-screen PageLoader
+│   ├── Sidebar.js          # Dashboard layout sidebar
+│   ├── Footer.js
+│   ├── AnalysisResult.js   # Tabbed result panel (GitHub / Portfolio / Combined)
+│   ├── ScoreRing.js        # Animated SVG ring — score via stroke-dashoffset
+│   ├── KpiCard.js          # Reusable metric card
+│   └── Spinner.js          # Inline + full-screen PageLoader variants
+│
 ├── context/
-│   └── AuthContext.js      # JWT auth state (AuthContext, AuthProvider, useAuth)
+│   └── AuthContext.js      # JWT auth — provides user, login(), logout(), loading
+│
 ├── pages/
-│   ├── Home.js             # Public landing page
-│   ├── Analyze.js          # Analysis form + result display
-│   ├── Dashboard.js        # KPIs + chart + activity table
-│   ├── History.js          # Paginated analysis history
-│   └── Login.js            # Login + Register toggle
+│   ├── Home.js             # Public landing (Hero, Features, How It Works, CTA)
+│   ├── Analyze.js          # Analysis entry point — form + result orchestration
+│   ├── Dashboard.js        # Score history chart + KPI summary + activity table
+│   ├── History.js          # Paginated saved analyses
+│   └── Login.js            # Login / Register with client-side toggle
+│
 ├── utils/
-│   ├── api.js              # Axios instance with auth interceptor
-│   └── helpers.js          # Score color, label, date formatters
-├── App.js                  # Routing + layout logic
-├── index.js                # React entry point
-└── index.css               # Global styles + CSS design tokens
+│   ├── api.js              # Axios instance — base URL + auth interceptor
+│   └── helpers.js          # Score tier mapping, label formatting, date utils
+│
+├── App.js                  # Route definitions + layout composition
+├── index.js
+└── index.css               # CSS custom properties (design tokens) + global resets
 ```
+
+**Key decisions:**
+- `api.js` is the single integration point for all HTTP calls. No component imports `axios` directly.
+- `AuthContext` is the only global state. There is no Redux or Zustand — the auth surface is small enough that Context + local state covers all cases cleanly.
+- Pages own their data-fetching logic. There is no global data layer or cache — analyses are lightweight and don't benefit from one at this scale.
 
 ---
 
-## Pages & Routes
+## Routes
 
 | Route | Auth | Description |
 |---|---|---|
-| `/` | Public | Landing page — Hero, Features, How It Works, CTA |
-| `/login` | Public | Login + Register with toggle |
-| `/analyze` | Optional | Run analysis; results saved if authenticated |
-| `/dashboard` | Optional | KPIs + chart (empty state for guests) |
-| `/history` | Required | Paginated saved analyses |
+| `/` | Public | Landing page |
+| `/login` | Public | Auth — login or register, client-side toggle |
+| `/analyze` | Optional | Run analysis — results saved only if authenticated |
+| `/dashboard` | Optional | Score trends + KPIs — empty state for guests |
+| `/history` | Required | Full paginated analysis history |
+
+Guest mode is intentional. Users can run a full analysis without an account; the gate is only on persistence and history access.
 
 ---
 
-## Auth
+## Local Development
 
-`AuthContext.js` exports three things — use what fits:
+### Prerequisites
 
-```js
-// Hook — recommended for pages and components
-import { useAuth } from '../context/AuthContext';
-const { user, login, logout } = useAuth();
+- Node.js v18+
+- npm v9+
 
-// Context — for components using useContext directly
-import { AuthContext } from '../context/AuthContext';
-const { user, logout } = useContext(AuthContext);
+### Setup
 
-// Provider — wraps the app in App.js
-import { AuthProvider } from '../context/AuthContext';
+```bash
+git clone https://github.com/najmulcodes/devfolio-analyzer.git
+cd devfolio-analyzer
+npm install
+cp .env.example .env
 ```
 
----
+### Environment
 
-## Spinner
-
-```js
-// Default import — for inline loading states
-import Spinner from '../components/Spinner';
-
-// Named import — for full-screen overlay
-import { PageLoader } from '../components/Spinner';
-
-<PageLoader message="Analyzing..." />
+```env
+REACT_APP_API_URL=https://your-api-url.com/api
 ```
 
----
+### Run
 
-## Design System
-
-### Colors
-
-| Token | Value | Usage |
-|---|---|---|
-| `--cream` | `#fdf6ef` | Page background |
-| `--orange` | `#f59e0b` | Primary accent |
-| `--orange-light` | `#ff6b35` | Gradient end |
-| `--orange-pale` | `#fff0e8` | Cards, badges |
-| `--text-dark` | `#1f2937` | Headings |
-| `--text-mid` | `#4a3728` | Body text |
-| `--text-light` | `#9b8374` | Labels, captions |
-
-### Score Tiers
-
-| Score | Color | Label |
-|---|---|---|
-| 80–100 | `#22c55e` | Excellent |
-| 60–79 | `#f59e0b` | Good |
-| 40–59 | `#ff6b35` | Fair |
-| 0–39 | `#ef4444` | Needs Work |
-
-### Typography
-
-| Role | Font | Weights |
-|---|---|---|
-| Display | Syne | 700, 800 |
-| Body | Poppins | 400, 500, 600 |
-| UI | DM Sans | 400, 500 |
+```bash
+npm start          # Development server → localhost:3000
+npm run build      # Production build → /build
+```
 
 ---
 
 ## Deployment
 
-1. Push to GitHub
-2. Go to [vercel.com](https://vercel.com) → **New Project** → Import repo
-3. Add environment variable:
-   ```
-   REACT_APP_API_URL = https://your-api-url.com/api
-   ```
-4. Deploy
+The app deploys to Vercel with zero configuration. Vercel auto-detects CRA, sets build command to `npm run build`, and serves from `/build`.
 
-Vercel auto-detects CRA — build command `npm run build`, output dir `build`.
+```bash
+# Required environment variable on Vercel
+REACT_APP_API_URL = https://your-api-url.com/api
+```
+
+Every push to `main` triggers a production deploy. PRs get preview deployments automatically.
+
+---
+
+## Known Limitations
+
+- **No real-time updates** — analysis results are point-in-time. Re-running the same username reflects the current state of the GitHub API at that moment.
+- **Portfolio crawling depends on server-side rendering** — SPAs that require JavaScript to render content may return incomplete signal results.
+- **AI fallback is silent** — when Claude AI is unavailable, the app falls back to rule-based scoring without surfacing a degraded-mode warning to the user. This should be made explicit in a future iteration.
+- **CRA** — Create React App is in maintenance mode. Migration to Vite is the recommended next step for improved build times and DX.
+
+---
+
+## Roadmap
+
+- [ ] Migrate from CRA to Vite
+- [ ] Add comparison view — score two GitHub profiles side by side
+- [ ] Webhook-based score refresh when GitHub activity changes
+- [ ] Export analysis as PDF report
+- [ ] Public profile pages — shareable score card URLs
 
 ---
 
 ## Contributing
 
 ```bash
-git checkout -b feat/your-feature
-git commit -m "feat: describe your change"
-git push origin feat/your-feature
-# Open a pull request
+# Branch naming
+git checkout -b feat/your-feature      # new functionality
+git checkout -b fix/issue-description  # bug fixes
+git checkout -b chore/task-name        # non-functional changes
+
+# Commit format (conventional commits)
+git commit -m "feat: add comparison view for dual profile scoring"
+git commit -m "fix: score ring animation breaks on Safari < 16"
+
+# Open a pull request against main
 ```
+
+PRs should include a clear description of what changed and why. Screenshots for UI changes.
 
 ---
 
 ## License
 
 MIT © 2026 [najmulcodes](https://github.com/najmulcodes)
-
----
-
-<div align="center">
-
-Built with React &nbsp;·&nbsp; Powered by Claude AI
-
-</div>

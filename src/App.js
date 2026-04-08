@@ -19,6 +19,7 @@ const pageMeta = {
 function TopHeader({ onMenuOpen }) {
   const { user } = useAuth();
   const location = useLocation();
+
   const meta = pageMeta[location.pathname] || {
     title: 'DevFolio',
     sub: '',
@@ -27,9 +28,15 @@ function TopHeader({ onMenuOpen }) {
   return (
     <div style={headerS.bar}>
       {/* Mobile hamburger */}
-      <button onClick={onMenuOpen} style={headerS.hamburger}>
+      <button
+        aria-label="menu"
+        onClick={onMenuOpen}
+        style={headerS.hamburger}
+      >
         <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-          <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
         </svg>
       </button>
 
@@ -37,9 +44,7 @@ function TopHeader({ onMenuOpen }) {
         <h2 style={headerS.title}>{meta.title}</h2>
 
         {meta.sub && (
-          <p style={headerS.sub}>
-            {meta.sub}
-          </p>
+          <p style={headerS.sub}>{meta.sub}</p>
         )}
       </div>
 
@@ -67,18 +72,17 @@ function TopHeader({ onMenuOpen }) {
 /* Styles */
 const headerS = {
   bar: {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  marginBottom: 28,
-  gap: 16,
-  position: 'sticky',
-  top: 0,
-  background: 'rgba(255,255,255,0.7)',
-  backdropFilter: 'blur(10px)',
-  zIndex: 10,
-},
-  
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 28,
+    gap: 16,
+    position: 'sticky',
+    top: 0,
+    background: 'rgba(255,255,255,0.7)',
+    backdropFilter: 'blur(10px)',
+    zIndex: 10,
+  },
   title: {
     fontFamily: "'Poppins', sans-serif",
     fontSize: 26,
@@ -99,12 +103,11 @@ const headerS = {
     gap: 10,
   },
   hamburger: {
-    background: 'none', 
-    border: 'none', 
+    background: 'none',
+    border: 'none',
     cursor: 'pointer',
-    color: 'var(--text-700)', 
-    padding: 4, 
-    display: 'none',
+    color: 'var(--text-700)',
+    padding: 4,
   },
   userPill: {
     display: 'flex',
@@ -158,7 +161,14 @@ function AppLayout() {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [mobileOpen]);
+
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   if (loading) return <PageLoader />;
 
@@ -172,7 +182,7 @@ function AppLayout() {
         element={
           <div className="app-layout">
             <Sidebar
-              className={mobileOpen ? "sidebar open" : "sidebar"}
+              className={mobileOpen ? 'sidebar open' : 'sidebar'}
               onNavigate={() => setMobileOpen(false)}
             />
 
@@ -186,17 +196,17 @@ function AppLayout() {
             <main className="main-content">
               <TopHeader onMenuOpen={() => setMobileOpen(true)} />
 
-              {location.pathname.startsWith("/dashboard") && <Dashboard />}
-              {location.pathname.startsWith("/analyze") && <Analyze />}
-              {location.pathname.startsWith("/history") && (
+              {location.pathname.startsWith('/dashboard') && <Dashboard />}
+              {location.pathname.startsWith('/analyze') && <Analyze />}
+              {location.pathname.startsWith('/history') && (
                 <ProtectedRoute>
                   <History />
                 </ProtectedRoute>
               )}
 
-              {!["/dashboard", "/analyze", "/history"].some(path =>
+              {!['/dashboard', '/analyze', '/history'].some(path =>
                 location.pathname.startsWith(path)
-              ) && <Navigate to="/dashboard" />}
+              ) && <Navigate to="/dashboard" replace />}
             </main>
           </div>
         }

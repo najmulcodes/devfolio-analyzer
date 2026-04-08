@@ -239,13 +239,13 @@ input:focus, textarea:focus, select:focus {
 .fade-up { animation: fadeInUp 0.42s ease forwards; }
 
 @media (max-width: 768px) {
-  button[style*="display: none"] {
+  button[style*="display: window.innerWidth <= 768 ? 'block' : 'none',] {
     display: block !important;
   }
 }
 @media (max-width: 768px) {
   .login-left {
-    display: none; /* ✅ hide left panel */
+    display: none;
   }
 }
 
@@ -262,6 +262,12 @@ input:focus, textarea:focus, select:focus {
     width: 100% !important;
     max-width: 100%;
     padding: 20px;
+  }
+}
+/* Hide hamburger on desktop */
+@media (min-width: 769px) {
+  button[aria-label="menu"] {
+    display: none !important;
   }
 }
 

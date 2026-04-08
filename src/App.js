@@ -155,55 +155,54 @@ function AppLayout() {
   const location = useLocation();
   const { loading } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
-  
+
   useEffect(() => {
-  document.body.style.overflow = mobileOpen ? 'hidden' : '';
-}, [mobileOpen]);
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+  }, [mobileOpen]);
 
   if (loading) return <PageLoader />;
 
   return (
-  <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/login" element={<Login />} />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
 
-    <Route
-      path="/*"
-      element={
-        <div className="app-layout">
-          <Sidebar
-            className={mobileOpen ? "sidebar open" : "sidebar"}
-            onNavigate={() => setMobileOpen(false)}
-          />
-
-          {mobileOpen && (
-            <div
-              className="sidebar-overlay"
-              onClick={() => setMobileOpen(false)}
+      <Route
+        path="/*"
+        element={
+          <div className="app-layout">
+            <Sidebar
+              className={mobileOpen ? "sidebar open" : "sidebar"}
+              onNavigate={() => setMobileOpen(false)}
             />
 
-          <main className="main-content">
-            <TopHeader onMenuOpen={() => setMobileOpen(true)} />
-
-            <>
-  {location.pathname.startsWith("/dashboard") && <Dashboard />}
-  {location.pathname.startsWith("/analyze") && <Analyze />}
-  {location.pathname.startsWith("/history") && (
-    <ProtectedRoute>
-      <History />
-    </ProtectedRoute>
-
-</>
-{!["/dashboard", "/analyze", "/history"].some(path =>
-  location.pathname.startsWith(path)
-) && <Navigate to="/dashboard" />}
+            {mobileOpen && (
+              <div
+                className="sidebar-overlay"
+                onClick={() => setMobileOpen(false)}
+              />
             )}
-          </main>
-        </div>
-      }
-    />
-  </Routes>
-);
+
+            <main className="main-content">
+              <TopHeader onMenuOpen={() => setMobileOpen(true)} />
+
+              {location.pathname.startsWith("/dashboard") && <Dashboard />}
+              {location.pathname.startsWith("/analyze") && <Analyze />}
+              {location.pathname.startsWith("/history") && (
+                <ProtectedRoute>
+                  <History />
+                </ProtectedRoute>
+              )}
+
+              {!["/dashboard", "/analyze", "/history"].some(path =>
+                location.pathname.startsWith(path)
+              ) && <Navigate to="/dashboard" />}
+            </main>
+          </div>
+        }
+      />
+    </Routes>
+  );
 }
 
 /* Root */

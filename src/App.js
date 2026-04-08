@@ -163,42 +163,49 @@ function AppLayout() {
   if (loading) return <PageLoader />;
 
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
+  <Routes>
+    <Route path="/" element={<Home />} />
+    <Route path="/login" element={<Login />} />
 
-      <Route
-        path="/*"
-        element={
-          <div className="app-layout">
-            <Sidebar
-  className={mobileOpen ? "sidebar open" : "sidebar"}
-  onNavigate={() => setMobileOpen(false)}
-/>
+    <Route
+      path="/*"
+      element={
+        <div className="app-layout">
+          <Sidebar
+            className={mobileOpen ? "sidebar open" : "sidebar"}
+            onNavigate={() => setMobileOpen(false)}
+          />
 
-{mobileOpen && (
-  <div
-    className="sidebar-overlay"
-    onClick={() => setMobileOpen(false)}
-  />
-)}
+          {mobileOpen && (
+            <div
+              className="sidebar-overlay"
+              onClick={() => setMobileOpen(false)}
+            />
+          )}
 
-            <main className="main-content">
-              <TopHeader onMenuOpen={() => setMobileOpen(true)} />
+          <main className="main-content">
+            <TopHeader onMenuOpen={() => setMobileOpen(true)} />
 
-<>
-  {location.pathname === "/dashboard" && <Dashboard />}
-  {location.pathname === "/analyze" && <Analyze />}
-  {location.pathname === "/history" && (
-    <ProtectedRoute>
-      <History />
-    </ProtectedRoute>
-  )}
-</>
+            <>
+              {location.pathname === "/dashboard" && <Dashboard />}
+              {location.pathname === "/analyze" && <Analyze />}
+              {location.pathname === "/history" && (
+                <ProtectedRoute>
+                  <History />
+                </ProtectedRoute>
+              )}
+            </>
 
-{!['/dashboard','/analyze','/history'].includes(location.pathname) && <Navigate to="/dashboard" />}
-</main>
-</div>
+            {!["/dashboard", "/analyze", "/history"].includes(location.pathname) && (
+              <Navigate to="/dashboard" />
+            )}
+          </main>
+        </div>
+      }
+    />
+  </Routes>
+);
+}
 
 /* Root */
 export default function App() {

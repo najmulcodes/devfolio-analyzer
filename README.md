@@ -16,7 +16,7 @@
 
 <br />
 
-[**devfolio-analyzer.vercel.app →**](https://devfolio-analyzer.vercel.app)
+[**devfolioanalyzer.vercel.app →**](https://devfolioanalyzer.vercel.app)
 
 <br />
 

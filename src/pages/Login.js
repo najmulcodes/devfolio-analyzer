@@ -30,13 +30,14 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [isCompact, setIsCompact] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth <= 1024 : false
+    typeof window !== 'undefined' ? window.innerWidth <= 768 : false
   );
   const [leftOpen, setLeftOpen] = useState(false);
+  const styles = getStyles(isCompact);
 
   useEffect(() => {
     const handleResize = () => {
-      const compact = window.innerWidth <= 1024;
+      const compact = window.innerWidth <= 768;
       setIsCompact(compact);
       if (!compact) setLeftOpen(false);
     };
@@ -78,7 +79,7 @@ export default function Login() {
 
   const leftPanelStyle = isCompact
     ? {
-        ...s.left,
+        ...styles.left,
         position: 'fixed',
         top: 0,
         left: 0,
@@ -92,35 +93,35 @@ export default function Login() {
         boxShadow: '18px 0 60px rgba(0,0,0,0.35)',
         pointerEvents: leftOpen ? 'auto' : 'none',
       }
-    : s.left;
+    : styles.left;
 
   const rightPanelStyle = isCompact
     ? {
-        ...s.right,
+        ...styles.right,
         padding: '72px 16px 28px',
       }
-    : s.right;
+    : styles.right;
 
   const leftContentStyle = isCompact
     ? {
-        ...s.leftContent,
+        ...styles.leftContent,
         padding: '28px 20px',
       }
-    : s.leftContent;
+    : styles.leftContent;
 
   const statsRowStyle = isCompact
     ? {
-        ...s.statsRow,
+        ...styles.statsRow,
         gap: 18,
         flexWrap: 'wrap',
       }
-    : s.statsRow;
+    : styles.statsRow;
 
   return (
-    <div style={s.page}>
+    <div style={styles.page}>
       {isCompact && leftOpen && (
         <div
-          style={s.overlay}
+          style={styles.overlay}
           onClick={() => setLeftOpen(false)}
           aria-hidden="true"
         />
@@ -130,7 +131,7 @@ export default function Login() {
         <button
           type="button"
           onClick={() => setLeftOpen((v) => !v)}
-          style={s.previewBtn}
+          style={styles.previewBtn}
           aria-label={leftOpen ? 'Close preview panel' : 'Open preview panel'}
         >
           {leftOpen ? 'Close' : '✨ Preview'}
@@ -138,14 +139,14 @@ export default function Login() {
       )}
 
       <div style={leftPanelStyle}>
-        <div style={s.leftBlob1} />
-        <div style={s.leftBlob2} />
+        <div style={styles.leftBlob1} />
+        <div style={styles.leftBlob2} />
 
         {isCompact && (
           <button
             type="button"
             onClick={() => setLeftOpen(false)}
-            style={s.leftCloseBtn}
+            style={styles.leftCloseBtn}
             aria-label="Close preview panel"
           >
             ✕
@@ -156,34 +157,34 @@ export default function Login() {
           <Link
             to="/"
             onClick={() => isCompact && setLeftOpen(false)}
-            style={s.logoLink}
+            style={styles.logoLink}
           >
             <LogoMark />
-            <span style={s.logoText}>
+            <span style={styles.logoText}>
               Dev<span style={{ color: '#f59e0b' }}>Folio</span>
             </span>
           </Link>
 
-          <div style={s.leftMain}>
-            <div style={s.leftBadge}>
-              <span style={s.leftBadgeDot} />
+          <div style={styles.leftMain}>
+            <div style={styles.leftBadge}>
+              <span style={styles.leftBadgeDot} />
               AI-Powered Analysis
             </div>
 
-            <h2 style={s.leftTitle}>
+            <h2 style={styles.leftTitle}>
               Your GitHub, scored{' '}
-              <span style={s.leftTitleAccent}>like a recruiter.</span>
+              <span style={styles.leftTitleAccent}>like a recruiter.</span>
             </h2>
 
-            <p style={s.leftSub}>
+            <p style={styles.leftSub}>
               Get instant insights, improvement suggestions, and track your developer profile over time.
             </p>
 
-            <div style={s.featureList}>
+            <div style={styles.featureList}>
               {FEATURES.map((f, i) => (
-                <div key={i} style={s.featureItem}>
-                  <span style={s.featureIcon}>{f.icon}</span>
-                  <span style={s.featureText}>{f.text}</span>
+                <div key={i} style={styles.featureItem}>
+                  <span style={styles.featureIcon}>{f.icon}</span>
+                  <span style={styles.featureText}>{f.text}</span>
                 </div>
               ))}
             </div>
@@ -195,9 +196,9 @@ export default function Login() {
               { v: 'AI', l: 'Powered' },
               { v: 'Free', l: 'Forever' },
             ].map((st) => (
-              <div key={st.l} style={s.statItem}>
-                <div style={s.statVal}>{st.v}</div>
-                <div style={s.statLabel}>{st.l}</div>
+              <div key={st.l} style={styles.statItem}>
+                <div style={styles.statVal}>{st.v}</div>
+                <div style={styles.statLabel}>{st.l}</div>
               </div>
             ))}
           </div>
@@ -205,8 +206,8 @@ export default function Login() {
       </div>
 
       <div style={rightPanelStyle}>
-        <div style={s.formOuter}>
-          <div style={s.tabs}>
+        <div style={styles.formOuter}>
+          <div style={styles.tabs}>
             {[
               { key: 'login', label: 'Sign In' },
               { key: 'register', label: 'Register' },
@@ -218,19 +219,19 @@ export default function Login() {
                   setMode(key);
                   setError('');
                 }}
-                style={{ ...s.tab, ...(mode === key ? s.tabActive : {}) }}
+                style={{ ...styles.tab, ...(mode === key ? styles.tabActive : {}) }}
               >
                 {label}
               </button>
             ))}
           </div>
 
-          <div className="glass-card fade-up" style={s.card}>
-            <div style={s.formHeader}>
-              <h1 style={s.formTitle}>
+          <div className="glass-card fade-up" style={styles.card}>
+            <div style={styles.formHeader}>
+              <h1 style={styles.formTitle}>
                 {mode === 'login' ? 'Welcome back' : 'Create account'}
               </h1>
-              <p style={s.formSub}>
+              <p style={styles.formSub}>
                 {mode === 'login'
                   ? 'Sign in to access your dashboard and history.'
                   : 'Start tracking your developer portfolio today.'}
@@ -239,7 +240,7 @@ export default function Login() {
 
             <button
               type="button"
-              style={s.googleBtn}
+              style={styles.googleBtn}
               onMouseEnter={(e) => {
                 e.currentTarget.style.borderColor = 'var(--orange-border)';
                 e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.06)';
@@ -258,17 +259,17 @@ export default function Login() {
               Continue with Google
             </button>
 
-            <div style={s.dividerRow}>
-              <div style={s.dividerLine} />
-              <span style={s.dividerLabel}>or continue with email</span>
-              <div style={s.dividerLine} />
+            <div style={styles.dividerRow}>
+              <div style={styles.dividerLine} />
+              <span style={styles.dividerLabel}>or continue with email</span>
+              <div style={styles.dividerLine} />
             </div>
 
-            <form style={s.form} onSubmit={handleSubmit}>
-              <div style={s.field}>
-                <label style={s.label}>Email address</label>
-                <div style={s.inputWrap}>
-                  <span style={s.inputIcon}>
+            <form style={styles.form} onSubmit={handleSubmit}>
+              <div style={styles.field}>
+                <label style={styles.label}>Email address</label>
+                <div style={styles.inputWrap}>
+                  <span style={styles.inputIcon}>
                     <svg width="15" height="15" fill="none" stroke="#b0a090" strokeWidth="2" viewBox="0 0 24 24">
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
                       <polyline points="22,6 12,13 2,6" />
@@ -286,18 +287,18 @@ export default function Login() {
                 </div>
               </div>
 
-              <div style={s.field}>
+              <div style={styles.field}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <label style={s.label}>Password</label>
+                  <label style={styles.label}>Password</label>
                   {mode === 'login' && (
-                    <a href="/forgot-password" style={s.forgotLink}>
+                    <a href="/forgot-password" style={styles.forgotLink}>
                       Forgot password?
                     </a>
                   )}
                 </div>
 
-                <div style={s.inputWrap}>
-                  <span style={s.inputIcon}>
+                <div style={styles.inputWrap}>
+                  <span style={styles.inputIcon}>
                     <svg width="15" height="15" fill="none" stroke="#b0a090" strokeWidth="2" viewBox="0 0 24 24">
                       <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
                       <path d="M7 11V7a5 5 0 0 1 10 0v4" />
@@ -317,7 +318,7 @@ export default function Login() {
                   <button
                     type="button"
                     onClick={() => setShowPass((v) => !v)}
-                    style={s.eyeBtn}
+                    style={styles.eyeBtn}
                     tabIndex={-1}
                     aria-label={showPass ? 'Hide password' : 'Show password'}
                   >
@@ -337,7 +338,7 @@ export default function Login() {
               </div>
 
               {error && (
-                <div style={s.errorBox}>
+                <div style={styles.errorBox}>
                   <svg width="14" height="14" fill="none" stroke="#ef4444" strokeWidth="2" viewBox="0 0 24 24">
                     <circle cx="12" cy="12" r="10" />
                     <line x1="12" y1="8" x2="12" y2="12" />
@@ -362,7 +363,7 @@ export default function Login() {
               </button>
             </form>
 
-            <div style={s.footerText}>
+            <div style={styles.footerText}>
               {mode === 'login' ? (
                 <>
                   Don't have an account?{' '}
@@ -372,7 +373,7 @@ export default function Login() {
                       setMode('register');
                       setError('');
                     }}
-                    style={s.switchBtn}
+                    style={styles.switchBtn}
                   >
                     Sign up
                   </button>
@@ -386,7 +387,7 @@ export default function Login() {
                       setMode('login');
                       setError('');
                     }}
-                    style={s.switchBtn}
+                    style={styles.switchBtn}
                   >
                     Sign in
                   </button>
@@ -395,10 +396,10 @@ export default function Login() {
             </div>
           </div>
 
-          <div style={s.bottomLinks}>
+          <div style={styles.bottomLinks}>
             <Link
               to="/analyze"
-              style={s.analyzelink}
+              style={styles.analyzelink}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateX(-2px)';
                 e.currentTarget.style.opacity = '1';
@@ -409,16 +410,16 @@ export default function Login() {
                 e.currentTarget.style.opacity = '0.7';
                 e.currentTarget.style.color = 'var(--text-500)';
               }}
-            >
-              <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                <polyline points="15 18 9 12 15 6" />
+              >
+                 <span>Continue without Signing in</span>
+                <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <polyline points="9 18 15 12 9 6" />
               </svg>
-              Continue without signing in
             </Link>
 
             <Link
               to="/"
-              style={s.homeLink}
+              style={styles.homeLink}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateX(-2px)';
                 e.currentTarget.style.opacity = '1';
@@ -433,7 +434,7 @@ export default function Login() {
               <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <polyline points="15 18 9 12 15 6" />
               </svg>
-              Back to home
+              <span>Back to Home</span>
             </Link>
           </div>
         </div>
@@ -442,14 +443,14 @@ export default function Login() {
   );
 }
 
-const s = {
-  page: {
+const getStyles = (isCompact) => ({
+      page: {
     minHeight: '100dvh',
     display: 'flex',
     background: 'linear-gradient(145deg, #ede8df 0%, #e8ddd0 40%, #dfd3c0 100%)',
     fontFamily: 'Poppins, sans-serif',
     position: 'relative',
-    overflow: 'hidden',
+    overflow: isCompact ? 'auto' : 'hidden',
   },
 
   overlay: {
@@ -492,7 +493,7 @@ const s = {
     color: 'var(--text-900)',
     fontFamily: 'monospace, sans-serif',
     fontSize: 16,
-    fontWeight: 800,
+    fontWeight: 768,
     boxShadow: '0 6px 18px rgba(0,0,0,0.14)',
   },
 
@@ -504,7 +505,7 @@ const s = {
     background: 'linear-gradient(160deg, #1a1207 0%, #241a0e 55%, #1f1709 100%)',
     display: 'flex',
     flexDirection: 'column',
-    overflowY: 'auto',
+    overflowY: 'hidden',
   },
   leftBlob1: {
     position: 'absolute',
@@ -519,7 +520,7 @@ const s = {
   leftBlob2: {
     position: 'absolute',
     width: 350,
-    height: 350,
+    height: 320,
     borderRadius: '50%',
     background: 'radial-gradient(circle, rgba(245,158,11,0.10) 0%, transparent 70%)',
     bottom: -80,
@@ -529,11 +530,11 @@ const s = {
   leftContent: {
     position: 'relative',
     zIndex: 1,
-    padding: '36px 40px',
+    padding: isCompact ? '28px 20px' : '28px 32px',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    gap: 22,
+   gap: isCompact ? 16 : 20,
     justifyContent: 'space-between',
   },
   logoLink: {
@@ -541,12 +542,12 @@ const s = {
     alignItems: 'center',
     gap: 12,
     textDecoration: 'none',
-    marginBottom: 20,
+    marginBottom: 16,
   },
   logoText: {
     fontFamily: 'Poppins, sans-serif',
     fontSize: '1.2rem',
-    fontWeight: 800,
+    fontWeight: 768,
     color: 'white',
     letterSpacing: '-0.03em',
     lineHeight: 1,
@@ -554,7 +555,7 @@ const s = {
   leftMain: {
     display: 'flex',
     flexDirection: 'column',
-    gap: 16,
+    gap: 'clamp(20px, 2.5vh, 28px)',
     justifyContent: 'flex-start',
   },
   leftBadge: {
@@ -586,7 +587,7 @@ const s = {
   leftTitle: {
     fontFamily: 'monospace, sans-serif',
     fontSize: 'clamp(28px, 3vw, 28px)',
-    fontWeight: 800,
+    fontWeight: 768,
     color: 'white',
     lineHeight: 1.2,
     letterSpacing: '-0.03em',
@@ -627,7 +628,7 @@ const s = {
   },
   statsRow: {
     display: 'flex',
-    gap: 30,
+    gap: 20,
     paddingTop: 12,
     borderTop: '1px solid rgba(255,255,255,0.08)',
   },
@@ -635,7 +636,7 @@ const s = {
   statVal: {
     fontFamily: 'monospace, sans-serif',
     fontSize: 24,
-    fontWeight: 800,
+    fontWeight: 768,
     color: '#f59e0b',
     letterSpacing: '-0.03em',
   },
@@ -653,20 +654,21 @@ const s = {
     flex: 1,
     display: 'flex',
     width: '100%',
-    minWidth: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    padding: '40px 24px',
-    overflow: 'hidden',
+    padding: isCompact ? '72px 16px 28px' : '40px 24px',
+    overflow: isCompact ? 'auto' : 'hidden',
     position: 'relative',
   },
   formOuter: {
     width: '100%',
     maxWidth: 420,
+    maxHeight: '100%',
     display: 'flex',
     flexDirection: 'column',
     gap: 16,
     position: 'relative',
+    overflow: 'hidden',
   },
 
   tabs: {
@@ -676,7 +678,7 @@ const s = {
     backdropFilter: 'blur(12px)',
     border: '1px solid rgba(255,255,255,0.8)',
     borderRadius: 14,
-    padding: 4,
+    padding: 3,
   },
   tab: {
     flex: 1,
@@ -699,16 +701,17 @@ const s = {
   },
 
   card: {
-    padding: '32px 30px',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 18,
+  padding: 'clamp(18px, 3vh, 32px)',
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 'clamp(12px, 2vh, 20px)',
   },
+
   formHeader: {},
   formTitle: {
     fontFamily: 'monospace, sans-serif',
     fontSize: 24,
-    fontWeight: 800,
+    fontWeight: 768,
     color: 'var(--text-900)',
     letterSpacing: '-0.03em',
     marginBottom: 1,
@@ -841,9 +844,10 @@ const s = {
   bottomLinks: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'stretch',
     gap: 6,
-    marginTop: 10,
+    alignItems: 'center',
+    marginTop: 8,
   },
 
   analyzelink: {
@@ -854,7 +858,7 @@ const s = {
     fontSize: 13,
     color: 'var(--text-500)',
     textDecoration: 'none',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     opacity: 0.7,
     transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
   },
@@ -866,8 +870,8 @@ const s = {
     fontSize: 13,
     color: 'var(--text-500)',
     textDecoration: 'none',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     opacity: 0.7,
     transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
   },
-};
+});

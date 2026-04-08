@@ -28,7 +28,7 @@
   --score-good:      #f59e0b;
   --score-fair:      #ff6b35;
   --score-poor:      #ef4444;
-  --font-display: 'Poppins,', sans-serif;
+  --font-display: 'Poppins', sans-serif;
   --font-body:    'Poppins', sans-serif;
   --font-ui:      'monospace', sans-serif;
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
@@ -212,6 +212,7 @@ input:focus, textarea:focus, select:focus {
     z-index: 1001;
     transform: translateX(-100%);
     transition: transform 0.3s ease;
+    justify-content: space-between;
   }
 
   .sidebar.open {
@@ -239,31 +240,24 @@ input:focus, textarea:focus, select:focus {
 .fade-up { animation: fadeInUp 0.42s ease forwards; }
 
 @media (max-width: 768px) {
-  button[style*="display: window.innerWidth <= 768 ? 'block' : 'none',] {
-    display: block !important;
+  .login-container {
+    flex-direction: column;
+    display: flex;
+    min-height: 100vh;
   }
-}
-@media (max-width: 768px) {
+
   .login-left {
     display: none;
   }
-}
-
-@media (max-width: 768px) {
-  .login-container {
-    flex-direction: column;
-  }
-
-  .login-left {
-    display: none !important;
-  }
 
   .login-right {
-    width: 100% !important;
+    width: 100%;
     max-width: 100%;
     padding: 20px;
   }
 }
+
+
 /* Hide hamburger on desktop */
 @media (min-width: 769px) {
   button[aria-label="menu"] {

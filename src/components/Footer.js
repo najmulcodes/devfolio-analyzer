@@ -70,8 +70,8 @@ export default function Footer() {
         {/* Right: Contact */}
         <div style={styles.linkGroup}>
           <div style={styles.linkTitle}>Contact</div>
-          <a href="mailto:najmulhasanshahin@gmail.com" style={styles.footerLinkA}>
-            MAIL to DEV
+          <a href="https://najmul-portfolio-six.vercel.app" style={styles.footerLinkA}>
+            Portfolio of DEV
           </a>
           <a href="https://github.com/najmulcodes/devfolio-analyzer" target="_blank" rel="noreferrer" style={styles.footerLinkA}>
             View on GitHub

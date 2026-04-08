@@ -239,13 +239,29 @@ input:focus, textarea:focus, select:focus {
 .fade-up { animation: fadeInUp 0.42s ease forwards; }
 
 @media (max-width: 768px) {
-  button[style*="hamburger"] {
+  button[style*="display: none"] {
     display: block !important;
   }
 }
 @media (max-width: 768px) {
   .login-left {
     display: none; /* ✅ hide left panel */
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+  }
+
+  .login-left {
+    display: none !important;
+  }
+
+  .login-right {
+    width: 100% !important;
+    max-width: 100%;
+    padding: 20px;
   }
 }
 

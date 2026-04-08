@@ -155,7 +155,7 @@ export default function Analyze() {
                 type="text"
                 value={githubUsername}
                 onChange={e => setGithubUsername(e.target.value)}
-                placeholder="e.g. torvalds"
+                placeholder="e.g. najmulcodes"
                 style={{ paddingLeft: 44 }}
               />
             </div>

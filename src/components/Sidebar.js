@@ -29,22 +29,37 @@ export default function Sidebar({ className = "", onNavigate })
 
   return (
     <aside className={className}>
-        <Link
+       <Link
   to="/"
   onClick={onNavigate}
-  style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    gap: 10,
+    padding: '0 20px',
+    height: 56,              // 👈 FIX ALIGNMENT
+    textDecoration: 'none',
+  }}
 >
-          <LogoMark />
-          <span style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 800,
-            fontSize: '1.125rem',
-            color: 'white',
-            letterSpacing: '-0.03em',
-          }}>
-            Dev<span style={{ color: 'var(--orange)' }}>Folio</span>
-          </span>
-        </Link>
+  <div style={{ display: 'flex', alignItems: 'center' }}>
+    <LogoMark />
+  </div>
+
+  <span
+    style={{
+      fontFamily: 'var(--font-display)',
+      fontWeight: 800,
+      fontSize: '1.125rem',
+      color: 'white',
+      letterSpacing: '-0.03em',
+      lineHeight: 1,         // 👈 IMPORTANT
+      display: 'flex',
+      alignItems: 'center',
+    }}
+  >
+    Dev<span style={{ color: 'var(--orange)' }}>Folio</span>
+  </span>
+</Link>
 
       {/* Nav */}
       <nav style={{ flex: 1, padding: '0 12px' }}>

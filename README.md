@@ -2,9 +2,9 @@
 
 <br />
 
-# DevFolio Analyzer – GitHub Profile Analyzer & Portfolio Review Tool
+# DevFolio Analyzer – AI GitHub Profile Analyzer & Developer Portfolio Review Tool
 
-**AI-powered GitHub profile analyzer that evaluates developer portfolios, provides recruiter-style feedback, and helps improve your developer profile.**
+**AI-powered GitHub profile analyzer and portfolio analysis tool that evaluates developer profiles, provides recruiter-style feedback, and helps improve your GitHub profile, portfolio, and overall developer score.**
 
 <br />
 
@@ -16,7 +16,7 @@
 
 <br />
 
-[**devfolioanalyzer.vercel.app →**](https://devfolioanalyzer.vercel.app)
+[**Live Demo – GitHub Profile Analyzer →**](https://devfolioanalyzer.vercel.app)
 
 <br />
 
@@ -26,7 +26,9 @@
 
 ## Overview
 
-DevFolio Analyzer is a full-stack developer profiling tool that evaluates a developer's GitHub activity and portfolio site against a structured scoring rubric. Users receive a weighted composite score, per-signal breakdowns, and AI-generated improvement recommendations — all persisted to a user account for tracking over time.
+DevFolio Analyzer is a full-stack developer profiling and GitHub profile analysis tool that evaluates a developer's GitHub activity and portfolio website against a structured scoring system. It acts as a recruiter-style GitHub profile analyzer, helping developers understand how their profile appears to hiring managers.
+
+Users receive a weighted composite developer score, detailed breakdowns, and AI-generated improvement suggestions to optimize their GitHub profile, portfolio, and overall developer presence.
 
 The scoring engine runs two independent analysis pipelines:
 
@@ -212,3 +214,8 @@ PRs should include a clear description of what changed and why. Screenshots for 
 ## License
 
 MIT © 2026 [najmulcodes](https://github.com/najmulcodes)
+
+<!--
+SEO Keywords:
+GitHub profile analyzer, developer portfolio analyzer, AI GitHub analysis tool, GitHub score tool, developer profile optimization, portfolio review tool, recruiter GitHub evaluation, MERN stack project, React dashboard project
+-->

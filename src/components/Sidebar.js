@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-// ✅ FIX: AuthContext is now a named export from AuthContext.js
+
 import { AuthContext } from '../context/AuthContext';
 
 const LogoMark = () => (
@@ -18,7 +18,8 @@ const NAV_ITEMS = [
   { to: '/history',   label: 'History',   icon: '📋' },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ className = "", onNavigate }) 
+{
   const location             = useLocation();
   const navigate             = useNavigate();
   const { user, logout }     = useContext(AuthContext);
@@ -27,21 +28,12 @@ export default function Sidebar() {
   const handleLogout = () => { logout(); navigate('/'); };
 
   return (
-    <aside style={{
-      width: 240,
-      minHeight: '100vh',
-      background: 'var(--sidebar-bg)',
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '24px 0',
-      flexShrink: 0,
-    }}>
-      {/* Logo */}
-      <div style={{ padding: '0 20px 24px' }}>
+    <aside className={className}>
         <Link
-          to="/"
-          style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
-        >
+  to="/"
+  onClick={onNavigate}
+  style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
+>
           <LogoMark />
           <span style={{
             fontFamily: 'var(--font-display)',
@@ -53,7 +45,6 @@ export default function Sidebar() {
             Dev<span style={{ color: 'var(--orange)' }}>Folio</span>
           </span>
         </Link>
-      </div>
 
       {/* Nav */}
       <nav style={{ flex: 1, padding: '0 12px' }}>
@@ -61,6 +52,7 @@ export default function Sidebar() {
           <Link
             key={to}
             to={to}
+            onClick={onNavigate}
             style={{
               display: 'flex',
               alignItems: 'center',

@@ -45,7 +45,7 @@ export default function Login() {
     <div style={s.page}>
 
       {/* ── Left panel ── */}
-      <div style={s.left}>
+      <div style={s.left} className="login-left">
         <div style={s.leftBlob1} />
         <div style={s.leftBlob2} />
 
@@ -252,8 +252,7 @@ export default function Login() {
 
 const s = {
   page: {
-    Height: '100dvh', display: 'flex', overflow: 'hidden', flexWrap: 'wrap',
-    background: 'linear-gradient(145deg, #ede8df 0%, #e8ddd0 40%, #dfd3c0 100%)',
+    minHeight: '100vh', display: 'flex', background: 'linear-gradient(145deg, #ede8df 0%, #e8ddd0 40%, #dfd3c0 100%)',
     fontFamily: 'Poppins, sans-serif',
   },
 
@@ -313,7 +312,8 @@ const s = {
 
   /* Right */
   right: {
-    flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+    flex: 1, display: 'flex', 
+    width: '100%', alignItems: 'center', justifyContent: 'center',
     padding: '40px 24px', overflow: 'hidden',
   },
   formOuter: { width: '100%', maxWidth: 420, display: 'flex', flexDirection: 'column', gap: 16 },

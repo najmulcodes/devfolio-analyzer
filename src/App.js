@@ -187,17 +187,17 @@ function AppLayout() {
             <TopHeader onMenuOpen={() => setMobileOpen(true)} />
 
             <>
-              {location.pathname === "/dashboard" && <Dashboard />}
-              {location.pathname === "/analyze" && <Analyze />}
-              {location.pathname === "/history" && (
-                <ProtectedRoute>
-                  <History />
-                </ProtectedRoute>
-              )}
-            </>
-
-            {!["/dashboard", "/analyze", "/history"].includes(location.pathname) && (
-              <Navigate to="/dashboard" />
+  {location.pathname.startsWith("/dashboard") && <Dashboard />}
+  {location.pathname.startsWith("/analyze") && <Analyze />}
+  {location.pathname.startsWith("/history") && (
+    <ProtectedRoute>
+      <History />
+    </ProtectedRoute>
+  )}
+</>
+{!["/dashboard", "/analyze", "/history"].some(path =>
+  location.pathname.startsWith(path)
+) && <Navigate to="/dashboard" />}
             )}
           </main>
         </div>

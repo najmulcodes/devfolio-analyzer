@@ -62,7 +62,7 @@ export default function Sidebar({ className = "", onNavigate })
 </Link>
 
       {/* Nav */}
-      <nav style={{ flex: 1, padding: '0 12px' }}>
+      <nav style={{ flex: 1, padding: '12px 12px' }}>
         {NAV_ITEMS.map(({ to, label, icon }) => (
           <Link
             key={to}

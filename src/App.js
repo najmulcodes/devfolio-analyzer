@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Sidebar from './components/Sidebar';
@@ -19,7 +19,6 @@ const pageMeta = {
 function TopHeader({ onMenuOpen }) {
   const { user } = useAuth();
   const location = useLocation();
-
   const meta = pageMeta[location.pathname] || {
     title: 'DevFolio',
     sub: '',
@@ -68,12 +67,17 @@ function TopHeader({ onMenuOpen }) {
 /* Styles */
 const headerS = {
   bar: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 28,
-    gap: 16,
-  },
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  marginBottom: 28,
+  gap: 16,
+  position: 'sticky',
+  top: 0,
+  background: 'rgba(255,255,255,0.7)',
+  backdropFilter: 'blur(10px)',
+  zIndex: 10,
+},
   
   title: {
     fontFamily: "'Poppins', sans-serif",
@@ -148,8 +152,13 @@ function ProtectedRoute({ children }) {
 
 /* Layout */
 function AppLayout() {
+  const location = useLocation();
   const { loading } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
+  
+  useEffect(() => {
+  document.body.style.overflow = mobileOpen ? 'hidden' : '';
+}, [mobileOpen]);
 
   if (loading) return <PageLoader />;
 
@@ -162,31 +171,34 @@ function AppLayout() {
         path="/*"
         element={
           <div className="app-layout">
-            <Sidebar mobileOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
+            <Sidebar
+  className={mobileOpen ? "sidebar open" : "sidebar"}
+  onNavigate={() => setMobileOpen(false)}
+/>
+
+{mobileOpen && (
+  <div
+    className="sidebar-overlay"
+    onClick={() => setMobileOpen(false)}
+  />
+)}
 
             <main className="main-content">
               <TopHeader onMenuOpen={() => setMobileOpen(true)} />
 
-              <Routes>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/analyze" element={<Analyze />} />
-                <Route
-                  path="/history"
-                  element={
-                    <ProtectedRoute>
-                      <History />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="*" element={<Navigate to="/dashboard" replace />} />
-              </Routes>
-            </main>
-          </div>
-        }
-      />
-    </Routes>
-  );
-}
+<>
+  {location.pathname === "/dashboard" && <Dashboard />}
+  {location.pathname === "/analyze" && <Analyze />}
+  {location.pathname === "/history" && (
+    <ProtectedRoute>
+      <History />
+    </ProtectedRoute>
+  )}
+</>
+
+{!['/dashboard','/analyze','/history'].includes(location.pathname) && <Navigate to="/dashboard" />}
+</main>
+</div>
 
 /* Root */
 export default function App() {

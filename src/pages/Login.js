@@ -38,16 +38,13 @@ export default function Login() {
     const handleResize = () => {
       const compact = window.innerWidth <= 1024;
       setIsCompact(compact);
+      if (!compact) setLeftOpen(false);
     };
 
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-  useEffect(() => {
-    if (!isCompact) setLeftOpen(false);
-  }, [isCompact]);
 
   useEffect(() => {
     document.body.style.overflow = isCompact && leftOpen ? 'hidden' : '';
@@ -140,7 +137,6 @@ export default function Login() {
         </button>
       )}
 
-      {/* Left panel */}
       <div style={leftPanelStyle}>
         <div style={s.leftBlob1} />
         <div style={s.leftBlob2} />
@@ -208,10 +204,8 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right panel */}
       <div style={rightPanelStyle}>
         <div style={s.formOuter}>
-          {/* Mode tabs */}
           <div style={s.tabs}>
             {[
               { key: 'login', label: 'Sign In' },
@@ -231,7 +225,6 @@ export default function Login() {
             ))}
           </div>
 
-          {/* Form card */}
           <div className="glass-card fade-up" style={s.card}>
             <div style={s.formHeader}>
               <h1 style={s.formTitle}>
@@ -244,7 +237,6 @@ export default function Login() {
               </p>
             </div>
 
-            {/* Google button */}
             <button
               type="button"
               style={s.googleBtn}
@@ -266,14 +258,12 @@ export default function Login() {
               Continue with Google
             </button>
 
-            {/* Divider */}
             <div style={s.dividerRow}>
               <div style={s.dividerLine} />
               <span style={s.dividerLabel}>or continue with email</span>
               <div style={s.dividerLine} />
             </div>
 
-            {/* Form */}
             <form style={s.form} onSubmit={handleSubmit}>
               <div style={s.field}>
                 <label style={s.label}>Email address</label>
@@ -372,7 +362,6 @@ export default function Login() {
               </button>
             </form>
 
-            {/* Footer link */}
             <div style={s.footerText}>
               {mode === 'login' ? (
                 <>
@@ -406,13 +395,47 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Back to Analyze */}
-          <Link to="/analyze" style={s.analyzelink}>
-            <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <polyline points="15 18 9 12 15 6" />
-            </svg>
-            Continue without signing in
-          </Link>
+          <div style={s.bottomLinks}>
+            <Link
+              to="/analyze"
+              style={s.analyzelink}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateX(-2px)';
+                e.currentTarget.style.opacity = '1';
+                e.currentTarget.style.color = 'var(--text-700)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateX(0)';
+                e.currentTarget.style.opacity = '0.7';
+                e.currentTarget.style.color = 'var(--text-500)';
+              }}
+            >
+              <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Continue without signing in
+            </Link>
+
+            <Link
+              to="/"
+              style={s.homeLink}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateX(-2px)';
+                e.currentTarget.style.opacity = '1';
+                e.currentTarget.style.color = 'var(--text-700)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateX(0)';
+                e.currentTarget.style.opacity = '0.7';
+                e.currentTarget.style.color = 'var(--text-500)';
+              }}
+            >
+              <svg width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+              Back to home
+            </Link>
+          </div>
         </div>
       </div>
     </div>
@@ -429,7 +452,6 @@ const s = {
     overflow: 'hidden',
   },
 
-  /* Overlay + mobile trigger */
   overlay: {
     position: 'fixed',
     inset: 0,
@@ -439,6 +461,7 @@ const s = {
     zIndex: 1000,
     animation: 'fadeIn 220ms ease forwards',
   },
+
   previewBtn: {
     position: 'fixed',
     top: 16,
@@ -456,6 +479,7 @@ const s = {
     backdropFilter: 'blur(10px)',
     WebkitBackdropFilter: 'blur(10px)',
   },
+
   leftCloseBtn: {
     position: 'absolute',
     top: 16,
@@ -472,7 +496,6 @@ const s = {
     boxShadow: '0 6px 18px rgba(0,0,0,0.14)',
   },
 
-  /* Left */
   left: {
     flex: '1 1 100px',
     maxWidth: 480,
@@ -626,7 +649,6 @@ const s = {
     letterSpacing: '0.05em',
   },
 
-  /* Right */
   right: {
     flex: 1,
     display: 'flex',
@@ -647,7 +669,6 @@ const s = {
     position: 'relative',
   },
 
-  /* Tabs */
   tabs: {
     display: 'flex',
     gap: 3,
@@ -677,7 +698,6 @@ const s = {
     boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
   },
 
-  /* Card */
   card: {
     padding: '32px 30px',
     display: 'flex',
@@ -700,7 +720,6 @@ const s = {
     lineHeight: 1.6,
   },
 
-  /* Google button */
   googleBtn: {
     width: '100%',
     padding: '12px 20px',
@@ -720,7 +739,6 @@ const s = {
     boxShadow: 'none',
   },
 
-  /* Divider */
   dividerRow: {
     display: 'flex',
     alignItems: 'center',
@@ -739,7 +757,6 @@ const s = {
     fontWeight: 500,
   },
 
-  /* Form fields */
   form: {
     display: 'flex',
     flexDirection: 'column',
@@ -821,6 +838,14 @@ const s = {
     transition: 'color 0.2s',
   },
 
+  bottomLinks: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 10,
+  },
+
   analyzelink: {
     display: 'inline-flex',
     alignItems: 'center',
@@ -829,7 +854,20 @@ const s = {
     fontSize: 13,
     color: 'var(--text-500)',
     textDecoration: 'none',
-    transition: 'color 0.2s',
     justifyContent: 'center',
+    opacity: 0.7,
+    transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
+  },
+  homeLink: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 6,
+    fontFamily: 'monospace, sans-serif',
+    fontSize: 13,
+    color: 'var(--text-500)',
+    textDecoration: 'none',
+    justifyContent: 'center',
+    opacity: 0.7,
+    transition: 'all 0.25s cubic-bezier(0.22, 1, 0.36, 1)',
   },
 };

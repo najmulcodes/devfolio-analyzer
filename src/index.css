@@ -79,6 +79,13 @@ button {
   gap: var(--space-2); white-space: nowrap;
 }
 button:disabled { opacity: 0.55; cursor: not-allowed; }
+button:hover {
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
 
 input, textarea, select {
   font-family: var(--font-ui); font-size: 0.9375rem; color: var(--text-dark);
@@ -105,7 +112,9 @@ input:focus, textarea:focus, select:focus {
   border-radius: var(--radius-lg); padding: var(--space-6);
   box-shadow: var(--shadow-card); transition: box-shadow var(--transition), transform var(--transition);
 }
-.card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.card:hover {
+  transform: translateY(-2px) scale(1.01);
+}
 
 .glass-card {
   background: rgba(255,255,255,0.82); backdrop-filter: blur(14px);
@@ -181,28 +190,64 @@ input:focus, textarea:focus, select:focus {
   min-height: 100vh;
   background: var(--cream);
 }
+/* Desktop */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0;
+  flex-shrink: 0;
+}
 
+/* Mobile */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
-    left: -100%; /* hidden by default */
     top: 0;
+    left: 0;
     height: 100%;
-    z-index: 1000;
-    transition: left 0.3s ease;
+    width: 240px;
+    z-index: 1001;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
   }
 
   .sidebar.open {
-    left: 0; /* slide in */
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    opacity: 0;
+    animation: fadeIn 0.25s ease forwards;
   }
 }
-.main-content { flex: 1; padding: 32px 32px 48px; overflow-y: auto; min-width: 0; }
+
+.main-content { flex: 1; padding: 32px 32px 48px; overflow-y: auto; min-width: 0; animation: fadeIn 0.3s ease;
+}
 @media (max-width: 768px) {
   .main-content {
     width: 100%;
   }
 }
 .fade-up { animation: fadeInUp 0.42s ease forwards; }
+
+@media (max-width: 768px) {
+  button[style*="hamburger"] {
+    display: block !important;
+  }
+}
+@media (max-width: 768px) {
+  .login-left {
+    display: none; /* ✅ hide left panel */
+  }
+}
 
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes fadeIn   { from { opacity: 0; } to { opacity: 1; } }

@@ -81,7 +81,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div style={styles.bottomBar}>
-        <span>© {year} DevFolio Analyzer.</span>
+        <span>© {year} DevFolio Analyzer.All rights reserved.</span>
         <span style={styles.bottomRight}>Made by najmulcodes</span>
       </div>
     </footer>

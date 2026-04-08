@@ -2,9 +2,9 @@
 
 <br />
 
-# DevFolio Analyzer
+# DevFolio Analyzer – GitHub Profile Analyzer & Portfolio Review Tool
 
-### GitHub profile + portfolio scoring engine — powered by Claude AI
+AI-powered GitHub profile analyzer that evaluates developer portfolios, provides recruiter-style feedback, and helps improve your developer profile.
 
 <br />
 

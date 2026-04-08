@@ -92,7 +92,7 @@ export default function Home() {
               <div style={styles.previewDot} />
               <div style={styles.previewDot} />
               <div style={styles.previewDot} />
-              <span style={styles.previewUrl}>devfolio-analyzer.app</span>
+              <span style={styles.previewUrl}>devfolioanalyzer.vercel.app</span>
             </div>
             <div style={styles.previewBody}>
               <div style={styles.mockKpiRow}>

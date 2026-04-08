@@ -533,9 +533,7 @@ select:focus {
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   LOGIN PAGE
-═══════════════════════════════════════════════════════════════════════ */
+/* LOGIN PAGE */
 
 .login-container {
   display: flex;
@@ -577,9 +575,29 @@ select:focus {
   }
 }
 
-/* ═══════════════════════════════════════════════════════════════════════
-   UTILITIES / STATES
-═══════════════════════════════════════════════════════════════════════ */
+/* Desktop only: hide mobile controls */
+@media (min-width: 1025px) {
+  button[aria-label="menu"] {
+    display: none !important;
+  }
+
+  button[aria-label="Open preview panel"],
+  button[aria-label="Close preview panel"] {
+    display: none !important;
+  }
+}
+
+/* Tablet + mobile: show mobile controls */
+@media (max-width: 1024px) {
+  button[aria-label="menu"] {
+    display: inline-flex !important;
+  }
+
+  button[aria-label="Open preview panel"],
+  button[aria-label="Close preview panel"] {
+    display: inline-flex !important;
+  }
+}
 
 .fade-up {
   animation: fadeInUp 0.42s ease forwards;

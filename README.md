@@ -4,7 +4,7 @@
 
 # DevFolio Analyzer – GitHub Profile Analyzer & Portfolio Review Tool
 
-AI-powered GitHub profile analyzer that evaluates developer portfolios, provides recruiter-style feedback, and helps improve your developer profile.
+**AI-powered GitHub profile analyzer that evaluates developer portfolios, provides recruiter-style feedback, and helps improve your developer profile.**
 
 <br />
 

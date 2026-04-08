@@ -181,7 +181,6 @@ function AppLayout() {
               className="sidebar-overlay"
               onClick={() => setMobileOpen(false)}
             />
-          )}
 
           <main className="main-content">
             <TopHeader onMenuOpen={() => setMobileOpen(true)} />
@@ -193,7 +192,7 @@ function AppLayout() {
     <ProtectedRoute>
       <History />
     </ProtectedRoute>
-  )}
+
 </>
 {!["/dashboard", "/analyze", "/history"].some(path =>
   location.pathname.startsWith(path)

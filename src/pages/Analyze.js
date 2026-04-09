@@ -35,7 +35,7 @@ function LoadingSteps() {
       setActiveStep(prev => (prev < STEPS.length - 1 ? prev + 1 : prev));
     }, 1800);
     return () => clearInterval(timer);
-  }, [navigate]);
+ }, [navigate]);
 
   return (
     <div className="glass-card fade-up" style={s.loadingCard}>

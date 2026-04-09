@@ -60,7 +60,7 @@ export default function History() {
     if (!user) navigate('/login');
   }, [user, navigate]);
 
-  useEffect(() => { load(1, sort); }, []);
+  useEffect(() => { load(1, sort); }, [navigate]);
 
   const handleSort = (val) => { setSort(val); load(1, val); };
 

@@ -56,7 +56,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!user) { setLoading(false); return; }
-    api.get('/api/dashboard/stats')
+    api.get('/dashboard/stats')
       .then(r => setStats(r.data))
       .catch(e => {
   console.error(e);

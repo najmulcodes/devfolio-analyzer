@@ -45,7 +45,7 @@ export default function Login() {
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     document.body.style.overflow = isCompact && leftOpen ? 'hidden' : '';

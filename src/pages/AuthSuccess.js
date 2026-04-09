@@ -10,10 +10,12 @@ export default function AuthSuccess() {
     const token = new URLSearchParams(window.location.search).get('token');
     if (!token) { navigate('/login?error=missing_token', { replace: true }); return; }
 
+    localStorage.setItem('token', token);
+
     loginWithToken(token)
       .then(() => navigate('/dashboard', { replace: true }))
       .catch(() => navigate('/login?error=oauth_failed', { replace: true }));
-  }, []); 
+  }, [navigate]); 
 
   return (
     <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'100dvh' }}>

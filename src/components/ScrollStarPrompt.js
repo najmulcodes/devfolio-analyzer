@@ -27,7 +27,6 @@ export default function ScrollStarPrompt() {
 
     window.addEventListener("scroll", handleScroll);
 
-    // 👇 FALLBACK (if user doesn’t scroll)
     const timer = setTimeout(() => {
       if (!triggered) {
         setShow(true);
@@ -38,7 +37,7 @@ export default function ScrollStarPrompt() {
       window.removeEventListener("scroll", handleScroll);
       clearTimeout(timer);
     };
-  }, []);
+  }, [navigate]);
 
   const handleClose = () => {
     localStorage.setItem("starPromptClosed", "true");
@@ -54,7 +53,7 @@ export default function ScrollStarPrompt() {
       <p>Enjoying this? Support the project ⭐</p>
 
       <a
-        href="https://github.com/YOUR_USERNAME/devfolio-analyzer"
+        href="https://github.com/najmulcodes/devfolioanalyzer"
         target="_blank"
         rel="noopener noreferrer"
       >

@@ -34,7 +34,7 @@ export default function Navbar() {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+  }, [navigate]);
 
   // Close mobile menu on route change
   useEffect(() => { setMenuOpen(false); }, [location.pathname]);

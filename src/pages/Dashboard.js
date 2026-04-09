@@ -69,6 +69,13 @@ export default function Dashboard() {
 
   /* ── Empty / guest state ── */
   if (!user || stats?.totalAnalyses === 0) {
+
+    if (loading) return <PageLoader message="Loading dashboard…" />;
+
+if (error) {
+  return <div style={s.errorBox}>{error}</div>;
+}
+
     return (
       <div style={s.emptyWrap}>
         <div className="glass-card fade-up" style={s.emptyCard}>
@@ -117,12 +124,7 @@ export default function Dashboard() {
         </button>
       </div>
 
-      if (loading) return <PageLoader message="Loading dashboard…" />;
-
-if (error) {
-  return <div style={s.errorBox}>{error}</div>;
-}
-
+    
       {/* KPI row */}
       <div style={s.kpiGrid}>
         <KpiCard label="Total Analyses"  value={stats?.totalAnalyses} icon={Icons.total} delay={0} />

@@ -109,7 +109,7 @@ export default function Analyze() {
       if (trimmedUsername) payload.githubUsername = trimmedUsername;
       if (trimmedPortfolio) payload.portfolioUrl = trimmedPortfolio;
 
-      const res = await api.post('/api/analysis/run', payload);
+      const res = await api.post('/analysis/run', payload);
       setResult(res.data);
     } catch (err) {
       setError(err.response?.data?.error || err.message);

@@ -562,7 +562,6 @@ export default function AnalysisResult({ result }) {
   const [activeTab, setActiveTab] = useState(
     result.mode === 'portfolio' ? 'portfolio' : 'github'
   );
-  <ScrollStarPrompt />
 
   const {
     mode,

@@ -13,7 +13,7 @@ export default function AuthSuccess() {
     loginWithToken(token)
       .then(() => navigate('/dashboard', { replace: true }))
       .catch(() => navigate('/login?error=oauth_failed', { replace: true }));
-  }, []);   // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); 
 
   return (
     <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:'100dvh' }}>

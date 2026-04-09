@@ -37,7 +37,7 @@ export default function ScrollStarPrompt() {
       window.removeEventListener("scroll", handleScroll);
       clearTimeout(timer);
     };
-  }, [navigate]);
+  }, []);
 
   const handleClose = () => {
     localStorage.setItem("starPromptClosed", "true");

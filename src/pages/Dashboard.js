@@ -56,16 +56,19 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!user) { setLoading(false); return; }
-    api.get('/dashboard/stats')
+    api.get('/api/dashboard/stats')
       .then(r => setStats(r.data))
-      .catch(e => setError(e.message))
+      .catch(e => {
+  console.error(e);
+  setError('Failed to load dashboard');
+})
       .finally(() => setLoading(false));
   }, [user]);
 
   if (loading) return <PageLoader message="Loading dashboard…" />;
 
   /* ── Empty / guest state ── */
-  if (!user || (stats && stats.totalAnalyses === 0)) {
+  if (!user || stats?.totalAnalyses === 0) {
     return (
       <div style={s.emptyWrap}>
         <div className="glass-card fade-up" style={s.emptyCard}>
@@ -97,7 +100,7 @@ export default function Dashboard() {
     );
   }
 
-  const sortedTop = [...(stats.recentActivity || [])].sort((a, b) => b.score - a.score).slice(0, 5);
+  const sortedTop = [...(stats?.recentActivity || [])].sort((a, b) => b.score - a.score).slice(0, 5);
 
   return (
     <div style={s.page}>
@@ -114,14 +117,16 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {error && <div style={s.errorBox}>{error}</div>}
+      if (error) {
+  return <div style={s.errorBox}>{error}</div>;
+}
 
       {/* KPI row */}
       <div style={s.kpiGrid}>
-        <KpiCard label="Total Analyses"  value={stats.totalAnalyses} icon={Icons.total} delay={0} />
-        <KpiCard label="Average Score"   value={stats.averageScore}  sub="out of 100" icon={Icons.avg} delay={60} />
-        <KpiCard label="Highest Score"   value={stats.highestScore}  icon={Icons.best} delay={120} />
-        <KpiCard label="Latest Score"    value={stats.latestScore}   icon={Icons.clock} delay={180} />
+        <KpiCard label="Total Analyses"  value={stats?.totalAnalyses} icon={Icons.total} delay={0} />
+        <KpiCard label="Average Score"   value={stats?.averageScore}  sub="out of 100" icon={Icons.avg} delay={60} />
+        <KpiCard label="Highest Score"   value={stats?.highestScore}  icon={Icons.best} delay={120} />
+        <KpiCard label="Latest Score"    value={stats?.latestScore}   icon={Icons.clock} delay={180} />
       </div>
 
       {/* Middle row: chart + top profiles */}
@@ -133,7 +138,7 @@ export default function Dashboard() {
             <div>
               <div style={s.chartLabel}>Score Trend</div>
               <div style={s.chartBigNum}>
-                {stats.averageScore}
+                {stats?.averageScore}
                 <span style={s.chartUnit}>/100</span>
               </div>
             </div>
@@ -141,7 +146,7 @@ export default function Dashboard() {
           </div>
 
           <ResponsiveContainer width="100%" height={170}>
-            <AreaChart data={stats.chartData || []} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+            <AreaChart data={stats?.chartData || []} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
               <defs>
                 <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.22" />
@@ -210,12 +215,12 @@ export default function Dashboard() {
       </div>
 
       {/* Recent analyses table */}
-      {stats.recentActivity?.length > 0 && (
+      {stats?.recentActivity?.length > 0 && (
         <div className="glass-card fade-up" style={s.tableCard}>
           <div style={s.tableHeader}>
             <div>
               <div style={s.tableTitle}>Recent Analyses</div>
-              <div style={s.tableSub}>{stats.recentActivity.length} most recent</div>
+              <div style={s.tableSub}>{stats?.recentActivity.length} most recent</div>
             </div>
             <button onClick={() => navigate('/history')} className="btn-ghost" style={{ fontSize: 13 }}>
               View all →
@@ -234,7 +239,7 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody>
-                {stats.recentActivity.map(row => (
+                {stats?.recentActivity.map(row => (
                   <tr key={row.id}>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>

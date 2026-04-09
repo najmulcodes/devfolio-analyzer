@@ -1,7 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// ── Named export: AuthContext ────────────────────────────────────────────────
-// Exported directly so both `import { AuthContext }` and `useAuth()` work.
 // Navbar and Sidebar import { AuthContext }; pages use useAuth() — both valid.
 export const AuthContext = createContext(null);
 
@@ -10,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [user,    setUser]    = useState(null);
   const [token,   setToken]   = useState(null);
   const [loading, setLoading] = useState(true);
+  const API = process.env.REACT_APP_API_URL || 'https://devfolio-analyzer-server.onrender.com';
 
   // Rehydrate from localStorage on mount
   useEffect(() => {
@@ -29,6 +28,15 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  const loginWithToken = async (authToken) => {
+  const res = await fetch(`${API}/api/auth/me`, {
+    headers: { Authorization: `Bearer ${authToken}` },
+  });
+  if (!res.ok) throw new Error('Invalid token');
+  const { user: userData } = await res.json();
+  login(userData, authToken);
+};
+
   const login = (userData, authToken) => {
     setUser(userData);
     setToken(authToken);
@@ -43,8 +51,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('devfolio_user');
   };
 
-  const value = { user, token, loading, login, logout };
-
+  const value = { user, token, loading, login, loginWithToken, logout };
   return (
     <AuthContext.Provider value={value}>
       {children}

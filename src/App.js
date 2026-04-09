@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Analyze from './pages/Analyze';
 import History from './pages/History';
+import AuthSuccess from './pages/AuthSuccess';
 import Login from './pages/Login';
 import { PageLoader } from './components/Spinner';
 
@@ -176,6 +177,7 @@ function AppLayout() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/auth-success" element={<AuthSuccess />} />
 
       <Route
         path="/*"

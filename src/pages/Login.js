@@ -127,17 +127,16 @@ export default function Login() {
         />
       )}
 
-      {isCompact && (
-        <button
-          type="button"
-          onClick={() => setLeftOpen((v) => !v)}
-          style={styles.previewBtn}
-          aria-label={leftOpen ? 'Close preview panel' : 'Open preview panel'}
-        >
-          {leftOpen ? 'Close' : '✨ Preview'}
-        </button>
-      )}
-
+      {isCompact && !leftOpen && (
+  <button
+    type="button"
+    onClick={() => setLeftOpen(true)}
+    style={styles.previewBtn}
+    aria-label="Open preview panel"
+  >
+    ✨ Preview
+  </button>
+)}
       <div style={leftPanelStyle}>
         <div style={styles.leftBlob1} />
         <div style={styles.leftBlob2} />

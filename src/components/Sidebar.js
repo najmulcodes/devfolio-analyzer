@@ -37,7 +37,7 @@ export default function Sidebar({ className = "", onNavigate })
     alignItems: 'center',
     gap: 10,
     padding: '0 20px',
-    height: 56,              // 👈 FIX ALIGNMENT
+    height: 56,              
     textDecoration: 'none',
   }}
 >

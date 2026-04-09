@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ScoreRing from './ScoreRing';
+import ScrollStarPrompt from "../components/ScrollStarPrompt";
 
-/* ── Helper: score color ─────────────────────────────────────────────── */
 const scoreColor = (s) => {
   if (s >= 80) return 'var(--score-excellent)';
   if (s >= 60) return 'var(--score-good)';
@@ -562,6 +562,7 @@ export default function AnalysisResult({ result }) {
   const [activeTab, setActiveTab] = useState(
     result.mode === 'portfolio' ? 'portfolio' : 'github'
   );
+  <StarPrompt analysisDone={!!result} />
 
   const {
     mode,
@@ -772,6 +773,7 @@ export default function AnalysisResult({ result }) {
             <SectionCard title="Suggestions" icon="💡">
               <FeedbackList items={suggestions} type="suggestions" />
             </SectionCard>
+                <ScrollStarPrompt />
           </div>
         )}
       </div>
@@ -790,7 +792,7 @@ export default function AnalysisResult({ result }) {
           fontSize: '0.75rem',
           color: 'var(--text-light)',
         }}>
-          {aiGenerated ? '✦ Powered by Claude AI' : '⚡ Rule-based analysis'}
+          {aiGenerated ? '✦ Dev bY najmulcodes' : '⚡ Rule-based analysis'}
         </span>
         <span style={{
           fontFamily: 'var(--font-ui)',

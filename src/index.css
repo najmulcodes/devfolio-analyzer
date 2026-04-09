@@ -794,60 +794,89 @@ select:focus {
   }
 }
 
-.star-popup {
+/* ── Popup Base ───────────────────────────────────────── */
+
+.star-popup,
+.scroll-star-popup {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 280px;
+  bottom: 24px;
+  right: 24px;
+  width: 260px;
   padding: 16px;
-  background: linear-gradient(135deg, #1e293b, #0f172a);
-  color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+
+  background: rgba(255, 248, 240, 0.95); /* warm glass */
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(245, 158, 11, 0.15);
+  border-radius: 14px;
+
+  color: #1a1207;
+  box-shadow: 0 15px 40px rgba(160, 110, 50, 0.18);
+
   z-index: 9999;
-  animation: fadeInUp 0.4s ease;
+  animation: slideUp 0.35s ease;
 }
 
-.star-popup p {
+/* ── Text ───────────────────────────────────────── */
+
+.star-popup p,
+.scroll-star-popup p {
   font-size: 14px;
   margin-bottom: 12px;
+  color: #4b3a1a;
+  line-height: 1.5;
 }
+
+/* ── Button (UNIFIED) ───────────────────────────── */
 
 .star-btn {
   width: 100%;
   padding: 10px;
+
   border: none;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
-  cursor: pointer;
+  border-radius: 10px;
+
+  background: linear-gradient(135deg, #f59e0b, #fb923c);
+  color: #fff;
+
   font-weight: 600;
+  cursor: pointer;
+
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.25);
+  transition: all 0.2s ease;
 }
 
 .star-btn:hover {
-  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(245, 158, 11, 0.35);
 }
+
+.star-btn:active {
+  transform: scale(0.96);
+}
+
+/* ── Close Button ───────────────────────── */
 
 .close-btn {
   position: absolute;
   top: 6px;
   right: 8px;
+
   background: none;
   border: none;
-  color: #aaa;
+
+  color: #a08c6a;
   cursor: pointer;
+  font-size: 16px;
+
+  transition: color 0.2s ease;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.close-btn:hover {
+  color: #1a1207;
 }
+
+/* ── Blur Overlay ───────────────────────── */
 
 .blur-overlay {
   position: fixed;
@@ -855,82 +884,52 @@ select:focus {
   left: 0;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(8px);
-  background: rgba(0,0,0,0.4);
+
+  backdrop-filter: blur(10px);
+  background: rgba(0, 0, 0, 0.25);
+
   z-index: 9998;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+/* ── Unlock Modal ───────────────────────── */
+
 .unlock-box {
-  background: #0f172a;
+  background: #fff8f0;
   padding: 24px;
   border-radius: 16px;
+
   text-align: center;
   width: 300px;
-  color: white;
+
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+
+  color: #1a1207;
 }
 
-.star-btn {
-  width: 100%;
-  padding: 10px;
-  margin-top: 12px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
-  cursor: pointer;
-}
+/* ── Skip Button ───────────────────────── */
 
 .skip-btn {
-  margin-top: 10px;
+  margin-top: 12px;
   background: none;
   border: none;
-  color: #aaa;
+
+  color: #a08c6a;
   cursor: pointer;
+  font-size: 13px;
+
+  transition: color 0.2s ease;
 }
 
-.scroll-star-popup {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 260px;
-  padding: 16px;
-  background: rgba(15, 23, 42, 0.95);
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
-  color: white;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.35);
-  z-index: 9999;
-  animation: slideUp 0.35s ease;
+.skip-btn:hover {
+  color: #1a1207;
 }
 
-.scroll-star-popup p {
-  font-size: 14px;
-  margin-bottom: 10px;
-}
-
-.star-btn {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #6366f1, #8b5cf6);
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.close-btn {
-  position: absolute;
-  top: 6px;
-  right: 8px;
-  background: none;
-  border: none;
-  color: #aaa;
-  cursor: pointer;
-}
+/* ── Animations ───────────────────────── */
 
 @keyframes slideUp {
   from {
@@ -941,7 +940,4 @@ select:focus {
     transform: translateY(0);
     opacity: 1;
   }
-}
-.star-btn:active {
-  transform: scale(0.96);
 }

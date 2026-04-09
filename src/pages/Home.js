@@ -18,7 +18,7 @@ function useFadeIn() {
     }, { threshold: 0.10 });
     els.forEach(el => io.observe(el));
     return () => io.disconnect();
-  }, [navigate]);
+  }, []);
 }
 
 const fade = {

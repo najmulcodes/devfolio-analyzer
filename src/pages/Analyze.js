@@ -109,7 +109,7 @@ export default function Analyze() {
       if (trimmedUsername) payload.githubUsername = trimmedUsername;
       if (trimmedPortfolio) payload.portfolioUrl = trimmedPortfolio;
 
-      const res = await api.post('api/analysis/run', payload);
+      const res = await api.post('/api/analysis/run', payload);
       setResult(res.data);
     } catch (err) {
       setError(err.response?.data?.error || err.message);
@@ -134,59 +134,62 @@ export default function Analyze() {
         </div>
       </div>
 
-      <div className="glass-card fade-up" style={s.formCard}>
+      <form onSubmit={handleSubmit}>
+  <div className="glass-card fade-up" style={s.formCard}>
 
-        <div style={s.formCardLabel}>
-          Profile Input
-        </div>
+    <div style={s.formCardLabel}>
+      Profile Input
+    </div>
 
-        <div style={s.fieldRow}>
+    <div style={s.fieldRow}>
 
-          <div style={s.field}>
-            <label style={s.label}>
-              GitHub Username
-              <span style={s.opt}> (optional)</span>
-            </label>
-            <div style={s.inputWrap}>
-              <span style={s.inputIcon}><GithubIcon /></span>
-              <input
-                className="premium-input"
-                type="text"
-                value={githubUsername}
-                onChange={e => setGithubUsername(e.target.value)}
-                placeholder="e.g. najmulcodes"
-                style={{ paddingLeft: 44 }}
-              />
-            </div>
-          </div>
-
-          <div style={s.field}>
-            <label style={s.label}>
-              Portfolio URL
-              <span style={s.opt}> (optional)</span>
-            </label>
-            <div style={s.inputWrap}>
-              <span style={s.inputIcon}><GlobeIcon /></span>
-              <input
-                className="premium-input"
-                type="url"
-                value={portfolioUrl}
-                onChange={e => setPortfolioUrl(e.target.value)}
-                placeholder="https://yourportfolio.dev"
-                style={{ paddingLeft: 44 }}
-              />
-            </div>
-          </div>
-        </div>
-
-        {error && <div style={s.errorBox}>{error}</div>}
-
-        <div style={s.formFooter}>
-          <button onClick={handleSubmit} disabled={loading} className="btn-primary">
-            {loading ? <Spinner size={16} color="white" /> : 'Analyze Profile'}
-          </button>
+      <div style={s.field}>
+        <label style={s.label}>
+          GitHub Username
+          <span style={s.opt}> (optional)</span>
+        </label>
+        <div style={s.inputWrap}>
+          <span style={s.inputIcon}><GithubIcon /></span>
+          <input
+            className="premium-input"
+            type="text"
+            value={githubUsername}
+            onChange={e => setGithubUsername(e.target.value)}
+            placeholder="e.g. najmulcodes"
+            style={{ paddingLeft: 44 }}
+          />
         </div>
       </div>
+
+      <div style={s.field}>
+        <label style={s.label}>
+          Portfolio URL
+          <span style={s.opt}> (optional)</span>
+        </label>
+        <div style={s.inputWrap}>
+          <span style={s.inputIcon}><GlobeIcon /></span>
+          <input
+            className="premium-input"
+            type="url"
+            value={portfolioUrl}
+            onChange={e => setPortfolioUrl(e.target.value)}
+            placeholder="https://yourportfolio.dev"
+            style={{ paddingLeft: 44 }}
+          />
+        </div>
+      </div>
+    </div>
+
+    {error && <div style={s.errorBox}>{error}</div>}
+
+    <div style={s.formFooter}>
+      <button type="submit" disabled={loading} className="btn-primary">
+        {loading ? <Spinner size={16} color="white" /> : 'Analyze Profile'}
+      </button>
+    </div>
+
+  </div>
+</form>
 
       {loading && <LoadingSteps />}
       {result && !loading && <AnalysisResult result={result} />}

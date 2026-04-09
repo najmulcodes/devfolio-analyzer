@@ -117,7 +117,9 @@ export default function Dashboard() {
         </button>
       </div>
 
-      if (error) {
+      if (loading) return <PageLoader message="Loading dashboard…" />;
+
+if (error) {
   return <div style={s.errorBox}>{error}</div>;
 }
 

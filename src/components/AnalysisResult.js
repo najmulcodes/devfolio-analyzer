@@ -562,7 +562,7 @@ export default function AnalysisResult({ result }) {
   const [activeTab, setActiveTab] = useState(
     result.mode === 'portfolio' ? 'portfolio' : 'github'
   );
-  <StarPrompt analysisDone={!!result} />
+  <ScrollStarPrompt />
 
   const {
     mode,
@@ -773,10 +773,11 @@ export default function AnalysisResult({ result }) {
             <SectionCard title="Suggestions" icon="💡">
               <FeedbackList items={suggestions} type="suggestions" />
             </SectionCard>
-                <ScrollStarPrompt />
           </div>
         )}
       </div>
+       <ScrollStarPrompt />
+
 
       {/* ── Footer ───────────────────────────────────────────────────── */}
       <div style={{
